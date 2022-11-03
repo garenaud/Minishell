@@ -24,6 +24,18 @@ size_t	ft_strlen(const char *str)
 	return (count);
 }
 
+size_t	ft_strlen_c(const char *str, char del)
+{
+	size_t	len;
+
+	len = 0;
+	while (*str != '\0' && *str != del)
+	{
+		str++;
+		len++;
+	}
+	return (len);
+}
 
 static	char	*ft_strcpy(char *dest, const char *src)
 {
@@ -47,7 +59,7 @@ char	*ft_strdup(const char *src)
 	if (dst == NULL)
 		return (NULL);
 	ft_strcpy(dst, src);
-	printf("<%p> strdup\n", dst);
+//	printf("<%p> strdup\n", dst);
 	return (dst);
 }
 
@@ -72,7 +84,7 @@ void	push(t_list **top, char	 *item)
 	tmp = malloc(sizeof(t_list));
 	if (!tmp)
 		return;
-	printf("<%p> push\n", tmp);
+//	printf("<%p> push\n", tmp);
 	tmp->data = ft_strdup(item);
 	tmp->next = *top;
 	*top = tmp; //?
@@ -93,10 +105,10 @@ char	*pop(t_list **top)
 	item = ft_strdup(tmp->data);
 	*top = (*top)->next;
 //	printf("<%p> strdup pop\n",item);
-	printf("<%p> free pop -data\n", tmp->data);
+//	printf("<%p> free pop -data\n", tmp->data);
 	free(tmp->data);
 
-	printf("<%p> free pop -struct\n", tmp);
+//	printf("<%p> free pop -struct\n", tmp);
 	free(tmp);
 	return (item);
 }
@@ -112,13 +124,25 @@ void	delete(t_list **top)
 		tmp = * top;
 		*top = (*top)->next;
 		
-	printf("<%p> free delete\n", tmp->data);
+//	printf("<%p> free delete\n", tmp->data);
 		free(tmp->data);
 
-	printf("<%p> free delete\n", tmp);
+//	printf("<%p> free delete\n", tmp);
 		free(tmp);
 	}
 
+}
+
+
+
+t_list	*reverse(t_list **top)
+{
+	t_list	*tmp;
+
+	tmp = NULL;
+	while (*top != NULL)
+		push(&tmp, pop(top));
+	return (tmp);
 }
 
 void	printll(t_list *lst)
@@ -153,151 +177,206 @@ size_t	size_stack(t_list *top)
 		size++;
 		top = (top)->next;
 	}
-	printf("Taille stack =%zu\n", size);
 	return (size);
 }
 
-/*
-int	permut(t_list **top)
-{// pas de *top sinon erreur et faut rajouter test faisabilité
-	int	t1;
-	int	t2;
-
-	if (size_stack(*top) >= 2)
-	{
-		t1 = pop(top);
-		t2 = pop(top);
-		push(top, t1);
-		push(top, t2);
-		return (1);
-	}
-	return (0);
-}
-
-int	permut_2(t_list **a, t_list **b)
-{// fait ss
-
-	if (size_stack(*a) >= 2 && size_stack(*b) >= 2)
-	{
-		permut(a);
-		permut(b);
-		return (1);
-	}
-	return (0);
-}
-
-int	transfer(t_list **start, t_list **end)
+int	remove_position(t_list **top, size_t pos)
 {
-	int	n;
-
-	if (size_stack(*start) >= 1)
-	{
-		n = pop(start);
-		push(end, n);
-		return (1);
-	}
-	return (0);
-}
-
-int	put_end(t_list **top)
-{ // à tester
-	int	n;
 	t_list	*tmp;
+	char	*n;
 
 	tmp = NULL;
-	if (size_stack(*top) >= 1)
+	if (pos >= size_stack(*top))
+		return (-1);
+	else
 	{
-//		printf("top %p\n",*top);
+		while (pos > 0)
+		{
+			n = pop(top);
+			push(&tmp, n);
+			pos--;
+		}
 		n = pop(top);
-//		printf("put end n %d\n",n);
-		while (*top != NULL)
-		{
-			printf("top %p\n",*top);
-			transfer(top, &tmp);
-		}
-//		printll(tmp);
-		push(top,n);
 		while (tmp != NULL)
 		{
 			n = pop(&tmp);
 			push(top, n);
 		}
-//		printll(*top);
-		printf("tmp = %p\n",tmp);
-		return (1);
+		return (0);
 	}
-	return (0);
 }
 
-int	put_start(t_list **top)
-{// à tester
-	int	n;
-	int	m;
-	t_list	*tmp;
-
-	tmp = NULL;
-	if (size_stack(*top) >= 1)
+char	*getitem(t_list *top, size_t pos)
+{
+	if (pos >= size_stack(top))
+		return (NULL);
+	else
 	{
-		while (*top != NULL)
-			transfer(top, &tmp);
-		printll(tmp);
-		m = pop(&tmp);
-		printll(tmp);
-		while (tmp != NULL)
+		while (pos > 0)
 		{
-			n = pop(&tmp);
-			push(top, n);
+			top = top->next;
+			pos--;
 		}
-		push(top, m);
-		printll(*top);
-		return (1);
+		return (top->data);
 	}
-	return (0);
 }
 
-*/
+void	trim_list(t_list **str)
+{
 
-void	test_input(t_list **s, char *tmp)
-{// il faut comparer le nb de fois cette func activée avec le nb de gnl
-	if (ft_strncmp(tmp, "sa\n", 3) == 0)
-		push(s, tmp);
-	if (ft_strncmp(tmp, "sb\n", 3) == 0)
-		push(s, tmp);
-	if (ft_strncmp(tmp, "ss\n", 3) == 0)
-		push(s, tmp);
-	if (ft_strncmp(tmp, "ra\n", 3) == 0)
-		push(s, tmp);
-	if (ft_strncmp(tmp, "rb\n", 3) == 0)
-		push(s, tmp);
-	if (ft_strncmp(tmp, "rr\n", 3) == 0)
-		push(s, tmp);
-	if (ft_strncmp(tmp, "rra\n", 4) == 0)
-		push(s, tmp);
-	if (ft_strncmp(tmp, "rrb\n", 4) == 0)
-		push(s, tmp);
-	if (ft_strncmp(tmp, "rrr\n", 4) == 0)
-		push(s, tmp);
-	if (ft_strncmp(tmp, "pa\n", 3) == 0)
-		push(s, tmp);
-	if (ft_strncmp(tmp, "pb\n", 3) == 0)
-		push(s, tmp);
+	int	count_s;
+	int	count_e;
+
+
+	count_s = 0;
+	count_e = 0;
+	while (ft_strncmp(getitem(*str, 0)," ",1) == 0)
+		pop(str);
+	while (ft_strncmp(getitem(*str, size_stack(*str) - 1)," ", 1) == 0)
+		remove_position(str, size_stack(*str) -1 );
 }
 
+char	*trim(char *line)
+{
+	int	i;
+	int	j;
+	int	count_s;
+	int	count_e;
+	char	*res;
+
+	i = 0;
+	j = 0;
+	count_s = 0;
+	count_e = 0;
+	while (line[i] == ' ')
+	{
+		count_s++;
+		if (line[i + 1] != ' ')
+			break;
+		i++;
+	}
+	i = ft_strlen(line);
+	while (line[i] == ' ')
+	{
+		count_e++;
+		if (line[i - 1] != ' ')
+			break;
+		i--;
+	}
+	res = malloc((ft_strlen(line) - count_s - count_e +1) * sizeof(char));
+	if (res == NULL)
+		exit(0);
+	i = count_s;
+	while (i < (int)ft_strlen(line) - count_e - count_s)
+	{
+		res[j] = line[i];
+		j++;
+		i++;
+	}
+	res[j] = '\0';
+	return (res);
+}
+
+int	getposition(t_list *top, char *item)
+{
+	int	i;
+	int	len;
+
+	len = ft_strlen(item);
+	i = 0;
+	while (top != NULL)
+	{
+		if (ft_strncmp(top->data, item, len) == 0)
+			return (i);
+		i++;
+		top = top->next;
+	}
+	return (-1);
+}
+
+char	*getword(t_list **raw, char *search)
+{
+	int i;
+	int	pos;
+	char	*str;
+
+	i = 0;
+	pos = getposition(*raw, search);
+	if (pos == -1)
+		pos = size_stack(*raw);
+	str = malloc((pos +1)* sizeof(char));
+	while (i < pos)
+	{
+//		str[i] = *getitem(raw,i);
+		str[i] = *pop(raw);
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+
+void	create_raw_list(t_list **str, char *line)
+{
+	int	i;
+	char	tmp[2];
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		tmp[0] = line[i];
+		tmp[1] = '\0';
+		push(str, tmp);
+		i++;
+	}
+}
+
+
+/* void	create_word(t_list **str, t_list **word)
+{
+
+}
+ */
 int main()
 {
-	char	*tmp ;
-	t_list	*s = NULL;
 
 
-	push(&s, "elem 1");
-	push(&s, "elem 2");
-	push(&s, "a");
-	printll(s);
-	tmp = pop(&s);
-	printll(s);
-	printf(" string popped = [%s]\n", tmp);
-	printf("<%p> free main\n", tmp);
-	free(tmp);
-	delete(&s);
+	t_list	*raw = NULL;
+	t_list	*word = NULL;
+//	t_list	*word = NULL;
+	int i =0;
+	char	*test1 = "echo | cat | awk '{print $3 \"\t\" $4}' > out.txt < marks.txt > out1.txt";
+/* 	char	*test2 = "ls -l | cat";
+	char	*test3 = "ls -l -a | cat > a.txt";
+	char	*test4 = "echo | cat | awk '{print $3 \"\t\" $4}' > out.txt < marks.txt > out1.txt";
+	 */
+//	tmp1 = trim(test1);
+//	printf("test trim [%s]\n", trim(test1));
+	create_raw_list(&raw, test1);
+	raw = reverse(&raw);
+	printll(raw);
+	trim_list(&raw);
+	printll(raw);
+	while (i < (int)size_stack(raw))
+	{
+		printf(" %d\t%s\n", i, getitem(raw,i));
+		i++;
+	}
+	printll(raw);
+	printf("space is at %d\n", getposition(raw, " "));
+	push(&word,getword(&raw, " "));
+	printll(word);
+	printll(raw);
+//  tout mettre dans word
+	while (size_stack(raw ))
+	{
+		trim_list(&raw);
+		push(&word,getword(&raw, " "));	
+	}
+	printll(raw);
+	printf("\n\n");
+	word = reverse(&word);
+	printll(word);
+	printf("\n\n size = %zu\n", size_stack(word));
 	return (0);
 }
