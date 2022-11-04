@@ -11,6 +11,12 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+typedef struct s_list_i
+{
+	int		data;
+	struct s_list_i	*next;
+}	t_list_i;
+
 size_t	ft_strlen(const char *str)
 {
 	size_t	count;
@@ -90,6 +96,20 @@ void	push(t_list **top, char	 *item)
 	*top = tmp; //?
 }
 
+void	push_int(t_list_i **top, int item)
+{
+	t_list_i	*tmp;
+	
+//	printf("<%p>\n", *top);
+	tmp = malloc(sizeof(t_list_i));
+	if (!tmp)
+		return;
+//	printf("<%p> push\n", tmp);
+	tmp->data = item;
+	tmp->next = *top;
+	*top = tmp; //?
+}
+
 char	*pop(t_list **top)
 {
 	t_list	*tmp;
@@ -109,6 +129,24 @@ char	*pop(t_list **top)
 	free(tmp->data);
 
 //	printf("<%p> free pop -struct\n", tmp);
+	free(tmp);
+	return (item);
+}
+
+int		pop_int(t_list_i **top)
+{
+	t_list_i	*tmp;
+	int			item;
+	if (*top == NULL)
+	{
+		printf("Stack empty\n");
+		exit (0);
+	}
+
+	tmp = *top;
+	item = tmp->data;
+	*top = (*top)->next;
+
 	free(tmp);
 	return (item);
 }
@@ -133,7 +171,19 @@ void	delete(t_list **top)
 
 }
 
+void	delete_int(t_list_i **top)
+{
+	t_list_i	*tmp;
 
+	if (*top == NULL)
+		return;
+	while (*top != NULL)
+	{
+		tmp = * top;
+		*top = (*top)->next;
+		free(tmp);
+	}
+}
 
 t_list	*reverse(t_list **top)
 {
@@ -145,12 +195,33 @@ t_list	*reverse(t_list **top)
 	return (tmp);
 }
 
+t_list_i	*reverse_int(t_list_i **top)
+{
+	t_list_i	*tmp;
+
+	tmp = NULL;
+	while (*top != NULL)
+		push_int(&tmp, pop_int(top));
+	return (tmp);
+}
+
 void	printll(t_list *lst)
 {
 	printf("start");
 	while (lst)
 	{
 		printf("-->[%s]", (lst->data));
+		lst = lst->next;
+	}
+	printf("-->[end]\n");
+}
+
+void	printll_int(t_list_i *lst)
+{
+	printf("start");
+	while (lst)
+	{
+		printf("-->[%d]", (lst->data));
 		lst = lst->next;
 	}
 	printf("-->[end]\n");
@@ -168,6 +239,19 @@ void	print_adr(t_list *lst)
 }
 
 size_t	size_stack(t_list *top)
+{
+	size_t	size;
+
+	size = 0;
+	while (top != NULL)
+	{
+		size++;
+		top = (top)->next;
+	}
+	return (size);
+}
+
+size_t	size_stack_int(t_list_i *top)
 {
 	size_t	size;
 
@@ -206,10 +290,51 @@ int	remove_position(t_list **top, size_t pos)
 	}
 }
 
+int	remove_position_int(t_list_i **top, size_t pos)
+{
+	t_list_i	*tmp;
+	int			n;
+
+	tmp = NULL;
+	if (pos >= size_stack_int(*top))
+		return (-1);
+	else
+	{
+		while (pos > 0)
+		{
+			n = pop_int(top);
+			push_int(&tmp, n);
+			pos--;
+		}
+		n = pop_int(top);
+		while (tmp != NULL)
+		{
+			n = pop_int(&tmp);
+			push_int(top, n);
+		}
+		return (0);
+	}
+}
+
 char	*getitem(t_list *top, size_t pos)
 {
 	if (pos >= size_stack(top))
 		return (NULL);
+	else
+	{
+		while (pos > 0)
+		{
+			top = top->next;
+			pos--;
+		}
+		return (top->data);
+	}
+}
+
+int		getitem_int(t_list_i *top, size_t pos)
+{
+	if (pos >= size_stack_int(top))
+		return (-1);
 	else
 	{
 		while (pos > 0)
@@ -294,6 +419,21 @@ int	getposition(t_list *top, char *item)
 	return (-1);
 }
 
+int	getposition_int(t_list_i *top, int item)
+{
+	int	i;
+
+	i = 0;
+	while (top != NULL)
+	{
+		if (top->data == item)
+			return (i);
+		i++;
+		top = top->next;
+	}
+	return (-1);
+}
+
 char	*getword(t_list **raw, char *search)
 {
 	int i;
@@ -307,10 +447,37 @@ char	*getword(t_list **raw, char *search)
 	str = malloc((pos +1)* sizeof(char));
 	while (i < pos)
 	{
-//		str[i] = *getitem(raw,i);
 		str[i] = *pop(raw);
 		i++;
 	}
+	str[i] = '\0';
+	return (str);
+}
+
+char	*getword1(t_list **raw, /* t_list_i *sq, t_list_i *dq, */ char *search)
+{// ca fonctionne 
+	int i;
+	int	pos;
+	char	*str;
+
+	i = 0;
+	if (ft_strncmp(getitem(*raw, 0),"\"",1) == 0)
+	{
+		pop(raw);
+		search = "\"";
+	}
+	pos = getposition(*raw, search);
+	if (pos == -1)
+		pos = size_stack(*raw);
+	str = malloc((pos +1)* sizeof(char));
+	while (i < pos)
+	{
+		str[i] = *pop(raw);
+		i++;
+	}
+	printf("-----------------------\n");
+	printll(*raw);
+		printf("-----------------------\n");
 	str[i] = '\0';
 	return (str);
 }
@@ -331,21 +498,61 @@ void	create_raw_list(t_list **str, char *line)
 	}
 }
 
-
-/* void	create_word(t_list **str, t_list **word)
+void	create_quote_list(t_list **str, t_list_i **pos, char *search)
 {
+	int	i;
 
+	i = 0;
+	while (i < (int)size_stack(*str))
+	{
+		if ((ft_strncmp(getitem(*str, i),search,1) == 0 ))
+		{
+		//	if (i > 0 && (ft_strncmp(getitem(*str, i - 1),"\\",1) != 0 ))
+				push_int(pos, i);
+		}
+		i++;
+	}
+	*pos = reverse_int(pos);
 }
- */
+
+void	inclusion(t_list_i **sq, t_list_i **dq, int s_index, int d_index)
+{// essai, pour trouver la plage entre ' ' et entre " "
+	if ((s_index <= (int)size_stack_int(*sq) / 2) && (d_index <= (int)size_stack_int(*dq) / 2))
+	{
+		if (getitem_int(*sq, 2*(s_index-1)) < (getitem_int(*dq, 2*(d_index-1))))
+		{
+			if (getitem_int(*sq, 2*(s_index-1) + 1) > (getitem_int(*dq, 2*(d_index-1) +1)))
+				printf("type 1: \' \" \" \'\n");
+		}	
+/* 		else
+			printf("type 2: \" \' \" \'\n"); */
+	
+		else
+		if (getitem_int(*dq, 2*(d_index-1)) < (getitem_int(*sq, 2*(s_index - 1))))
+		{
+			if (getitem_int(*dq, 2*(d_index - 1) +1) > (getitem_int(*sq, 2*(s_index-1)+1)))
+				printf("type 3: \" \' \' \"\n");
+		/* 	else
+				printf("type 4: \' \" \' \"\n"); */
+		}
+	}
+}
+	
+
+
 int main()
 {
 
 
 	t_list	*raw = NULL;
 	t_list	*word = NULL;
+	t_list_i	*dquote = NULL;
+	t_list_i	*squote = NULL;
 //	t_list	*word = NULL;
 	int i =0;
-	char	*test1 = "echo | cat | awk '{print $3 \"\t\" $4}' > out.txt < marks.txt > out1.txt";
+	char	*tmp;
+	char	*test1 = " \" abc \' 123 \' abc \"\"sdakjfhjsdkahf\"";
+//	char	*test0 = "echo | cat | awk '{print $3 \" \t \" $4}' > out.txt < marks.txt > out1.txt";
 /* 	char	*test2 = "ls -l | cat";
 	char	*test3 = "ls -l -a | cat > a.txt";
 	char	*test4 = "echo | cat | awk '{print $3 \"\t\" $4}' > out.txt < marks.txt > out1.txt";
@@ -364,14 +571,27 @@ int main()
 	}
 	printll(raw);
 	printf("space is at %d\n", getposition(raw, " "));
-	push(&word,getword(&raw, " "));
-	printll(word);
+	create_quote_list(&raw, &dquote, "\"");
+	create_quote_list(&raw, &squote, "\'");
+
+	printll_int(dquote);
+	printll_int(squote);
+	inclusion(&squote, &dquote, 1, 1);
+//	push(&word,getword1(&raw, " "));
+//	printll(word);
 	printll(raw);
 //  tout mettre dans word
 	while (size_stack(raw ))
 	{
 		trim_list(&raw);
-		push(&word,getword(&raw, " "));	
+		tmp = getword1(&raw, " ");
+		if (ft_strncmp(tmp,"", 1))
+		{
+			printf("tmp = [%s]\n", tmp);
+			push(&word,tmp);	
+		}
+		else
+			printf("tmp vide= [%s]\n", tmp);
 	}
 	printll(raw);
 	printf("\n\n");
