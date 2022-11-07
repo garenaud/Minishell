@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/04 17:43:06 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:42:58 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 typedef struct s_list
 {
@@ -56,10 +58,12 @@ void		trim_list(t_list **str);
 char		*trim(char *line);
 int			getposition(t_list *top, char *item);
 int			getposition_int(t_list_i *top, int item);
+char		*delimitateur(t_list **raw);
 char		*getword(t_list **raw, char *search);
 char		*getword1(t_list **raw, /* t_list_i *sq, t_list_i *dq, */ char *search);
 void		create_raw_list(t_list **str, char *line);
 void		create_quote_list(t_list **str, t_list_i **pos, char *search);
 void		inclusion(t_list_i **sq, t_list_i **dq, int s_index, int d_index);
+void	    sig_handler(int signum);
 
 #endif

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:29:00 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/04 18:31:16 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:10:28 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-/* #include "get_next_line.h"
- */
 
 void	trim_list(t_list **str)
 {
@@ -89,27 +87,44 @@ char	*getword(t_list **raw, char *search)
 	return (str);
 }
 
-char	*getword1(t_list **raw, /* t_list_i *sq, t_list_i *dq, */ char *search)
-{// ca fonctionne 
+char	*delimitateur(t_list **raw)
+{
+	if (ft_strncmp(getitem(*raw, 0),"\"",1) == 0)
+	{
+		pop(raw);
+		return ("\"");
+	}
+	else 
+	if (ft_strncmp(getitem(*raw, 0),"\'",1) == 0)
+	{
+		pop(raw);
+		return ("\'");
+	}
+	else
+	{
+		return (" ");
+	}
+}
+
+char	*getword1(t_list **raw, char *search)
+{ 
 	int i;
 	int	pos;
 	char	*str;
 
-	i = 0;
-	if (ft_strncmp(getitem(*raw, 0),"\"",1) == 0)
-	{
-		pop(raw);
-		search = "\"";
-	}
+	i = 0;	
+	search = delimitateur(raw);
 	pos = getposition(*raw, search);
 	if (pos == -1)
 		pos = size_stack(*raw);
 	str = malloc((pos +1)* sizeof(char));
-	while (i < pos)
-	{
-		str[i] = *pop(raw);
-		i++;
-	}
+		while (i < pos)
+		{
+			str[i] = *pop(raw);
+			i++;
+		}
+		if (size_stack(*raw) !=  0)
+			pop(raw);//
 	printf("-----------------------\n");
 	printll(*raw);
 		printf("-----------------------\n");

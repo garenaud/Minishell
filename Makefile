@@ -3,22 +3,28 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/11/07 11:27:04 by grenaud-         ###   ########.fr        #
+#    Updated: 2022/11/07 15:11:10 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+NAME =		minishell
+
+HEADER = 	minishell.h
+
 CC = 		gcc
-FLAGS = 	-Wall -Wextra -Werror -g3 
+FLAGS = 	-g -Wall -Wextra -Werror
+LDFLAGS=	 -L /Users/$(USER)/.brew/opt/readline/lib -lreadline
+CPPFLAGS=	 -I /Users/$(USER)/.brew/opt/readline/include 
 DANGER = 	$(FLAGS) #-fsanitize=address
 AR = 		ar -rcs
 RM = 		@rm -rf
 
 Y = "\033[33m"
 R = "\033[31m"
-G = "\033[32m"
+G = "\033[32m"q
 B = "\033[34m"
 X = "\033[0m"
 UP = "\033[A"
@@ -30,11 +36,9 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/list_utils2.c \
 			Parser/utils.c \
 			Parser/parser.c \
-			#minishell.c
+			Parser/readline_util.c \
+			minishell.c 
 
-NAME =		minishell.c
-
-HEADER = 	minishell.h
 
 OBJECTS = $(CFILES:.c=.o)
 
@@ -46,8 +50,7 @@ OBJECTS = $(CFILES:.c=.o)
 
 $(NAME): 	$(OBJECTS)
 			@echo $(B)"Compiling minishell..." $(X)
-			$(CC) $(FLAGS) $(OBJECTS) $(NAME)
-			@mv a.out minishell
+			$(CC) $(FLAGS) $(OBJECTS) $(LDFLAGS) -o $(NAME)
 			@echo $(G)"Done !" $(X)
 
 all: 		$(NAME)
@@ -72,7 +75,7 @@ fclean:
 	@echo $(R)Removed [REMOVED FINISH]$(X)
 
 %.o: %.c
-	$(CC) $(FLAGS) -c -o $@ $<
+	$(CC) $(CPPFLAGS) $(FLAGS) -c $^ -o $@
 
 norm:
 	@echo $(G)[--NORMINETTE SUCCES %100 CLEAN CODE...]$(G)
