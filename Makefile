@@ -6,7 +6,7 @@
 #    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/11/07 11:11:32 by grenaud-         ###   ########.fr        #
+#    Updated: 2022/11/07 11:27:04 by grenaud-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ clean:
 fclean:
 	$(RM) ./minishell
 	$(RM) ./parser/*.o
+	$(RM) ./a.out.dSYM
 	$(RM) ./*.o
 	@echo $(B)Removed [TEMPORARY FILES]$(X)
 	@echo $(R)Removed [./Parser/*.o]$(X)
