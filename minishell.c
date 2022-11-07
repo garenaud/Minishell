@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/04 18:34:47 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/11/07 11:30:29 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ int main()
 	word = reverse(&word);
 	printll(word);
 	printf("\n\n size = %zu\n", size_stack(word));
+	printf("\n\n nouveau minishell\n");
 	return (0);
 }
