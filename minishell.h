@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/07 14:42:58 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/08 15:08:24 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,21 @@ typedef struct s_list_i
 	struct s_list_i	*next;
 }	t_list_i;
 
+typedef struct s_parser
+{
+	t_list		*raw;
+	t_list		*word;
+	t_list_i	*dquote;
+	t_list_i	*squote;
+	char   		*line;
+	char		*tmp;
+	char		**env;
+}	t_parser;
+
 size_t		ft_strlen(const char *str);
 size_t		ft_strlen_c(const char *str, char del);
-char		*ft_strdup(const char *src);
+char		*ft_strdup(char *src, int free_it);
+char		*ft_strcpy(char *dest, const char *src);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 void		push(t_list **top, char	 *item);
 void		push_int(t_list_i **top, int item);
@@ -65,5 +77,8 @@ void		create_raw_list(t_list **str, char *line);
 void		create_quote_list(t_list **str, t_list_i **pos, char *search);
 void		inclusion(t_list_i **sq, t_list_i **dq, int s_index, int d_index);
 void	    sig_handler(int signum);
+void		init_pgrm(t_parser *p, char *env[]);
+void    	free_parsing(t_parser *p);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:29:00 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/07 16:10:28 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:28:01 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	trim_list(t_list **str)
 		remove_position(str, size_stack(*str) -1 );
 }
 
-char	*trim(char *line)
+/* char	*trim(char *line)
 {
 	int	i;
 	int	j;
@@ -65,9 +65,9 @@ char	*trim(char *line)
 	res[j] = '\0';
 	return (res);
 }
+ */
 
-
-char	*getword(t_list **raw, char *search)
+/* char	*getword(t_list **raw, char *search)
 {
 	int i;
 	int	pos;
@@ -85,7 +85,7 @@ char	*getword(t_list **raw, char *search)
 	}
 	str[i] = '\0';
 	return (str);
-}
+} */
 
 char	*delimitateur(t_list **raw)
 {
@@ -121,13 +121,15 @@ char	*getword1(t_list **raw, char *search)
 		while (i < pos)
 		{
 			str[i] = *pop(raw);
+			printll(*raw);
 			i++;
 		}
 		if (size_stack(*raw) !=  0)
 			pop(raw);//
-	printf("-----------------------\n");
+/* 	printf("-----------------------\n");
 	printll(*raw);
-		printf("-----------------------\n");
+		printf("-----------------------\n"); */
+	printf("raw %p\n", raw);
 	str[i] = '\0';
 	return (str);
 }

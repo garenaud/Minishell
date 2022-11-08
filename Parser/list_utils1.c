@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:45:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/04 18:22:45 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/11/08 17:05:06 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	push(t_list **top, char *item)
 	if (!tmp)
 		return;
 //	printf("<%p> push\n", tmp);
-	tmp->data = ft_strdup(item);
+	tmp->data = strdup(item);
+	//free(item);//
+//	printf("malloc push : %p\n", tmp);
 	tmp->next = *top;
 	*top = tmp; //?
 }
@@ -30,6 +32,7 @@ char	*pop(t_list **top)
 {
 	t_list	*tmp;
 	char	*item;
+	
 	if (*top == NULL)
 	{
 		printf("Stack empty\n");
@@ -38,11 +41,11 @@ char	*pop(t_list **top)
 	}
 
 	tmp = *top;
-	item = ft_strdup(tmp->data);
+	item = strdup(tmp->data); // semble pop leak
 	*top = (*top)->next;
 //	printf("<%p> strdup pop\n",item);
 //	printf("<%p> free pop -data\n", tmp->data);
-	free(tmp->data);
+//	free(tmp->data);
 
 //	printf("<%p> free pop -struct\n", tmp);
 	free(tmp);
@@ -57,14 +60,16 @@ void	delete(t_list **top)
 		return;
 	while (*top != NULL)
 	{
-		tmp = * top;
+	
+	 	tmp = *top;
+		free(tmp->data);//
 		*top = (*top)->next;
 		
 //	printf("<%p> free delete\n", tmp->data);
-		free(tmp->data);
+	//	free(tmp->data);
 
 //	printf("<%p> free delete\n", tmp);
-		free(tmp);
+	free(tmp);
 	}
 }
 

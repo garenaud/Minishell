@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 18:02:50 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/04 18:22:59 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/11/08 15:07:59 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ size_t	ft_strlen_c(const char *str, char del)
 	return (len);
 }
 
-static	char	*ft_strcpy(char *dest, const char *src)
+char	*ft_strcpy(char *dest, const char *src)
 {
 	int	i;
 
@@ -52,14 +52,17 @@ static	char	*ft_strcpy(char *dest, const char *src)
 	return (dest);
 }
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup(char *src, int free_it)
 {
 	char	*dst;
 
-	dst = (char *)malloc((ft_strlen(src) + 1) * sizeof(char));
+	dst = (char *)malloc((ft_strlen(src) + 1) * sizeof(char));// leak
 	if (dst == NULL)
 		return (NULL);
 	ft_strcpy(dst, src);
+	if (free_it)
+		free(src); 
+//	free((char *)src);
 //	printf("<%p> strdup\n", dst);
 	return (dst);
 }
