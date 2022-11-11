@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/08 15:08:24 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/11 11:26:56 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,41 +44,62 @@ typedef struct s_parser
 	char		**env;
 }	t_parser;
 
+
+// la libft
 size_t		ft_strlen(const char *str);
 size_t		ft_strlen_c(const char *str, char del);
-char		*ft_strdup(char *src, int free_it);
+char		*ft_strdup(char *src);
 char		*ft_strcpy(char *dest, const char *src);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
-void		push(t_list **top, char	 *item);
+
+// integer stack
+
 void		push_int(t_list_i **top, int item);
-char		*pop(t_list **top);
 int			pop_int(t_list_i **top);
-void		delete(t_list **top);
 void		delete_int(t_list_i **top);
-t_list		*reverse(t_list **top);
 t_list_i	*reverse_int(t_list_i **top);
-void		printll(t_list *lst);
-void		printll_int(t_list_i *lst);
-void		print_adr(t_list *lst);
-size_t		size_stack(t_list *top);
 size_t		size_stack_int(t_list_i *top);
-int			remove_position(t_list **top, size_t pos);
+void		printll_int(t_list_i *lst);
 int			remove_position_int(t_list_i **top, size_t pos);
-char		*getitem(t_list *top, size_t pos);
 int			getitem_int(t_list_i *top, size_t pos);
-void		trim_list(t_list **str);
-char		*trim(char *line);
-int			getposition(t_list *top, char *item);
 int			getposition_int(t_list_i *top, int item);
+
+// string stack (basic)
+void		push(t_list **top, char	 *item);
+char		*pop(t_list **top);
+void		delete(t_list **top);
+t_list		*reverse(t_list **top);
+size_t		size_stack(t_list *top);
+void		printll(t_list *lst);
+
+
+
+// string stack 
+int			transfer_c(t_list **start, t_list **end);
+char		*getitem_c(t_list *top, size_t pos);
+char		*getitem(t_list *top, size_t pos); // doublon
+int			remove_pos_c(t_list **top, size_t pos);
+int			remove_position(t_list **top, size_t pos);
+int			getpos_c(t_list *top, char *item);
+int			getposition(t_list *top, char *item);
+void		print_adr(t_list *lst);
+
+// parsing
+void		trim_list(t_list **str);
+//char		*trim(char *line);
 char		*delimitateur(t_list **raw);
-char		*getword(t_list **raw, char *search);
-char		*getword1(t_list **raw, /* t_list_i *sq, t_list_i *dq, */ char *search);
+//char		*getword(t_list **raw, char *search);
+char		*getword1(t_list **raw,  char *search);
 void		create_raw_list(t_list **str, char *line);
 void		create_quote_list(t_list **str, t_list_i **pos, char *search);
 void		inclusion(t_list_i **sq, t_list_i **dq, int s_index, int d_index);
+
+
+// signal
 void	    sig_handler(int signum);
+
+// utilitaire
 void		init_pgrm(t_parser *p, char *env[]);
 void    	free_parsing(t_parser *p);
-
 
 #endif

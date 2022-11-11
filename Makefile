@@ -6,7 +6,7 @@
 #    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/11/08 17:00:02 by jsollett         ###   ########.fr        #
+#    Updated: 2022/11/11 11:00:26 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CC = 		gcc
 FLAGS = 	-g -Wall -Wextra -Werror
 LDFLAGS=	 -L /Users/$(USER)/.brew/opt/readline/lib -lreadline
 CPPFLAGS=	 -I /Users/$(USER)/.brew/opt/readline/include 
-DANGER = 	$(FLAGS) -fsanitize=address
+DANGER = 	$(FLAGS) #-fsanitize=address
 AR = 		ar -rcs
 RM = 		@rm -rf
 
@@ -51,7 +51,7 @@ OBJECTS = $(CFILES:.c=.o)
 
 $(NAME): 	$(OBJECTS)
 			@echo $(B)"Compiling minishell..." $(X)
-			$(CC) $(DANGER) $(OBJECTS) $(LDFLAGS) -o $(NAME)
+			$(CC) $(FLAGS) $(OBJECTS) $(LDFLAGS) -o $(NAME)
 			@echo $(G)"Done !" $(X)
 
 all: 		$(NAME)

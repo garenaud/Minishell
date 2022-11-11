@@ -6,12 +6,36 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:29:00 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/08 16:28:01 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/11 12:23:45 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+char	*getitem_c(t_list *top, size_t pos)
+{
+	if (pos >= size_stack(top))
+		return (NULL);
+	else
+	{
+		while (pos > 0)
+		{
+			top = top->next;
+			pos--;
+		}
+		return (top->data);
+	}
+}
+
+void	trim_list(t_list **str)
+{
+	while (ft_strncmp(getitem_c(*str, 0)," ",1) == 0)
+		remove_pos_c(str, 0);
+	while (ft_strncmp(getitem_c(*str, size_stack(*str) - 1)," ", 1) == 0)
+		remove_pos_c(str, size_stack(*str) -1 );
+}
+
+/*
 void	trim_list(t_list **str)
 {
 	int	count_s;
@@ -24,7 +48,7 @@ void	trim_list(t_list **str)
 	while (ft_strncmp(getitem(*str, size_stack(*str) - 1)," ", 1) == 0)
 		remove_position(str, size_stack(*str) -1 );
 }
-
+*/
 /* char	*trim(char *line)
 {
 	int	i;
@@ -88,55 +112,85 @@ void	trim_list(t_list **str)
 } */
 
 char	*delimitateur(t_list **raw)
-{
+{//modifiee
 	if (ft_strncmp(getitem(*raw, 0),"\"",1) == 0)
 	{
-		pop(raw);
+		remove_pos_c(raw, 0);
 		return ("\"");
 	}
 	else 
 	if (ft_strncmp(getitem(*raw, 0),"\'",1) == 0)
 	{
-		pop(raw);
+		remove_pos_c(raw, 0);
 		return ("\'");
-	}
+	}// ajout pour le path faux
+/* 	if (ft_strncmp(getitem(*raw, 0),":",1) == 0)
+	{
+		remove_pos_c(raw, 0);
+		return (":");
+	} */
 	else
 	{
 		return (" ");
 	}
 }
 
-char	*getword1(t_list **raw, char *search)
-{ 
-	int i;
-	int	pos;
-	char	*str;
 
-	i = 0;	
-	search = delimitateur(raw);
-	pos = getposition(*raw, search);
+
+char	*getpath(t_list **raw)
+{ // a tester
+	int 	i;
+	int		pos;
+	char	*str;
+	char	*c_tmp;
+
+	i = 0;
+	pos = getpos_c(*raw, ":");
 	if (pos == -1)
 		pos = size_stack(*raw);
 	str = malloc((pos +1)* sizeof(char));
-		while (i < pos)
-		{
-			str[i] = *pop(raw);
-			printll(*raw);
-			i++;
-		}
-		if (size_stack(*raw) !=  0)
-			pop(raw);//
-/* 	printf("-----------------------\n");
-	printll(*raw);
-		printf("-----------------------\n"); */
-	printf("raw %p\n", raw);
+	while (i < pos)
+	{
+		c_tmp = pop(raw);
+		str[i] = *c_tmp;
+		free(c_tmp);
+		i++;
+	}
+	if (size_stack(*raw) !=  0)
+		remove_pos_c(raw,0);
+	str[i] = '\0';
+	return (str);
+}
+
+char	*getword1(t_list **raw, char *search)
+{ //modifiee
+	int 	i;
+	int		pos;
+	char	*str;
+	char	*c_tmp;
+
+	i = 0;	
+	search = delimitateur(raw);
+	pos = getpos_c(*raw, search);
+	if (pos == -1)
+		pos = size_stack(*raw);
+	str = malloc((pos +1)* sizeof(char));
+	while (i < pos)
+	{
+		c_tmp = pop(raw);
+		str[i] = *c_tmp;
+		free(c_tmp);
+		i++;
+	}
+	if (size_stack(*raw) !=  0)
+		remove_pos_c(raw,0);
 	str[i] = '\0';
 	return (str);
 }
 
 
 void	create_raw_list(t_list **str, char *line)
-{
+{// ok
 	int	i;
 	char	tmp[2];
 
@@ -151,7 +205,7 @@ void	create_raw_list(t_list **str, char *line)
 }
 
 void	create_quote_list(t_list **str, t_list_i **pos, char *search)
-{
+{// a tester
 	int	i;
 
 	i = 0;
@@ -168,7 +222,7 @@ void	create_quote_list(t_list **str, t_list_i **pos, char *search)
 }
 
 void	inclusion(t_list_i **sq, t_list_i **dq, int s_index, int d_index)
-{// essai, pour trouver la plage entre ' ' et entre " "
+{// essai, pour trouver la plage entre ' ' et entre " " a tster
 	if ((s_index <= (int)size_stack_int(*sq) / 2) && (d_index <= (int)size_stack_int(*dq) / 2))
 	{
 		if (getitem_int(*sq, 2*(s_index-1)) < (getitem_int(*dq, 2*(d_index-1))))
@@ -191,7 +245,7 @@ void	inclusion(t_list_i **sq, t_list_i **dq, int s_index, int d_index)
 }
 
 int	getposition(t_list *top, char *item)
-{
+{// ok?
 	int	i;
 	int	len;
 

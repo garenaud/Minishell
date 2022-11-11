@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/08 15:50:06 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:11:09 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,38 @@ int main(int argc, char *argv[], char *env[])
 	t_list_i	*squote = NULL;
 	char   		*line = NULL;
 	char	**env_1; */
+
+//	test partie path	
+/* 	t_list		*path_raw;
+	char		*path;
+	char		*tmp;
 	
+	path = getenv("PATH");
+	create_raw_list(&path_raw, path);
+	path_raw = reverse(&path_raw);
+	printll(path_raw);
+	while (size_stack(path_raw ))
+	{
+		trim_list(&path_raw);
+		tmp = getpath(&path_raw);//<<
+		if (ft_strncmp(tmp,"", 1))
+		{
+			push(&p.word,p.tmp);
+			free(p.tmp);	//
+		}
+		else
+		{
+			printf("tmp vide= [%s]\n", p.tmp);
+			free(p.tmp);
+		}
+	}
+		 */
 	//char	*tmp;
 	t_parser	p;
+	// test getenv
+  printf("PATH : %s\n", getenv("PATH"));
+   printf("HOME : %s\n", getenv("HOME"));
+   printf("ROOT : %s\n", getenv("ROOT"));
 	
 	(void)argc;
 	(void)argv;
@@ -70,7 +99,7 @@ int main(int argc, char *argv[], char *env[])
 		if (ft_strncmp(p.tmp,"", 1))
 		{
 			push(&p.word,p.tmp);
-		//	free(p.tmp);	
+			free(p.tmp);	//
 		}
 		else
 		{
