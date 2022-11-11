@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/11 11:26:56 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/11 16:40:02 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 typedef struct s_list
 {
-	//int		a;
 	char	*data;
 	struct s_list	*next;
 }	t_list;
@@ -93,6 +92,7 @@ char		*getword1(t_list **raw,  char *search);
 void		create_raw_list(t_list **str, char *line);
 void		create_quote_list(t_list **str, t_list_i **pos, char *search);
 void		inclusion(t_list_i **sq, t_list_i **dq, int s_index, int d_index);
+char		*getpath(t_list **raw);
 
 
 // signal
@@ -101,5 +101,9 @@ void	    sig_handler(int signum);
 // utilitaire
 void		init_pgrm(t_parser *p, char *env[]);
 void    	free_parsing(t_parser *p);
+
+// test
+char    	*path_list(char *env[]);
+void    	create_env_list(t_list **env_list, char *env[]);
 
 #endif

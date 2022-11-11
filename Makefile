@@ -6,7 +6,7 @@
 #    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/11/11 11:00:26 by jsollett         ###   ########.fr        #
+#    Updated: 2022/11/11 16:15:54 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME =		minishell
 HEADER = 	minishell.h
 
 CC = 		gcc
-FLAGS = 	-g -Wall -Wextra -Werror
+FLAGS = 	-g -Wall -Wextra -Werror #-fsanitize=address
 LDFLAGS=	 -L /Users/$(USER)/.brew/opt/readline/lib -lreadline
 CPPFLAGS=	 -I /Users/$(USER)/.brew/opt/readline/include 
 DANGER = 	$(FLAGS) #-fsanitize=address
@@ -38,6 +38,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/parser.c \
 			Parser/readline_util.c \
 			Parser/parsing_init.c \
+			Parser/test.c \
 			minishell.c 
 
 

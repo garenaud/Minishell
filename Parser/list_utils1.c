@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:45:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/11 10:52:54 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/11 15:38:58 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	printll(t_list *lst)
 	printf("start");
 	while (lst)
 	{
-		printf("-->[%s]", (lst->data));
+		printf("-->[%s]\n", (lst->data));
 		lst = lst->next;
 	}
 	printf("-->[end]\n");
