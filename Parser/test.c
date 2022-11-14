@@ -77,7 +77,7 @@ void	printll_dico(t_dico **dico)
 	dico_tmp = NULL;
 	while (size_stack_dico(*dico))
 	{
-		dico_tmp = pop_dico(dico);
+		dico_tmp = pop_dico(dico);// ici plutot avec les ->next... pas de pop
 		printf("key = %s\t\t\t\t value = %s\n", dico_tmp->key, dico_tmp->value);
 		free(dico_tmp->key);
 		free(dico_tmp->value);

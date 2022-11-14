@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/14 16:30:28 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:48:22 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int main(int argc, char *argv[], char *env[])
 	t_list		*env_list;
 	char		*path;
 	char		*tmp;
-	
+	int			index;
 	// test dico
 	t_dico		*dico;
 	t_dico		*dico_tmp;
@@ -35,6 +35,13 @@ int main(int argc, char *argv[], char *env[])
 	dico_tmp = getitem_dico(dico,2); */
 	create_dico_list(&dico, env);
 	printll_dico(&dico);
+	index = get_key(dico, "HOME");
+	remove_pos_dico(&dico, index);
+	printf("\n\n\n");
+	printf("%p\n", dico);
+	printll_dico(&dico);
+	
+	
 	delete_dico(&dico);
 	// 
 	path_raw = NULL;
