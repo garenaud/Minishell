@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/11 16:07:03 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:30:28 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,29 @@ int main(int argc, char *argv[], char *env[])
 	char		*path;
 	char		*tmp;
 	
+	// test dico
+	t_dico		*dico;
+	t_dico		*dico_tmp;
 	
+	dico = NULL;
+	dico_tmp = NULL;
+ /* 	push_dico(&dico, "key 1", "value 1");
+	push_dico(&dico, "key 2", "value 2");
+	push_dico(&dico, "key 3", "value 3");
+	push_dico(&dico, "key 4", "value 4"); */
+	//delete_dico(&dico);
+	/* dico = reverse_dico(&dico);
+	dico_tmp = getitem_dico(dico,2); */
+	create_dico_list(&dico, env);
+	printll_dico(&dico);
+	delete_dico(&dico);
+	// 
 	path_raw = NULL;
 	split_path = NULL;
  	env_list = NULL;
 	create_env_list(&env_list, env);
+	
+	
 	delete(&env_list);
 	
 	path = path_list(env);
@@ -74,9 +92,9 @@ int main(int argc, char *argv[], char *env[])
 		}
 		if (strcmp(p.line,"") == 0)
 		{
-        rl_on_new_line();// recree le prompt sur la nvlle ligne
-        rl_replace_line("", 0);// efface l'ancien contenu
-        rl_redisplay();// et affiche
+        	rl_on_new_line();// recree le prompt sur la nvlle ligne
+        	rl_replace_line("", 0);// efface l'ancien contenu
+      		rl_redisplay();// et affiche
 		}
 		if (strcmp(p.line,"clear") == 0)
 			rl_clear_history();

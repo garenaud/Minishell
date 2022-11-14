@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/11 16:40:02 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:39:28 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,17 @@ typedef struct s_list_i
 	int		data;
 	struct s_list_i	*next;
 }	t_list_i;
+
+
+// structure "dico"
+// version stack
+
+typedef struct s_dico
+{
+	char	*key;
+	char	*value;
+	struct s_dico	*next;
+}	t_dico;
 
 typedef struct s_parser
 {
@@ -105,5 +116,21 @@ void    	free_parsing(t_parser *p);
 // test
 char    	*path_list(char *env[]);
 void    	create_env_list(t_list **env_list, char *env[]);
+void		push_dico(t_dico **top, char *key, char *value);
+t_dico		*pop_dico(t_dico **top);
+void		delete_dico(t_dico **top);
+size_t		size_stack_dico(t_dico *top);
+int			get_key(t_dico *top, char *item);
+int			get_value(t_dico *top, char *item);
+
+int			remove_pos_dico(t_dico **top, size_t pos);
+int			transfer_dico(t_dico **start, t_dico **end);
+t_dico		*reverse_dico(t_dico **top);
+t_dico		*getitem_dico(t_dico *top, size_t pos);
+void		create_dico_list(t_dico **dico, char *env[]);
+void		printll_dico(t_dico **dico);
+
+
+
 
 #endif
