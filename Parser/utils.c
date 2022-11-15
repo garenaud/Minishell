@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 18:02:50 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/11 10:36:31 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/15 13:10:56 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,22 @@ char	*ft_strdup(char *src)
 	return (dst);
 }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp (const char *s1, const char *s2, size_t n)
 {
 	if (n == 0)
 		return (0);
-	while (((n - 1) > 0) && (*s1 != '\0') && (*s2 != '\0') && (*s1 == *s2))
-	{
+	while (((n -1 ) > 0) && (*s1 != '\0') && (*s2 != '\0') && (*s1 == *s2))
+	{// avant n-1
 		s1++;
 		s2++;
 		n--;
 	}
 	return ((unsigned char)*s1 -(unsigned char)*s2);
 }
+
+/* int main()
+{
+	printf("taille = %d\n",ft_strncmp("HOMEBREW", "HOME", ft_strlen("HOMEBREW")));
+	printf("taille = %d\n",ft_strncmp("HOME", "HOMEBREW", ft_strlen("HOME")));
+	return (0);
+} */

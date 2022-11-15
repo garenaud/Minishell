@@ -29,7 +29,7 @@ void    create_env_list(t_list **env_list, char *env[])
 		i++;
 	}
    *env_list = reverse(env_list);
-    printll(*env_list);
+  //  printll(*env_list);
 }
 
 void    create_dico_list(t_dico **dico,  char *env[])
@@ -53,6 +53,7 @@ void    create_dico_list(t_dico **dico,  char *env[])
 		tmp = reverse(&tmp);
 		s1 = getword1(&tmp, " ");
 		delete(&tmp);
+		tmp = NULL;
 		j++;
 		while (env[i][j] != '\0')
 		{
@@ -70,7 +71,18 @@ void    create_dico_list(t_dico **dico,  char *env[])
    /*  *dico = reverse_dico(dico); */
 }
 
-void	printll_dico(t_dico **dico)
+void	printll_dico(t_dico *dico)
+{
+	printf("start dico");
+	while (dico)
+	{
+		printf("-->[%s][%s]\n", (dico->key),(dico->value));
+		dico = dico->next;
+	}
+	printf("-->[end]\n");
+}
+
+/* void	printll_dico(t_dico **dico)
 {
 	t_dico	*dico_tmp;
 
@@ -85,3 +97,4 @@ void	printll_dico(t_dico **dico)
 		//delete_dico(&dico_tmp);
 	}
 }
+ */

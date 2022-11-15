@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/14 15:39:28 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/15 13:11:26 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int			transfer_dico(t_dico **start, t_dico **end);
 t_dico		*reverse_dico(t_dico **top);
 t_dico		*getitem_dico(t_dico *top, size_t pos);
 void		create_dico_list(t_dico **dico, char *env[]);
-void		printll_dico(t_dico **dico);
+void		printll_dico(t_dico *dico);
 
 
 

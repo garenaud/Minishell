@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/14 16:48:22 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/15 14:20:49 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,29 @@ int main(int argc, char *argv[], char *env[])
 	
 	dico = NULL;
 	dico_tmp = NULL;
- /* 	push_dico(&dico, "key 1", "value 1");
+ 	/* push_dico(&dico, "key 1", "value 1");
 	push_dico(&dico, "key 2", "value 2");
 	push_dico(&dico, "key 3", "value 3");
-	push_dico(&dico, "key 4", "value 4"); */
-	//delete_dico(&dico);
+	push_dico(&dico, "key 4", "value 4");
+	printll_dico(dico);
+	delete_dico(&dico); */
 	/* dico = reverse_dico(&dico);
 	dico_tmp = getitem_dico(dico,2); */
 	create_dico_list(&dico, env);
-	printll_dico(&dico);
-	index = get_key(dico, "HOME");
+	printll_dico(dico);
+	index = get_key(dico, "CPPFLAGS");
+	dico_tmp = getitem_dico(dico, index);
+	printf("\n\n\n");
+	printf("DICO TMP ***************\n");
+	printll_dico(dico_tmp);
+	delete_dico(&dico_tmp);
+	//printf("notre dico tmp= %s %s", dico_tmp->key, dico_tmp->value);	
+	printf("\n\n\n");
+	/* printf("index = %d\n", index);
 	remove_pos_dico(&dico, index);
 	printf("\n\n\n");
 	printf("%p\n", dico);
-	printll_dico(&dico);
+	printll_dico(dico); */
 	
 	
 	delete_dico(&dico);
@@ -53,7 +62,7 @@ int main(int argc, char *argv[], char *env[])
 	delete(&env_list);
 	
 	path = path_list(env);
-	printf("path list = %s\n", path);
+	printf("\n\n path list = %s\n", path);
 	create_raw_list(&path_raw, path);
 	path_raw = reverse(&path_raw);
 
