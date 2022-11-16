@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/15 14:20:49 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/16 15:36:12 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,76 +14,77 @@
 
 int main(int argc, char *argv[], char *env[])
 {
- 	t_list		*path_raw;
+/*  	t_list		*path_raw;
 	t_list		*split_path;
-	t_list		*env_list;
-	char		*path;
+	t_list		*env_list; */
+	t_list		*test;
+	t_list		*testw; 
+
+	testw = NULL;
+	test = NULL;
 	char		*tmp;
+	char		*tmp1;
 	int			index;
+	t_parser	p;
+	tmp1 = NULL;
 	// test dico
-	t_dico		*dico;
+/* 	t_dico		*dico;
 	t_dico		*dico_tmp;
 	
 	dico = NULL;
-	dico_tmp = NULL;
- 	/* push_dico(&dico, "key 1", "value 1");
-	push_dico(&dico, "key 2", "value 2");
-	push_dico(&dico, "key 3", "value 3");
-	push_dico(&dico, "key 4", "value 4");
-	printll_dico(dico);
-	delete_dico(&dico); */
-	/* dico = reverse_dico(&dico);
-	dico_tmp = getitem_dico(dico,2); */
-	create_dico_list(&dico, env);
-	printll_dico(dico);
-	index = get_key(dico, "CPPFLAGS");
-	dico_tmp = getitem_dico(dico, index);
+	dico_tmp = NULL; */
+ 
+	init_pgrm(&p, env);
+	create_dico_list(&p.dico, env);
+	printll_dico(p.dico);
+	index = get_key(p.dico, "CPPFLAGS");
+	p.dico_tmp = getitem_dico(p.dico, index);
 	printf("\n\n\n");
 	printf("DICO TMP ***************\n");
-	printll_dico(dico_tmp);
-	delete_dico(&dico_tmp);
+	printll_dico(p.dico_tmp);
+	
+	delete_dico(&p.dico_tmp);
 	//printf("notre dico tmp= %s %s", dico_tmp->key, dico_tmp->value);	
 	printf("\n\n\n");
-	/* printf("index = %d\n", index);
-	remove_pos_dico(&dico, index);
+	printf("index = %d\n", index);
+	remove_pos_dico(&p.dico, index);
 	printf("\n\n\n");
-	printf("%p\n", dico);
-	printll_dico(dico); */
+	printf("%p\n", p.dico);
+	printll_dico(p.dico); 
 	
 	
-	delete_dico(&dico);
+	delete_dico(&p.dico);
 	// 
-	path_raw = NULL;
+	/* path_raw = NULL;
 	split_path = NULL;
- 	env_list = NULL;
-	create_env_list(&env_list, env);
+ 	env_list = NULL; */
+	create_env_list(&p.struct_path.env_list, env);
 	
 	
-	delete(&env_list);
+	delete(&p.struct_path.env_list);
 	
-	path = path_list(env);
-	printf("\n\n path list = %s\n", path);
-	create_raw_list(&path_raw, path);
-	path_raw = reverse(&path_raw);
+	p.struct_path.path = path_list(env);
+	printf("\n\n path list = %s\n", p.struct_path.path);
+	create_raw_list(&p.struct_path.path_raw, p.struct_path.path);
+	p.struct_path.path_raw = reverse(&p.struct_path.path_raw);
 
-	while (size_stack(path_raw ))
+	while (size_stack(p.struct_path.path_raw ))
 	{
-		trim_list(&path_raw);
-		tmp = getpath(&path_raw);
+		trim_list(&p.struct_path.path_raw);
+		tmp = getpath(&p.struct_path.path_raw);
 		if (ft_strncmp(tmp,"", 1))
 		{
-			push(&split_path, tmp);
+			push(&p.struct_path.split_path, tmp);
 			free(tmp);
 		}
 		else
 			free(tmp);
 	}
-	split_path = reverse(&split_path);
-	printll(split_path);
-	delete(&split_path);	 
-	delete(&path_raw);
+	p.struct_path.split_path = reverse(&p.struct_path.split_path);
+	printll(p.struct_path.split_path);
+//	delete(&split_path);	 
+//	delete(&path_raw);
 	
-	t_parser	p;
 
 	
 /* 	printf("PATH : %s\n", getenv("PATH"));lldb 
@@ -98,8 +99,7 @@ int main(int argc, char *argv[], char *env[])
 	while ((p.line =readline("mini-->")))
 	{
 		signal(SIGINT, sig_handler);
-		init_pgrm(&p, env);
-		p.env = env; 
+/* 		init_pgrm(&p, env); */
 		if (strcmp(p.line,"quit") == 0)
 		{
 			free_parsing(&p);
@@ -117,33 +117,56 @@ int main(int argc, char *argv[], char *env[])
 		if (strlen(p.line) > 0)
 			add_history(p.line);
 	
-	create_raw_list(&p.raw, p.line);
-	p.raw = reverse(&p.raw);
+		create_raw_list(&p.raw, p.line);
+		p.raw = reverse(&p.raw);
 
-	create_quote_list(&p.raw, &p.dquote, "\"");
-	create_quote_list(&p.raw, &p.squote, "\'");
-	while (size_stack(p.raw ))
-	{
-		trim_list(&p.raw);
-		p.tmp = getword1(&p.raw, " ");
-		if (ft_strncmp(p.tmp,"", 1))
+		create_quote_list(&p.raw, &p.dquote, "\"");
+		create_quote_list(&p.raw, &p.squote, "\'");
+		trim_list(&p.raw);// sinon segfault
+		while (size_stack(p.raw ))
 		{
-			push(&p.word,p.tmp);
-			free(p.tmp);
+			trim_list(&p.raw);
+			p.tmp = getword1(&p.raw, " ");
+			if (ft_strncmp(p.tmp,"", 1))
+			{
+				push(&p.word,p.tmp);
+				free(p.tmp);
+			}
+			else
+			{
+				printf("tmp vide= [%s]\n", p.tmp);
+				free(p.tmp);
+			}
 		}
-		else
+		p.word = reverse(&p.word);
+		printf(RED);
+		printll(p.word);
+		printf(ENDC);
+		if (p.word)
 		{
-			printf("tmp vide= [%s]\n", p.tmp);
-			free(p.tmp);
+			create_path_access(test, &p);
+			printll(p.struct_cmd.cmd);
 		}
+		printf(GREEN);
+		printll(p.word);
+		printf(ENDC);
+		delete(&test);//
+		delete(&testw);
+		free(tmp1);
+		//
+		printll(p.word);
+		delete(&p.word);
+		delete(&p.raw);
+		delete_int(&p.dquote);
+		delete_int(&p.squote);
+		free(p.line);
+	//	delete(&p.struct_path.split_path);	 
+	//	delete(&p.struct_path.path_raw);
+		delete(&p.struct_cmd.cmd);
 	}
-	p.word = reverse(&p.word);
-	printll(p.word);
-	delete(&p.word);
-	delete(&p.raw);
-	delete_int(&p.dquote);
-	delete_int(&p.squote);
-	free(p.line);
-	}
+	printf(RED"----------------- sortie prgm ----------------\n"ENDC);
+	delete(&p.struct_path.split_path);	 
+	delete(&p.struct_path.path_raw);
+	delete(&p.struct_cmd.cmd);
 	return (0);
 }

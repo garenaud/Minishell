@@ -6,17 +6,27 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/15 13:11:26 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:50:12 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define RED     "\033[1m\033[31m"
+# define GREEN   "\033[1m\033[32m"
+# define ENDC    "\033[0m"
+# define BOLDRED "\033[31m"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <limits.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -43,15 +53,52 @@ typedef struct s_dico
 	struct s_dico	*next;
 }	t_dico;
 
+typedef struct s_path
+{
+	char	*path;
+	t_list	*path_raw;
+	t_list	*split_path;
+	t_list	*env_list;
+}	t_path;
+
+typedef struct s_cmd
+{
+	t_list		*cmd;
+	t_list		*option;
+	t_list		*arg;
+	char		**cmd_array;
+}	t_cmd;
+
+typedef	struct s_file
+{
+	t_list		*file;
+	t_list		*fd;
+	t_list		*rwx;
+}	t_file;
+
+typedef	struct s_stream
+{
+	t_list		*pipe;
+	t_list		*to_out; // >
+	t_list		*to_in; //<
+	t_list		*append;  // >>
+	t_list		*here_doc; // <<
+}	t_stream;
+
 typedef struct s_parser
 {
 	t_list		*raw;
 	t_list		*word;
 	t_list_i	*dquote;
 	t_list_i	*squote;
+	t_dico		*dico;
+	t_dico		*dico_tmp;
 	char   		*line;
 	char		*tmp;
 	char		**env;
+	t_path		struct_path;
+	t_cmd		struct_cmd;
+	t_file		struct_file;
 }	t_parser;
 
 
@@ -129,6 +176,8 @@ t_dico		*reverse_dico(t_dico **top);
 t_dico		*getitem_dico(t_dico *top, size_t pos);
 void		create_dico_list(t_dico **dico, char *env[]);
 void		printll_dico(t_dico *dico);
+
+void		create_path_access(t_list *path, t_parser *p);
 
 
 

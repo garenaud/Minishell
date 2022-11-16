@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 11:38:04 by jsollett          #+#    #+#             */
-/*   Updated: 2022/11/08 14:13:24 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:00:04 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,16 @@ void	init_pgrm(t_parser *p, char *env[])
     p->word = NULL;
     p->dquote = NULL;
     p->squote = NULL;
- //   p->line = NULL;
+    p->struct_path.path = NULL;
+    p->struct_path.path_raw = NULL;
+    p->struct_path.split_path = NULL;
+    p->struct_path.env_list = NULL;
+    p->dico = NULL;
+    p->dico_tmp = NULL;
 	p->env = env;
+    p->struct_cmd.cmd = NULL;
+    p->struct_cmd.option = NULL;
+    p->struct_cmd.arg = NULL;
 }
 
 void    free_parsing(t_parser *p)

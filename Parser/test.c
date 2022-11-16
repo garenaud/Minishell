@@ -12,7 +12,7 @@ char    *path_list(char *env[])
 		if (*(*(env + i)) == 'P' && *(*(env + i) + 1) == 'A'
 			&& *(*(env + i) + 2) == 'T' && *(*(env + i) + 3) == 'H'
 			&& *(*(env + i) + 4) == '=')
-			return (env[i]);
+			return (env[i] + 5);
 		i++;
 	}
     return (NULL);

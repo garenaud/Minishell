@@ -6,7 +6,7 @@
 #    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/11/15 14:21:21 by jsollett         ###   ########.fr        #
+#    Updated: 2022/11/16 15:27:48 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,16 +15,16 @@ NAME =		minishell
 HEADER = 	minishell.h
 
 CC = 		gcc
-FLAGS = 	-g -Wall -Wextra -Werror #-fsanitize=address
+FLAGS = 	-g -Wall -Wextra -Werror
 LDFLAGS=	 -L /Users/$(USER)/.brew/opt/readline/lib -lreadline
 CPPFLAGS=	 -I /Users/$(USER)/.brew/opt/readline/include 
-DANGER = 	$(FLAGS) #-fsanitize=address
+DANGER = 	 -fsanitize=address
 AR = 		ar -rcs
 RM = 		@rm -rf
 
 Y = "\033[33m"
 R = "\033[31m"
-G = "\033[32m"q
+G = "\033[32m"
 B = "\033[34m"
 X = "\033[0m"
 UP = "\033[A"
@@ -40,16 +40,11 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/parsing_init.c \
 			Parser/test.c \
 			Parser/dico.c \
+			Parser/path.c \
 			minishell.c 
 
 
 OBJECTS = $(CFILES:.c=.o)
-
-#$(NAME): $(OBJECTS)
-#		@echo "\n"
-#		@echo $(B)"Compiling minishell..." $(X)
-#		@$(CC) $(FLAGS) -o $(NAME)
-#		@echo $(G)"Done !" $(X)
 
 $(NAME): 	$(OBJECTS)
 			@echo $(B)"Compiling minishell..." $(X)
@@ -57,6 +52,11 @@ $(NAME): 	$(OBJECTS)
 			@echo $(G)"Done !" $(X)
 
 all: 		$(NAME)
+
+danger:		$(OBJECTS)
+			@echo $(Y)"Compiling minishell with sanitize" $(X)
+			$(CC) $(FLAGS) $(DANGER) $(OBJECTS) $(LDFLAGS) -o minishellSanit
+			@echo $(Y)"Done !" $(X)
 
 clean:
 	$(RM) ./Parser/*.o
@@ -72,6 +72,7 @@ fclean:
 	$(RM) ./parser/*.o
 	$(RM) ./a.out.dSYM
 	$(RM) ./*.o
+	$(RM) ./minishellSanit
 	@echo $(B)Removed [TEMPORARY FILES]$(X)
 	@echo $(R)Removed [./Parser/*.o]$(X)
 	@echo $(R)Removed [REMOVED FINISH]$(X)

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:29:00 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/11 12:23:45 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:00:41 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ char	*getitem_c(t_list *top, size_t pos)
 
 void	trim_list(t_list **str)
 {
-	while (ft_strncmp(getitem_c(*str, 0)," ",1) == 0)
+	while (size_stack(*str) && ft_strncmp(getitem_c(*str, 0)," ",1) == 0)
 		remove_pos_c(str, 0);
-	while (ft_strncmp(getitem_c(*str, size_stack(*str) - 1)," ", 1) == 0)
+	while (size_stack(*str) && ft_strncmp(getitem_c(*str, size_stack(*str) - 1)," ", 1) == 0)
 		remove_pos_c(str, size_stack(*str) -1 );
 }
 
