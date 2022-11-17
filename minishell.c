@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/16 15:36:12 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/17 16:11:57 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,26 @@ int main(int argc, char *argv[], char *env[])
 	
 		create_raw_list(&p.raw, p.line);
 		p.raw = reverse(&p.raw);
-
-		create_quote_list(&p.raw, &p.dquote, "\"");
-		create_quote_list(&p.raw, &p.squote, "\'");
+		init_parsing_list_c(&p);//****************
+		check_quote(&p);
+		printf(GREEN);
+		printll(p.raw);
+		add_space(&p);//***************
+		printll(p.raw);
+		printf(ENDC);
+		
+		/* printf(RED"printll pipe\n"ENDC);
+		printll_int(p.pipe_i);
+		printf(RED"printll to_out\n"ENDC);
+		printll_int(p.to_out_i);
+		printf(RED"printll to_in\n"ENDC);
+		printll_int(p.to_in_i);
+		printf(RED"printll append\n"ENDC);
+		printll_int(p.append_i);
+		printf(RED"printll heredoc\n"ENDC);
+		printll_int(p.heredoc_i); */
+		/* create_quote_list(&p.raw, &p.dquote, "\"");
+		create_quote_list(&p.raw, &p.squote, "\'"); */
 		trim_list(&p.raw);// sinon segfault
 		while (size_stack(p.raw ))
 		{
@@ -139,6 +156,17 @@ int main(int argc, char *argv[], char *env[])
 			}
 		}
 		p.word = reverse(&p.word);
+		init_parsing_list(&p);
+		printf(RED"printll pipe\n"ENDC);
+		printll_int(p.pipe_i);
+		printf(RED"printll to_out\n"ENDC);
+		printll_int(p.to_out_i);
+		printf(RED"printll to_in\n"ENDC);
+		printll_int(p.to_in_i);
+		printf(RED"printll append\n"ENDC);
+		printll_int(p.append_i);
+		printf(RED"printll heredoc\n"ENDC);
+		printll_int(p.heredoc_i);
 		printf(RED);
 		printll(p.word);
 		printf(ENDC);
@@ -160,6 +188,7 @@ int main(int argc, char *argv[], char *env[])
 		delete_int(&p.dquote);
 		delete_int(&p.squote);
 		free(p.line);
+		delete_dico(&p.check);
 	//	delete(&p.struct_path.split_path);	 
 	//	delete(&p.struct_path.path_raw);
 		delete(&p.struct_cmd.cmd);

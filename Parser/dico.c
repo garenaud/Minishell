@@ -201,3 +201,44 @@ t_dico	*getitem_dico(t_dico *top, size_t pos)
 		return (tmp);
 	}
 }
+
+void	check_quote(t_parser *p)
+{
+	int	i;
+	int		flag;
+	char	*c_tmp;
+	char	*key;
+	int		taille;
+
+
+	taille = size_stack_int(p->dquote);
+	c_tmp = NULL;
+	i = 0;
+	flag = 0;
+	//key = NULL;
+	while (i < (int)size_stack(p->raw))
+	{
+		c_tmp = getitem_c(p->raw, i);
+		if (flag == 0 && taille > 0 && ft_strncmp(c_tmp, "\"", 1)== 0)
+		{
+			key = "2";
+			flag = 2;
+			taille--;
+			//remove_position_int(&p->dquote, 0);
+		}
+		else if (flag == 2 && ft_strncmp(c_tmp, "\"", 1)== 0)
+		{
+			key = "0";
+			flag = 0;
+			taille--;
+			//remove_position_int(&p->dquote, 0);
+		}
+		push_dico(&p->check, key, c_tmp);
+		i++;
+	}
+	p->check = reverse_dico(&p->check);
+	printf(PURP);
+	printll_dico(p->check);
+	printf(ENDC);
+	//free(c_tmp);
+}

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:29:00 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/16 14:00:41 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/17 12:05:30 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,11 +207,13 @@ void	create_raw_list(t_list **str, char *line)
 void	create_quote_list(t_list **str, t_list_i **pos, char *search)
 {// a tester
 	int	i;
-
+	int	len;
+	
+	len = ft_strlen(search);
 	i = 0;
 	while (i < (int)size_stack(*str))
 	{
-		if ((ft_strncmp(getitem(*str, i),search,1) == 0 ))
+		if ((ft_strncmp(getitem(*str, i),search, len) == 0 ))// 1 avant
 		{
 		//	if (i > 0 && (ft_strncmp(getitem(*str, i - 1),"\\",1) != 0 ))
 				push_int(pos, i);

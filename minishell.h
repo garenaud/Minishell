@@ -6,17 +6,19 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/16 16:50:12 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/17 15:55:53 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define RED     "\033[1m\033[31m"
-# define GREEN   "\033[1m\033[32m"
-# define ENDC    "\033[0m"
-# define BOLDRED "\033[31m"
+# define RED		"\033[1m\033[31m"
+# define GREEN		"\033[1m\033[32m"
+# define YEL		"\033[0;33m"
+# define PURP		"\033[0;35m"
+# define ENDC		"\033[0m"
+# define BOLDRED	"\033[31m"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -91,8 +93,14 @@ typedef struct s_parser
 	t_list		*word;
 	t_list_i	*dquote;
 	t_list_i	*squote;
+	t_list_i	*pipe_i;
+	t_list_i	*to_out_i;
+	t_list_i	*to_in_i;
+	t_list_i	*append_i;
+	t_list_i	*heredoc_i;
 	t_dico		*dico;
 	t_dico		*dico_tmp;
+	t_dico		*check;
 	char   		*line;
 	char		*tmp;
 	char		**env;
@@ -151,6 +159,7 @@ void		create_raw_list(t_list **str, char *line);
 void		create_quote_list(t_list **str, t_list_i **pos, char *search);
 void		inclusion(t_list_i **sq, t_list_i **dq, int s_index, int d_index);
 char		*getpath(t_list **raw);
+void		init_parsing_list(t_parser *p);
 
 
 // signal
@@ -176,9 +185,11 @@ t_dico		*reverse_dico(t_dico **top);
 t_dico		*getitem_dico(t_dico *top, size_t pos);
 void		create_dico_list(t_dico **dico, char *env[]);
 void		printll_dico(t_dico *dico);
+void		check_quote(t_parser *p);
 
 void		create_path_access(t_list *path, t_parser *p);
-
+void		init_parsing_list_c(t_parser *p);
+void    	add_space(t_parser *p);
 
 
 
