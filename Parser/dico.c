@@ -209,36 +209,43 @@ void	check_quote(t_parser *p)
 	char	*c_tmp;
 	char	*key;
 	int		taille;
+	
 
 
 	taille = size_stack_int(p->dquote);
 	c_tmp = NULL;
+
 	i = 0;
 	flag = 0;
-	//key = NULL;
-	while (i < (int)size_stack(p->raw))
+	key = "0";
+
+	if (size_stack_int(p->dquote) % 2 == 0)
 	{
-		c_tmp = getitem_c(p->raw, i);
-		if (flag == 0 && taille > 0 && ft_strncmp(c_tmp, "\"", 1)== 0)
+		while (i < (int)size_stack(p->raw))
 		{
-			key = "2";
-			flag = 2;
-			taille--;
-			//remove_position_int(&p->dquote, 0);
+			c_tmp = getitem_c(p->raw, i);
+			if (flag == 0 && taille > 0 && ft_strncmp(c_tmp, "\"", 1)== 0)
+			{// entree dans "...
+				push_dico(&p->check, "2" , c_tmp);
+				c_tmp = getitem_c(p->raw, i + 1);
+				while (ft_strncmp(c_tmp, "\"", 1) != 0)
+				{// parcours ...*
+					c_tmp = getitem_c(p->raw, i + 1);
+					push_dico(&p->check, "2" , c_tmp);
+					i++;		
+				}
+			}
+			else
+				push_dico(&p->check, key, c_tmp);
+			i++;
 		}
-		else if (flag == 2 && ft_strncmp(c_tmp, "\"", 1)== 0)
-		{
-			key = "0";
-			flag = 0;
-			taille--;
-			//remove_position_int(&p->dquote, 0);
-		}
-		push_dico(&p->check, key, c_tmp);
-		i++;
 	}
+	else
+		printf("error (impair quote)\n");
 	p->check = reverse_dico(&p->check);
 	printf(PURP);
 	printll_dico(p->check);
 	printf(ENDC);
+	printf("size raw = %zu, size dico = %zu\n", size_stack(p->raw), size_stack_dico(p->check));
 	//free(c_tmp);
 }
