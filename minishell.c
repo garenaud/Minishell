@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/18 10:21:19 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:26:25 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,12 @@ int main(int argc, char *argv[], char *env[])
 	printll_dico(p.dico_tmp);
 	
 	delete_dico(&p.dico_tmp);
-	//printf("notre dico tmp= %s %s", dico_tmp->key, dico_tmp->value);	
-	printf("\n\n\n");
-	printf("index = %d\n", index);
 	remove_pos_dico(&p.dico, index);
 	printf("\n\n\n");
 	printf("%p\n", p.dico);
 	printll_dico(p.dico); 
-	
-	
 	delete_dico(&p.dico);
-	// 
-	/* path_raw = NULL;
-	split_path = NULL;
- 	env_list = NULL; */
 	create_env_list(&p.struct_path.env_list, env);
-	
-	
 	delete(&p.struct_path.env_list);
 	
 	p.struct_path.path = path_list(env);
@@ -99,7 +88,7 @@ int main(int argc, char *argv[], char *env[])
 	while ((p.line =readline("mini-->")))
 	{
 		signal(SIGINT, sig_handler);
-/* 		init_pgrm(&p, env); */
+// 		init_pgrm(&p, env);
 		if (strcmp(p.line,"quit") == 0)
 		{
 			free_parsing(&p);
@@ -120,12 +109,13 @@ int main(int argc, char *argv[], char *env[])
 		create_raw_list(&p.raw, p.line);
 		p.raw = reverse(&p.raw);
 		init_parsing_list_c(&p);//****************
-		check_quote(&p);
+		//check_quote_1(&p); // leak
 		printf(GREEN);
 		printll(p.raw);
-		add_space(&p);//***************
+		//add_space(&p);//***************
 		printll(p.raw);
 		printf(ENDC);
+		delete_parsing_list_c(&p);
 		
 		/* printf(RED"printll pipe\n"ENDC);
 		printll_int(p.pipe_i);
@@ -156,8 +146,8 @@ int main(int argc, char *argv[], char *env[])
 			}
 		}
 		p.word = reverse(&p.word);
-		init_parsing_list(&p);
-		printf(RED"printll pipe\n"ENDC);
+		//init_parsing_list(&p);
+	/* 	printf(RED"printll pipe\n"ENDC);
 		printll_int(p.pipe_i);
 		printf(RED"printll to_out\n"ENDC);
 		printll_int(p.to_out_i);
@@ -169,16 +159,19 @@ int main(int argc, char *argv[], char *env[])
 		printll_int(p.heredoc_i);
 		printf(RED);
 		printll(p.word);
-		printf(ENDC);
-		if (p.word)
+		printf(ENDC); */
+	 	 if (p.word)
 		{
-			create_path_access(test, &p);
+		create_path_access(test, &p);
+		printf(">>>>>>>>>>\n");
+			printll(test);
 			printll(p.struct_cmd.cmd);
 		}
 		printf(GREEN);
 		printll(p.word);
 		printf(ENDC);
 		delete(&test);//
+	
 		delete(&testw);
 		free(tmp1);
 		//
@@ -189,8 +182,8 @@ int main(int argc, char *argv[], char *env[])
 		delete_int(&p.squote);
 		free(p.line);
 		delete_dico(&p.check);
-	//	delete(&p.struct_path.split_path);	 
-	//	delete(&p.struct_path.path_raw);
+		delete(&p.struct_path.split_path);	 
+		delete(&p.struct_path.path_raw);
 		delete(&p.struct_cmd.cmd);
 	}
 	printf(RED"----------------- sortie prgm ----------------\n"ENDC);
