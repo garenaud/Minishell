@@ -6,14 +6,16 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:11:07 by jsollett          #+#    #+#             */
-/*   Updated: 2022/11/16 16:23:23 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/21 11:42:28 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 void	create_path_access(t_list *path, t_parser *p)
-{
+{// ne fonctionne pas 
+// (path pas free,) 
+// ne tient pas des ""
     char	*tmp1;
     int		index;
 	int		index_cmd;
@@ -30,13 +32,13 @@ void	create_path_access(t_list *path, t_parser *p)
 		tmp1 = NULL;
 			create_raw_list(&path, getitem_c(p->struct_path.split_path, index));
 			create_raw_list(&path, "/");
-			//tmp1 = NULL;
 			create_raw_list(&path, getitem_c(p->word, index_cmd));
 			path = reverse(&path);
 			tmp1 = getword1(&path, " ");
 			if (!access( tmp1, X_OK))
 				push(&p->struct_cmd.cmd, tmp1);
 			free(tmp1);
+			delete(&path);
 			index++;
 		}	
 		index_cmd++;

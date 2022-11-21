@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 11:38:04 by jsollett          #+#    #+#             */
-/*   Updated: 2022/11/17 15:47:35 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/21 12:13:22 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ void	init_pgrm(t_parser *p, char *env[])
     p->struct_cmd.option = NULL;
     p->struct_cmd.arg = NULL;
     p->check = NULL;
+    p->tmp = NULL;
+    p->struct_file.file = NULL;
+    p->struct_file.fd = NULL;
+    p->struct_file.rwx = NULL;
 }
 
 void    free_parsing(t_parser *p)
@@ -68,6 +72,13 @@ void    init_parsing_list_c(t_parser *p)
     //create_quote_list(&p->raw, &p->heredoc_i, "<<");
     create_quote_list(&p->raw, &p->dquote, "\"");
 	create_quote_list(&p->raw, &p->squote, "\'");
+}
+
+void    delete_parsing_list_c(t_parser *p)
+{
+    delete_int(&p->pipe_i);
+    delete_int(&p->to_out_i);
+    delete_int(&p->to_in_i);
 }
 
 void    add_space(t_parser *p)

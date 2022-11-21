@@ -98,3 +98,100 @@ void	printll_dico(t_dico *dico)
 	}
 }
  */
+
+void	check_quote_1(t_parser *p)
+{
+	int		q_index;
+	int		index;
+	int		flag;
+	char	*c_tmp;
+	int		start;
+	//int		end;
+
+	index = 0;
+	start = 0;
+	flag = 0;
+	c_tmp = NULL;
+	while(index < (int)size_stack(p->raw))
+	{
+		if (size_stack_int(p->dquote) && size_stack_int(p->squote))
+		{// deux piles existent
+			if (getitem_int(p->dquote, 0) < getitem_int(p->squote, 0))
+			{
+				q_index = pop_int(&p->dquote);
+				flag = 8;
+			}
+			else
+			{
+				q_index = pop_int(&p->squote);
+				flag = 4;
+			}
+		}
+		else if (size_stack_int(p->dquote) && size_stack_int(p->squote) == 0)
+		{
+			q_index = pop_int(&p->dquote);
+			flag = 2;
+		}
+		else if (size_stack_int(p->dquote) == 0 && size_stack_int(p->squote))
+		{
+			q_index = pop_int(&p->squote);
+			flag = 1;
+		}
+		else if (size_stack_int(p->dquote) == 0 && size_stack_int(p->squote) == 0)
+		{
+			q_index = size_stack(p->raw);//
+			flag = 0;
+		}
+		while (start == 0 && index < q_index)
+		{// debut du scan
+			c_tmp = getitem_c(p->raw, index);
+			push_dico(&p->check, "0", c_tmp);
+			//free(c_tmp);
+			index++;
+		}
+		
+		while (flag == 0 && index < q_index)
+		{
+			c_tmp = getitem_c(p->raw, index);
+			push_dico(&p->check, "0", c_tmp);
+			//free(c_tmp);
+			index++;
+		}
+		while (flag == 1 && index <= q_index && index > start)
+		{
+			c_tmp =  getitem_c(p->raw, index);
+			push_dico(&p->check, "1", c_tmp);
+			//free(c_tmp);
+			index++;
+		}
+		while (flag == 2 && index <= q_index && index > start)
+		{
+			c_tmp =  getitem_c(p->raw, index);
+			push_dico(&p->check, "2", c_tmp);
+			//free(c_tmp);
+			index++;
+		}
+		while (flag == 4 && index <= q_index && index > start)
+		{
+			c_tmp =  getitem_c(p->raw, index);
+			push_dico(&p->check, "4", c_tmp);
+			//free(c_tmp);
+			index++;
+		}
+		while (flag == 8 && index <= q_index && index > start)
+		{
+			c_tmp =  getitem_c(p->raw, index);
+			push_dico(&p->check, "8", c_tmp);
+			//free(c_tmp);
+			index++;
+		}
+		start = q_index;
+		
+	}
+	p->check = reverse_dico(&p->check);
+	printf(PURP);
+	printll_dico(p->check);
+	printf(ENDC);
+
+
+}

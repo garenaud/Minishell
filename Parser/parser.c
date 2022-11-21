@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:29:00 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/17 12:05:30 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:39:52 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,81 +35,6 @@ void	trim_list(t_list **str)
 		remove_pos_c(str, size_stack(*str) -1 );
 }
 
-/*
-void	trim_list(t_list **str)
-{
-	int	count_s;
-	int	count_e;
-
-	count_s = 0;
-	count_e = 0;
-	while (ft_strncmp(getitem(*str, 0)," ",1) == 0)
-		pop(str);
-	while (ft_strncmp(getitem(*str, size_stack(*str) - 1)," ", 1) == 0)
-		remove_position(str, size_stack(*str) -1 );
-}
-*/
-/* char	*trim(char *line)
-{
-	int	i;
-	int	j;
-	int	count_s;
-	int	count_e;
-	char	*res;
-
-	i = 0;
-	j = 0;
-	count_s = 0;
-	count_e = 0;
-	while (line[i] == ' ')
-	{
-		count_s++;
-		if (line[i + 1] != ' ')
-			break;
-		i++;
-	}
-	i = ft_strlen(line);
-	while (line[i] == ' ')
-	{
-		count_e++;
-		if (line[i - 1] != ' ')
-			break;
-		i--;
-	}
-	res = malloc((ft_strlen(line) - count_s - count_e +1) * sizeof(char));
-	if (res == NULL)
-		exit(0);
-	i = count_s;
-	while (i < (int)ft_strlen(line) - count_e - count_s)
-	{
-		res[j] = line[i];
-		j++;
-		i++;
-	}
-	res[j] = '\0';
-	return (res);
-}
- */
-
-/* char	*getword(t_list **raw, char *search)
-{
-	int i;
-	int	pos;
-	char	*str;
-
-	i = 0;
-	pos = getposition(*raw, search);
-	if (pos == -1)
-		pos = size_stack(*raw);
-	str = malloc((pos +1)* sizeof(char));
-	while (i < pos)
-	{
-		str[i] = *pop(raw);
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-} */
 
 char	*delimitateur(t_list **raw)
 {//modifiee
@@ -161,6 +86,35 @@ char	*getpath(t_list **raw)
 	str[i] = '\0';
 	return (str);
 }
+/*
+t_dico	*getword_2(t_list **raw, char *search)
+{ //modifiee
+	int 	i;
+	int		pos;
+	char	*str;
+	char	*c_tmp;
+
+ //	t_dico	word;
+
+	i = 0;	
+	search = delimitateur(raw);
+	pos = getpos_c(*raw, search);
+	if (pos == -1)
+		pos = size_stack(*raw);
+	str = malloc((pos +1)* sizeof(char));
+	while (i < pos)
+	{
+		c_tmp = pop(raw);
+		str[i] = *c_tmp;
+		free(c_tmp);
+		i++;
+	}
+	if (size_stack(*raw) !=  0)
+		remove_pos_c(raw,0);
+	str[i] = '\0';
+	return (word);
+} */
+
 
 char	*getword1(t_list **raw, char *search)
 { //modifiee
