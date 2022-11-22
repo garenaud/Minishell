@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:29:00 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/21 13:39:52 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/21 15:07:33 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*getpath(t_list **raw)
 	str[i] = '\0';
 	return (str);
 }
-/*
+
 t_dico	*getword_2(t_list **raw, char *search)
 { //modifiee
 	int 	i;
@@ -94,7 +94,7 @@ t_dico	*getword_2(t_list **raw, char *search)
 	char	*str;
 	char	*c_tmp;
 
- //	t_dico	word;
+ 	t_dico	*word;
 
 	i = 0;	
 	search = delimitateur(raw);
@@ -102,6 +102,7 @@ t_dico	*getword_2(t_list **raw, char *search)
 	if (pos == -1)
 		pos = size_stack(*raw);
 	str = malloc((pos +1)* sizeof(char));
+	word = malloc(sizeof(t_dico));
 	while (i < pos)
 	{
 		c_tmp = pop(raw);
@@ -112,8 +113,11 @@ t_dico	*getword_2(t_list **raw, char *search)
 	if (size_stack(*raw) !=  0)
 		remove_pos_c(raw,0);
 	str[i] = '\0';
+	word->next = NULL;
+	word->value = str;
+	word->key = ft_strdup(search);
 	return (word);
-} */
+}
 
 
 char	*getword1(t_list **raw, char *search)

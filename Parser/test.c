@@ -192,6 +192,71 @@ void	check_quote_1(t_parser *p)
 	printf(PURP);
 	printll_dico(p->check);
 	printf(ENDC);
+}
 
+void test_dico(t_parser p, char **env)
+{
+	int	index;
+	create_dico_list(&p.dico, env);
+	printll_dico(p.dico);
+	index = get_key(p.dico, "CPPFLAGS");
+	p.dico_tmp = getitem_dico(p.dico, index);
+	printf("\n\n\n");
+	
+	printll_dico(p.dico_tmp);
+	delete_dico(&p.dico_tmp);
+	remove_pos_dico(&p.dico, index);
+	
+	printf("%p\n", p.dico);
+	printll_dico(p.dico); 
+	delete_dico(&p.dico);
+}
 
+void	test_env_list(t_parser p, char **env)
+{
+	create_env_list(&p.struct_path.env_list, env);
+	delete(&p.struct_path.env_list);
+}
+
+void	get_path(t_parser *p, char **env)
+{
+	char	*tmp;
+	
+	p->struct_path.path = path_list(env);
+	create_raw_list(&p->struct_path.path_raw, p->struct_path.path);
+	p->struct_path.path_raw = reverse(&p->struct_path.path_raw);
+	while (size_stack(p->struct_path.path_raw ))
+	{
+		trim_list(&p->struct_path.path_raw);
+		tmp = getpath(&p->struct_path.path_raw);
+		if (ft_strncmp(tmp,"", 1))
+		{
+			push(&p->struct_path.split_path, tmp);
+			free(tmp);
+		}
+		else
+			free(tmp);
+	}
+	p->struct_path.split_path = reverse(&p->struct_path.split_path);
+	printll(p->struct_path.split_path);
+}
+
+void	get_word_list(t_parser p)
+{// copie de la 1ere version
+	while (size_stack(p.raw ))
+	 	{
+			trim_list(&p.raw);
+			p.tmp = getword1(&p.raw, " ");
+			if (ft_strncmp(p.tmp,"", 1))
+			{
+				push(&p.word,p.tmp);
+				free(p.tmp);
+			}
+			else
+			{
+				printf("tmp vide= [%s]\n", p.tmp);
+				free(p.tmp);
+			}
+		}
+		p.word = reverse(&p.word);
 }

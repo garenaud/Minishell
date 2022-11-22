@@ -174,6 +174,7 @@ t_dico	*reverse_dico(t_dico **top)
 		push_dico(&tmp, c_tmp->key, c_tmp->value);
 	 	free(c_tmp->key);
         free(c_tmp->value); 
+		free(c_tmp);//
 	//	delete_dico(&c_tmp);
 	}
 	return (tmp);

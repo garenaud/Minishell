@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/21 12:12:56 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/21 16:34:09 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ void		init_parsing_list_c(t_parser *p);
 void    	add_space(t_parser *p);
 void		check_quote_1(t_parser *p);
 void    	delete_parsing_list_c(t_parser *p);
-
+t_dico		*getword_2(t_list **raw, char *search);
+void		get_path(t_parser *p, char **env);
 
 #endif
