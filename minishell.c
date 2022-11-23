@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/21 17:10:49 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/23 17:08:20 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,13 @@
 
 int main(int argc, char *argv[], char *env[])
 {
-	t_list		*test;
-	t_list		*testw; 
-// ajout
-	t_dico		*word;
-	t_dico		*word_tmp;
-	word_tmp = NULL;
-	word = NULL;
-	
-	testw = NULL;
-	test = NULL;
-
-	char		*tmp1;
-	
-	t_parser	p;
-	tmp1 = NULL;
-
-	init_pgrm(&p, env);	
-	get_path(&p, env);
-
-
 	(void)argc;
-	(void)argv;
+	(void)argv;	
+	t_parser	p;
+
+
+//	init_pgrm(&p, env);	
+//	get_path(&p, env);
 	p.line = NULL;
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
@@ -43,74 +28,58 @@ int main(int argc, char *argv[], char *env[])
 	
 	while ((p.line =readline("mini-->")))
 	{
-		signal(SIGINT, sig_handler);
-// 		init_pgrm(&p, env);
-		if (strcmp(p.line,"quit") == 0)
-		{
-			free_parsing(&p);
+		if (readline_manager(&p) == 1)
 			break ;
-		}
-		if (strcmp(p.line,"") == 0)
-		{
-        	rl_on_new_line();// recree le prompt sur la nvlle ligne
-        	rl_replace_line("", 0);// efface l'ancien contenu
-      		rl_redisplay();// et affiche
-		}
-		if (strcmp(p.line,"clear") == 0)
-			rl_clear_history();
-		if (strlen(p.line) > 0)
-			add_history(p.line);
-	
+		init_pgrm(&p, env);	
+		get_path(&p, env);
 		create_raw_list(&p.raw, p.line);
 		p.raw = reverse(&p.raw);
 		init_parsing_list_c(&p);//****************
 		//check_quote_1(&p); // leak
-		printf(GREEN);
+		/* printf(GREEN);
 		printll(p.raw);
-		//add_space(&p);//***************
+		//add_space(&p);//
 		printll(p.raw);
-		printf(ENDC);
+		printf(ENDC); */
 		delete_parsing_list_c(&p);
 		trim_list(&p.raw);// sinon segfault
+		
 		while (size_stack(p.raw ))
 		{
 			trim_list(&p.raw);
-			word_tmp = getword_2(&p.raw, " ");
-			if (ft_strncmp(word_tmp->value,"", 1))
+			p.cmd_d_tmp = getword_2(&p.raw, " ");
+			if (ft_strncmp(p.cmd_d_tmp->value, "", 1))
 			{
-				push_dico(&word,word_tmp->key, word_tmp->value);
-				delete_dico(&word_tmp);
-				free(word_tmp);
+				push_dico(&p.cmd_d, p.cmd_d_tmp->key, p.cmd_d_tmp->value);
+				delete_dico(&p.cmd_d_tmp);
+				free(p.cmd_d_tmp);
 			}
 			else
 			{
-				printf("tmp vide= [%s]\n", word_tmp->value);
-				delete_dico(&word_tmp);
-				free(word_tmp);
+				printf("tmp vide= [%s]\n", p.cmd_d_tmp->value);
+				delete_dico(&p.cmd_d_tmp);
+				free(p.cmd_d_tmp);
 			}
-			free(word_tmp);
+			free(p.cmd_d_tmp);
 		}
 
-		word = reverse_dico(&word);
-		printf(RED);
-		printf("dico word\n");
-		printll_dico(word);
-		printf(ENDC);
-
+		p.cmd_d = reverse_dico(&p.cmd_d);
+	 	printf(RED);
+	 	printf("dico p.cmd_d\n");
+	 	printll_dico(p.cmd_d);
+	 	printf(ENDC);
+ 
 		//init_parsing_list(&p);
-
-	 	if (p.word)
+		// modif vv
+	 	if (p.cmd_d)
 		{
-			create_path_access(test, &p);
+			create_path_access( &p);
 			printll(p.struct_cmd.cmd);
 		}
-		printf(GREEN);
+		/* printf(GREEN);
 		printll(p.word);
-		printf(ENDC);
-		delete(&test);//
+		printf(ENDC); */
 	
-		delete(&testw);
-		free(tmp1);
 		delete(&p.word);
 		delete(&p.raw);
 		delete_int(&p.dquote);
@@ -120,14 +89,14 @@ int main(int argc, char *argv[], char *env[])
 		delete(&p.struct_path.split_path);	 
 		delete(&p.struct_path.path_raw);
 		delete(&p.struct_cmd.cmd);
-		delete_dico(&word);
-		free(word);
+		delete_dico(&p.cmd_d);
+		free(p.cmd_d);
 	}
 	printf(RED"----------------- sortie prgm ----------------\n"ENDC);
 	delete(&p.struct_path.split_path);	 
 	delete(&p.struct_path.path_raw);
 	delete(&p.struct_cmd.cmd);
-	delete_dico(&word);
-	free(word);
+	delete_dico(&p.cmd_d);
+	free(p.cmd_d);
 	return (0);
 }

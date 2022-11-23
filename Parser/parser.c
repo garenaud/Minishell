@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:29:00 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/21 15:07:33 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/23 15:07:25 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,26 @@ char	*getword1(t_list **raw, char *search)
 	return (str);
 }
 
+char	*getall(t_list **raw)
+{
+	int 	i;
+	int		pos;
+	char	*str;
+	char	*c_tmp;
+
+	i = 0;	
+	pos = size_stack(*raw);
+	str = malloc((pos +1)* sizeof(char));
+	while (i < pos)
+	{
+		c_tmp = pop(raw);
+		str[i] = *c_tmp;
+		free(c_tmp);
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
 
 void	create_raw_list(t_list **str, char *line)
 {// ok

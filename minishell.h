@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/21 16:34:09 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/23 15:08:05 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ typedef struct s_parser
 	t_dico		*dico;
 	t_dico		*dico_tmp;
 	t_dico		*check;
+	t_dico		*cmd_d_tmp;
+	t_dico		*cmd_d;
 	char   		*line;
 	char		*tmp;
 	char		**env;
@@ -187,12 +189,13 @@ void		create_dico_list(t_dico **dico, char *env[]);
 void		printll_dico(t_dico *dico);
 void		check_quote(t_parser *p);
 
-void		create_path_access(t_list *path, t_parser *p);
+void		create_path_access(t_parser *p);
 void		init_parsing_list_c(t_parser *p);
 void    	add_space(t_parser *p);
 void		check_quote_1(t_parser *p);
 void    	delete_parsing_list_c(t_parser *p);
 t_dico		*getword_2(t_list **raw, char *search);
 void		get_path(t_parser *p, char **env);
-
+int 		readline_manager(t_parser *p);
+char		*getall(t_list **raw);
 #endif
