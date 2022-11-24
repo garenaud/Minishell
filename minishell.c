@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/23 17:08:20 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/24 14:30:56 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int main(int argc, char *argv[], char *env[])
 		create_raw_list(&p.raw, p.line);
 		p.raw = reverse(&p.raw);
 		init_parsing_list_c(&p);//****************
-		//check_quote_1(&p); // leak
+		
 		/* printf(GREEN);
 		printll(p.raw);
 		//add_space(&p);//
@@ -43,14 +43,16 @@ int main(int argc, char *argv[], char *env[])
 		printf(ENDC); */
 		delete_parsing_list_c(&p);
 		trim_list(&p.raw);// sinon segfault
-		
+        check_quote_3(&p);
+        //check_quote_1(&p); // leak
+		// traitement de la raw_list
 		while (size_stack(p.raw ))
 		{
 			trim_list(&p.raw);
 			p.cmd_d_tmp = getword_2(&p.raw, " ");
 			if (ft_strncmp(p.cmd_d_tmp->value, "", 1))
 			{
-				push_dico(&p.cmd_d, p.cmd_d_tmp->key, p.cmd_d_tmp->value);
+			    push_dico(&p.cmd_d, p.cmd_d_tmp->key, p.cmd_d_tmp->value);
 				delete_dico(&p.cmd_d_tmp);
 				free(p.cmd_d_tmp);
 			}

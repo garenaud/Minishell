@@ -6,7 +6,7 @@
 #    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/11/23 11:38:20 by jsollett         ###   ########.fr        #
+#    Updated: 2022/11/24 11:30:36 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/test.c \
 			Parser/dico.c \
 			Parser/path.c \
+			Parser/parser_util.c \
 			minishell.c 
 
 

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/23 15:08:05 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/24 14:04:04 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,45 +157,54 @@ void		trim_list(t_list **str);
 char		*delimitateur(t_list **raw);
 //char		*getword(t_list **raw, char *search);
 char		*getword1(t_list **raw,  char *search);
+char		*getall(t_list **raw);
 void		create_raw_list(t_list **str, char *line);
 void		create_quote_list(t_list **str, t_list_i **pos, char *search);
 void		inclusion(t_list_i **sq, t_list_i **dq, int s_index, int d_index);
 char		*getpath(t_list **raw);
 void		init_parsing_list(t_parser *p);
-
+void		init_parsing_list_c(t_parser *p);
+void    	delete_parsing_list_c(t_parser *p);
+// ajout
+void		trim_list_c(t_list **str, char *s);
 
 // signal
 void	    sig_handler(int signum);
+int 		readline_manager(t_parser *p);
 
 // utilitaire
 void		init_pgrm(t_parser *p, char *env[]);
 void    	free_parsing(t_parser *p);
 
-// test
-char    	*path_list(char *env[]);
-void    	create_env_list(t_list **env_list, char *env[]);
+// dico
+
 void		push_dico(t_dico **top, char *key, char *value);
 t_dico		*pop_dico(t_dico **top);
 void		delete_dico(t_dico **top);
 size_t		size_stack_dico(t_dico *top);
 int			get_key(t_dico *top, char *item);
 int			get_value(t_dico *top, char *item);
-
 int			remove_pos_dico(t_dico **top, size_t pos);
 int			transfer_dico(t_dico **start, t_dico **end);
 t_dico		*reverse_dico(t_dico **top);
 t_dico		*getitem_dico(t_dico *top, size_t pos);
 void		create_dico_list(t_dico **dico, char *env[]);
 void		printll_dico(t_dico *dico);
-void		check_quote(t_parser *p);
+t_dico		*getword_2(t_list **raw, char *search);
 
+// env + path
+void		check_quote(t_parser *p);
+char    	*path_list(char *env[]);
+void    	create_env_list(t_list **env_list, char *env[]);
 void		create_path_access(t_parser *p);
-void		init_parsing_list_c(t_parser *p);
+void		get_path(t_parser *p, char **env);
+
+// test
 void    	add_space(t_parser *p);
 void		check_quote_1(t_parser *p);
-void    	delete_parsing_list_c(t_parser *p);
-t_dico		*getword_2(t_list **raw, char *search);
-void		get_path(t_parser *p, char **env);
-int 		readline_manager(t_parser *p);
-char		*getall(t_list **raw);
+void        check_quote_3(t_parser *p);
+void        remove_successive_key(t_parser *p);
+
+
+
 #endif

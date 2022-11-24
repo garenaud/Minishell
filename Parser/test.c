@@ -15,7 +15,7 @@ char    *path_list(char *env[])
 			return (env[i] + 5);
 		i++;
 	}
-    return (NULL);
+	return (NULL);
 }
 
 void    create_env_list(t_list **env_list, char *env[])
@@ -98,6 +98,148 @@ void	printll_dico(t_dico *dico)
 	}
 }
  */
+
+
+
+void    check_quote_3(t_parser *p)
+{
+	int     index;
+	char    *c_tmp;
+	char    *c_tmp1;
+	t_list  *raw_tmp;
+	int     flag;
+	int     position;
+
+	index = 0;
+	c_tmp = NULL;
+	c_tmp1 = NULL;
+	raw_tmp = NULL;
+	flag = 0;
+	printf(GREEN);
+	printll(p->raw);
+	while (size_stack(p->raw))
+	{
+		c_tmp = pop(&p->raw);
+		if (flag == 0 && ft_strncmp(c_tmp, "\"", 1) == 0)
+		{
+			flag = 2;
+			// a proteger
+			position = -pop_int(&p->dquote) + pop_int(&p->dquote) - 1;//
+			free(c_tmp);
+			while (position)
+			{
+				c_tmp = pop(&p->raw);
+				push(&raw_tmp, c_tmp);
+				if (ft_strncmp(c_tmp, "\'", 1) == 0)
+					pop_int(&p->squote);
+				free(c_tmp);
+				position--;
+			}
+			remove_pos_c(&p->raw, 0);
+			flag = 0;
+		}
+		else
+		if (flag == 0 && ft_strncmp(c_tmp, "\'", 1) == 0)
+		{
+			flag = 1;
+			position = -pop_int(&p->squote) + pop_int(&p->squote) - 1;//
+			free(c_tmp);
+			while (position)
+			{
+				c_tmp = pop(&p->raw);
+				push(&raw_tmp, c_tmp);
+				if (ft_strncmp(c_tmp, "\"", 1) == 0)
+					pop_int(&p->dquote);
+				free(c_tmp);
+				position--;
+			}
+			remove_pos_c(&p->raw, 0);
+			flag = 0;
+		}
+		else
+		if (flag == 0 && ft_strncmp(c_tmp, " ", 1) == 0)
+		{// ATTN
+			flag = 2;
+			// a proteger
+			push(&raw_tmp, c_tmp);
+			free(c_tmp);
+			
+			while (ft_strncmp(getitem_c(p->raw, 0), " ", 1) == 0)
+			{
+				remove_pos_c(&p->raw, 0);
+			}
+
+			flag = 0;
+		}
+		else
+		{
+			flag = 0;
+			if (ft_strncmp(c_tmp, "|", 1) == 0)
+				{
+					push(&raw_tmp, " ");
+					push(&raw_tmp, c_tmp);
+					push(&raw_tmp, " ");
+					free(c_tmp);
+					continue ;
+				}
+			if (ft_strncmp(c_tmp, ">", 1) == 0)  
+				{
+					if (ft_strncmp(getitem_c(p->raw, 0), ">", 1) == 0 )
+					{
+						c_tmp1 = pop(&p->raw);
+						push(&raw_tmp, " ");
+						push(&raw_tmp, c_tmp);
+						push(&raw_tmp, c_tmp1);
+						push(&raw_tmp, " ");
+						free(c_tmp);
+						free(c_tmp1);
+						continue ;
+					}
+					else
+					if (ft_strncmp(getitem_c(p->raw, 0), ">", 1) != 0 )
+					{
+						push(&raw_tmp, " ");
+						push(&raw_tmp, c_tmp);
+						push(&raw_tmp, " ");
+						free(c_tmp);
+						continue ;
+					}
+				}
+		   if (ft_strncmp(c_tmp, "<", 1) == 0)  
+				{
+					if (ft_strncmp(getitem_c(p->raw, 0), "<", 1) == 0 )
+					{
+						c_tmp1 = pop(&p->raw);
+						push(&raw_tmp, " ");
+						push(&raw_tmp, c_tmp);
+						push(&raw_tmp, c_tmp1);
+						push(&raw_tmp, " ");
+						free(c_tmp);
+						free(c_tmp1);
+						continue ;
+					}
+					else
+					if (ft_strncmp(getitem_c(p->raw, 0), "<", 1) != 0 )
+					{
+						push(&raw_tmp, " ");
+						push(&raw_tmp, c_tmp);
+						push(&raw_tmp, " ");
+						free(c_tmp);
+						continue ;
+					}
+				}
+			push(&raw_tmp, c_tmp);
+			free(c_tmp);
+		}
+	}
+	p->raw = reverse(&raw_tmp);
+	printf(YEL);
+	printll(p->raw);
+	printf(RED);
+	printll(raw_tmp);
+	printf(ENDC);
+	delete(&raw_tmp);
+}
 
 void	check_quote_1(t_parser *p)
 {

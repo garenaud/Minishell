@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:29:00 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/23 15:07:25 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/24 10:48:41 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ void	trim_list(t_list **str)
 		remove_pos_c(str, size_stack(*str) -1 );
 }
 
+void	trim_list_c(t_list **str, char *s)
+{
+	while (size_stack(*str) && ft_strncmp(getitem_c(*str, 0), s,1) == 0)
+		remove_pos_c(str, 0);
+	while (size_stack(*str) && ft_strncmp(getitem_c(*str, size_stack(*str) - 1), s, 1) == 0)
+		remove_pos_c(str, size_stack(*str) -1 );
+}
 
 char	*delimitateur(t_list **raw)
 {//modifiee
