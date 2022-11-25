@@ -107,10 +107,12 @@ void    check_quote_3(t_parser *p)
 	char    *c_tmp;
 	char    *c_tmp1;
 	t_list  *raw_tmp;
+    t_list  *no_quote;
 	int     flag;
 	int     position;
 
 	index = 0;
+    no_quote = NULL;
 	c_tmp = NULL;
 	c_tmp1 = NULL;
 	raw_tmp = NULL;
@@ -125,11 +127,14 @@ void    check_quote_3(t_parser *p)
 			flag = 2;
 			// a proteger
 			position = -pop_int(&p->dquote) + pop_int(&p->dquote) - 1;//
-			free(c_tmp);
+		//	push_int(&p->word_len, position);//
+           // push_int(&p->flag, flag);//
+            free(c_tmp);
 			while (position)
 			{
 				c_tmp = pop(&p->raw);
 				push(&raw_tmp, c_tmp);
+                push_int(&p->flag, 2);//
 				if (ft_strncmp(c_tmp, "\'", 1) == 0)
 					pop_int(&p->squote);
 				free(c_tmp);
@@ -137,17 +142,27 @@ void    check_quote_3(t_parser *p)
 			}
 			remove_pos_c(&p->raw, 0);
 			flag = 0;
+            /* // ajout pb egv
+
+                raw_tmp = reverse(&raw_tmp);
+                c_tmp = getall(&raw_tmp);// efface raw_tmp
+                push_dico(&p->cmd_d, "2", c_tmp);
+                free(c_tmp);
+            // */
 		}
 		else
 		if (flag == 0 && ft_strncmp(c_tmp, "\'", 1) == 0)
 		{
 			flag = 1;
-			position = -pop_int(&p->squote) + pop_int(&p->squote) - 1;//
-			free(c_tmp);
+			position = -pop_int(&p->squote) + pop_int(&p->squote) - 1;
+		//	push_int(&p->word_len, position);//
+          //  push_int(&p->flag, flag);//
+            free(c_tmp);
 			while (position)
 			{
 				c_tmp = pop(&p->raw);
 				push(&raw_tmp, c_tmp);
+                push_int(&p->flag, 1);//
 				if (ft_strncmp(c_tmp, "\"", 1) == 0)
 					pop_int(&p->dquote);
 				free(c_tmp);
@@ -162,6 +177,7 @@ void    check_quote_3(t_parser *p)
 			flag = 2;
 			// a proteger
 			push(&raw_tmp, c_tmp);
+            push_int(&p->flag, 0);
 			free(c_tmp);
 			
 			while (ft_strncmp(getitem_c(p->raw, 0), " ", 1) == 0)
@@ -177,8 +193,11 @@ void    check_quote_3(t_parser *p)
 			if (ft_strncmp(c_tmp, "|", 1) == 0)
 				{
 					push(&raw_tmp, " ");
+                    push_int(&p->flag, 0);
 					push(&raw_tmp, c_tmp);
+                    push_int(&p->flag, 0);
 					push(&raw_tmp, " ");
+                    push_int(&p->flag, 0);
 					free(c_tmp);
 					continue ;
 				}
@@ -188,9 +207,13 @@ void    check_quote_3(t_parser *p)
 					{
 						c_tmp1 = pop(&p->raw);
 						push(&raw_tmp, " ");
+                        push_int(&p->flag, 0);
 						push(&raw_tmp, c_tmp);
+                        push_int(&p->flag, 0);
 						push(&raw_tmp, c_tmp1);
+                        push_int(&p->flag, 0);
 						push(&raw_tmp, " ");
+                        push_int(&p->flag, 0);
 						free(c_tmp);
 						free(c_tmp1);
 						continue ;
@@ -199,21 +222,28 @@ void    check_quote_3(t_parser *p)
 					if (ft_strncmp(getitem_c(p->raw, 0), ">", 1) != 0 )
 					{
 						push(&raw_tmp, " ");
+                        push_int(&p->flag, 0);
 						push(&raw_tmp, c_tmp);
+                        push_int(&p->flag, 0);
 						push(&raw_tmp, " ");
+                        push_int(&p->flag, 0);
 						free(c_tmp);
 						continue ;
 					}
 				}
-		   if (ft_strncmp(c_tmp, "<", 1) == 0)  
+	        if (ft_strncmp(c_tmp, "<", 1) == 0)  
 				{
 					if (ft_strncmp(getitem_c(p->raw, 0), "<", 1) == 0 )
 					{
 						c_tmp1 = pop(&p->raw);
 						push(&raw_tmp, " ");
+                        push_int(&p->flag, 0);
 						push(&raw_tmp, c_tmp);
+                        push_int(&p->flag, 0);
 						push(&raw_tmp, c_tmp1);
+                        push_int(&p->flag, 0);
 						push(&raw_tmp, " ");
+                        push_int(&p->flag, 0);
 						free(c_tmp);
 						free(c_tmp1);
 						continue ;
@@ -222,21 +252,29 @@ void    check_quote_3(t_parser *p)
 					if (ft_strncmp(getitem_c(p->raw, 0), "<", 1) != 0 )
 					{
 						push(&raw_tmp, " ");
+                        push_int(&p->flag, 0);
 						push(&raw_tmp, c_tmp);
+                        push_int(&p->flag, 0);
 						push(&raw_tmp, " ");
+                        push_int(&p->flag, 0);
 						free(c_tmp);
 						continue ;
 					}
 				}
 			push(&raw_tmp, c_tmp);
+            push_int(&p->flag, 0);
 			free(c_tmp);
 		}
 	}
 	p->raw = reverse(&raw_tmp);
+    p->flag = reverse_int(&p->flag);
+    if (size_stack(p->raw) == size_stack_int(p->flag))
+        printf("ok\n");
+    else
+        printf("ko\n");
 	printf(YEL);
-	printll(p->raw);
-	printf(RED);
-	printll(raw_tmp);
+    print_ic(p->flag, p->raw);
+	//printll(raw_tmp);
 	printf(ENDC);
 	delete(&raw_tmp);
 }

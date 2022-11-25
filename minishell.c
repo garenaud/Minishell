@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/24 14:30:56 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:22:50 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,31 +25,89 @@ int main(int argc, char *argv[], char *env[])
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 	rl_catch_signals = 0;
-	
+	init_pgrm(&p, env);	// ne pas le deplacer
 	while ((p.line =readline("mini-->")))
 	{
-		if (readline_manager(&p) == 1)
-			break ;
 		init_pgrm(&p, env);	
 		get_path(&p, env);
+        if (readline_manager(&p) == 1)
+			break ;
+		/* init_pgrm(&p, env);	
+		get_path(&p, env); */
 		create_raw_list(&p.raw, p.line);
 		p.raw = reverse(&p.raw);
 		init_parsing_list_c(&p);//****************
-		
-		/* printf(GREEN);
-		printll(p.raw);
+
 		//add_space(&p);//
-		printll(p.raw);
-		printf(ENDC); */
+
 		delete_parsing_list_c(&p);
 		trim_list(&p.raw);// sinon segfault
         check_quote_3(&p);
+        //
+        t_dico  *test;
+        int i1 = 0;
+        int i2 = 0;
+        char    *w_tmp;
+        char    *key;
+        t_list  *ext;
+        test = NULL;
+        ext = NULL;
+        //
+        //
+        while (size_stack(p.raw) && size_stack_int(p.flag))
+        {
+            i1 = pop_int(&p.flag);
+            w_tmp = pop(&p.raw);
+            push(&ext, w_tmp);
+            free(w_tmp);
+            while (size_stack(p.raw) && size_stack_int(p.flag))
+            {// a mettre condition pour separer suivant space
+                i2 = getitem_int(p.flag, 0);
+                 pop_int(&p.flag);
+                w_tmp = pop(&p.raw);
+                push(&ext, w_tmp);
+                    //free(w_tmp);
+                if ((i2 != i1) || (i1 == 0 && ft_strncmp(w_tmp, " ", 1) == 0) || size_stack(p.raw) == 0)
+                {
+                    if (i1 == 0)
+                        key = "0";
+                    if (i1 == 1)
+                        key = "1";
+                    if (i1 == 2)
+                        key = "2";    
+                    ext = reverse(&ext);
+                    free(w_tmp);
+                    w_tmp = getall(&ext);
+                    delete(&ext);
+                    push_dico(&test, key, w_tmp);
+                    free(w_tmp);
+                    break ;
+                }
+                free(w_tmp);
+            /*     else
+                {
+                    pop_int(&p.flag);
+                    w_tmp = pop(&p.raw);
+                    push(&ext, w_tmp);
+                    free(w_tmp);
+                }        */         
+            }
+        }
+        test = reverse_dico(&test);
+        printf(RED);
+        printll_dico(test);
+        printf(ENDC);
+        delete_dico(&test);
+        
+        
+        
+        //
         //check_quote_1(&p); // leak
 		// traitement de la raw_list
 		while (size_stack(p.raw ))
 		{
 			trim_list(&p.raw);
-			p.cmd_d_tmp = getword_2(&p.raw, " ");
+			p.cmd_d_tmp = getword_2(&p.raw, " ");//
 			if (ft_strncmp(p.cmd_d_tmp->value, "", 1))
 			{
 			    push_dico(&p.cmd_d, p.cmd_d_tmp->key, p.cmd_d_tmp->value);
@@ -93,6 +151,8 @@ int main(int argc, char *argv[], char *env[])
 		delete(&p.struct_cmd.cmd);
 		delete_dico(&p.cmd_d);
 		free(p.cmd_d);
+        // 
+        delete_int(&p.flag);
 	}
 	printf(RED"----------------- sortie prgm ----------------\n"ENDC);
 	delete(&p.struct_path.split_path);	 
@@ -100,5 +160,7 @@ int main(int argc, char *argv[], char *env[])
 	delete(&p.struct_cmd.cmd);
 	delete_dico(&p.cmd_d);
 	free(p.cmd_d);
+    //
+    delete_int(&p.flag);
 	return (0);
 }

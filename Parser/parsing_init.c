@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 11:38:04 by jsollett          #+#    #+#             */
-/*   Updated: 2022/11/23 12:02:17 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:41:43 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	init_pgrm(t_parser *p, char *env[])
     p->to_in_i = NULL;
     p->append_i = NULL;
     p->heredoc_i = NULL;
+    p->word_len = NULL;
+    p->flag = NULL;
     p->struct_path.path = NULL;
     p->struct_path.path_raw = NULL;
     p->struct_path.split_path = NULL;

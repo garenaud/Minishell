@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/24 14:04:04 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:29:49 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ typedef struct s_parser
 	t_list_i	*to_in_i;
 	t_list_i	*append_i;
 	t_list_i	*heredoc_i;
+    t_list_i    *word_len;
+    t_list_i    *flag;
 	t_dico		*dico;
 	t_dico		*dico_tmp;
 	t_dico		*check;
@@ -204,6 +206,7 @@ void    	add_space(t_parser *p);
 void		check_quote_1(t_parser *p);
 void        check_quote_3(t_parser *p);
 void        remove_successive_key(t_parser *p);
+void	    print_ic(t_list_i *lst_i, t_list *lst);
 
 
 
