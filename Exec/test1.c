@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:39:37 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/25 14:35:30 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:35:02 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ size_t	size_stack(t_list *top)
 	return (size);
 }
 
-void	pipe_cmd(char *cmd[], char *arg[], char *env[])
+void	pipe_cmd(char *cmd[], char *env[])
 {
 	int	status;
 	int	nb_pipes;
@@ -196,20 +196,20 @@ void	pipe_cmd(char *cmd[], char *arg[], char *env[])
 			if(cmd[i + 1] != NULL) //path_cmd->next
 				if(dup2(pipefds[j + 1], 1) < 0)
 				{
-					perror("dup 2 failed");
+					perror(GREEN"dup 2 failed"ENDC);
 					exit(EXIT_FAILURE);
 				}
 			if (j != 0)
 				if (dup2(pipefds[j-2], 0) < 0)
 				{
-					perror("dup 2 failed");
+					perror(RED"dup 2 failed"ENDC);
 					exit(EXIT_FAILURE);
 				}
 			i = 0;
 			while (i++ < 2 * nb_pipes)
 				close(pipefds[i]);
 		}
-		if (execve(&cmd[i][0], &arg[i], env) < 0)
+		if (execve(&cmd[i][0], &cmd[i], env) < 0)
 		{
 			perror(tmp_arg);
 			exit(EXIT_FAILURE);
@@ -230,9 +230,10 @@ int main(int argc, char *argv[], char *env[])
 {
     (void) argc;
 	(void) argv;
-	char *cmd[4]= {"/bin/ls", "/usr/bin/grep", "/usr/bin/wc", NULL};
-	char *arg[4]= {"-la", "mini", " ", NULL};
-	pipe_cmd(cmd, arg, env);
+	char *cmd[3][3]= {{"/bin/ls", "-la", NULL},
+			{"/usr/bin/grep", "mini", NULL},
+			{"/usr/bin/wc", " ", NULL}};
+	pipe_cmd(*cmd, env);
 	return(0);
 }
 
