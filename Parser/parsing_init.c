@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 11:38:04 by jsollett          #+#    #+#             */
-/*   Updated: 2022/11/25 11:41:43 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/28 11:38:57 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,20 @@ void	init_pgrm(t_parser *p, char *env[])
     p->struct_file.rwx = NULL;
     p->cmd_d = NULL;//
     p->cmd_d_tmp = NULL;//
+    init_util(p);
 }
 
+void    init_util(t_parser *p)
+{
+    p->util.flag = 0;
+    p->util.position = 0;
+    p->util.i1 = 0;
+    p->util.i2 = 0;
+    p->util.c_tmp = NULL;
+    p->util.c_tmp1 = NULL;
+    p->util.key = NULL;
+    p->util.tmp = NULL;    
+}
 void    free_parsing(t_parser *p)
 {
     delete(&p->word);

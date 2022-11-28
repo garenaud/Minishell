@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:11:07 by jsollett          #+#    #+#             */
-/*   Updated: 2022/11/23 16:43:10 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/28 16:58:38 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,13 @@ void	create_path_access(t_parser *p)
 			create_raw_list(&path_tmp, "/");
 		 	
 			d_tmp = getitem_dico(p->cmd_d, index_cmd);
-			create_raw_list(&path_tmp, d_tmp->value);
+            if (ft_strncmp(d_tmp->value, "", 1) == 0)// ajout 2811
+            {
+                delete(&path_tmp);
+                delete_dico(&d_tmp);
+                break ;
+            }
+            create_raw_list(&path_tmp, d_tmp->value);
 			//create_raw_list(&path_tmp, getitem_c(p->word, index_cmd));
 			// ^^
 			// modif vv

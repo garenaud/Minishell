@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/25 15:29:49 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:12:13 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,18 @@ typedef struct s_list_i
 
 // structure "dico"
 // version stack
+typedef struct s_util
+{
+    int     flag;
+    int     position;
+    int     i1;
+    int     i2;
+    char    *c_tmp;
+    char    *c_tmp1;
+    char    *key;
+    t_list  *tmp;
+}   t_util;
+
 
 typedef struct s_dico
 {
@@ -111,6 +123,7 @@ typedef struct s_parser
 	t_path		struct_path;
 	t_cmd		struct_cmd;
 	t_file		struct_file;
+    t_util      util;
 }	t_parser;
 
 
@@ -177,6 +190,7 @@ int 		readline_manager(t_parser *p);
 // utilitaire
 void		init_pgrm(t_parser *p, char *env[]);
 void    	free_parsing(t_parser *p);
+void        init_util(t_parser *p);
 
 // dico
 
@@ -207,7 +221,8 @@ void		check_quote_1(t_parser *p);
 void        check_quote_3(t_parser *p);
 void        remove_successive_key(t_parser *p);
 void	    print_ic(t_list_i *lst_i, t_list *lst);
-
-
-
+void        get_inside_dquote(t_parser *p);
+void        get_inside_squote(t_parser *p);
+void        get_inside_space(t_parser *p);
+void        create_parsing_dico(t_parser *p);
 #endif

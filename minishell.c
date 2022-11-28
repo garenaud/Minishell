@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/25 16:22:50 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:19:21 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,22 @@ int main(int argc, char *argv[], char *env[])
 		get_path(&p, env); */
 		create_raw_list(&p.raw, p.line);
 		p.raw = reverse(&p.raw);
-		init_parsing_list_c(&p);//****************
-
-		//add_space(&p);//
-
+    	init_parsing_list_c(&p);
 		delete_parsing_list_c(&p);
 		trim_list(&p.raw);// sinon segfault
         check_quote_3(&p);
         //
-        t_dico  *test;
+  /*       t_dico  *test;
         int i1 = 0;
         int i2 = 0;
         char    *w_tmp;
         char    *key;
         t_list  *ext;
         test = NULL;
-        ext = NULL;
+        ext = NULL; */
         //
         //
-        while (size_stack(p.raw) && size_stack_int(p.flag))
+/*         while (size_stack(p.raw) && size_stack_int(p.flag))
         {
             i1 = pop_int(&p.flag);
             w_tmp = pop(&p.raw);
@@ -63,10 +60,9 @@ int main(int argc, char *argv[], char *env[])
             while (size_stack(p.raw) && size_stack_int(p.flag))
             {// a mettre condition pour separer suivant space
                 i2 = getitem_int(p.flag, 0);
-                 pop_int(&p.flag);
+                pop_int(&p.flag);
                 w_tmp = pop(&p.raw);
                 push(&ext, w_tmp);
-                    //free(w_tmp);
                 if ((i2 != i1) || (i1 == 0 && ft_strncmp(w_tmp, " ", 1) == 0) || size_stack(p.raw) == 0)
                 {
                     if (i1 == 0)
@@ -74,33 +70,38 @@ int main(int argc, char *argv[], char *env[])
                     if (i1 == 1)
                         key = "1";
                     if (i1 == 2)
-                        key = "2";    
+                        key = "2";
+                    
+                    if (size_stack(p.raw))
+                    {// debug ok
+                        free(w_tmp);
+                        w_tmp = pop(&ext);
+                        push(&p.raw,w_tmp);// leak
+                        push_int(&p.flag, i2);// leak
+                        free(w_tmp);
+                    }
+                    else
+                        free(w_tmp);
                     ext = reverse(&ext);
-                    free(w_tmp);
+                   // free(w_tmp);//
                     w_tmp = getall(&ext);
                     delete(&ext);
                     push_dico(&test, key, w_tmp);
                     free(w_tmp);
                     break ;
                 }
-                free(w_tmp);
-            /*     else
-                {
-                    pop_int(&p.flag);
-                    w_tmp = pop(&p.raw);
-                    push(&ext, w_tmp);
-                    free(w_tmp);
-                }        */         
+                free(w_tmp); 
             }
         }
         test = reverse_dico(&test);
         printf(RED);
         printll_dico(test);
         printf(ENDC);
-        delete_dico(&test);
+        delete_dico(&test); */
         
+        create_parsing_dico(&p);
         
-        
+       /*  
         //
         //check_quote_1(&p); // leak
 		// traitement de la raw_list
@@ -122,12 +123,12 @@ int main(int argc, char *argv[], char *env[])
 			}
 			free(p.cmd_d_tmp);
 		}
-
-		p.cmd_d = reverse_dico(&p.cmd_d);
+ */
+/* 		p.cmd_d = reverse_dico(&p.cmd_d);
 	 	printf(RED);
 	 	printf("dico p.cmd_d\n");
 	 	printll_dico(p.cmd_d);
-	 	printf(ENDC);
+	 	printf(ENDC); */
  
 		//init_parsing_list(&p);
 		// modif vv
