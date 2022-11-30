@@ -110,7 +110,7 @@ void    get_inside_dquote(t_parser *p)
 		p->util.c_tmp = pop(&p->raw);
 		push(&p->util.tmp,  p->util.c_tmp);
         push_int(&p->flag, 2);
-		if (ft_strncmp( p->util.c_tmp, "\"", 1) == 0)
+		if (ft_strncmp( p->util.c_tmp, "\'", 1) == 0) // ??? avant "
 			pop_int(&p->squote);
 		free(p->util.c_tmp);
 		p->util.position--;
@@ -135,7 +135,7 @@ void    get_inside_squote(t_parser *p)
 	    	p->util.c_tmp = pop(&p->raw);
 		    push(&p->util.tmp,  p->util.c_tmp);
             push_int(&p->flag, 1);
-		    if (ft_strncmp( p->util.c_tmp, "\'", 1) == 0)
+		    if (ft_strncmp( p->util.c_tmp, "\"", 1) == 0)// ??? ' avant
 			    pop_int(&p->dquote);
 		    free(p->util.c_tmp);
 		    p->util.position--;
@@ -150,10 +150,55 @@ void    get_inside_squote(t_parser *p)
 
 }
 
+void    clean_dico(t_parser *p)
+{// foire
+    t_list      *raw_tmp;
+    t_list_i    *flag_tmp;
+    char        *tmp;
+    int         flag;
+
+    raw_tmp = NULL;
+    flag_tmp = NULL;
+    while(size_stack(p->raw))
+    {
+ /*        tmp = pop(&p->raw);
+        push(&raw_tmp, tmp);
+        free(tmp);
+        flag = pop_int(&p->flag);
+        push_int(&flag_tmp, flag); */
+        if (getitem_int(p->flag, 0) == 32)
+        {
+            tmp = pop(&p->raw);
+            push(&raw_tmp, tmp);
+            free(tmp);
+            flag = pop_int(&p->flag);
+            push_int(&flag_tmp, flag);
+            while(getitem_int(p->flag, 0) == 32)
+            {
+                remove_position_int(&p->flag,0);
+                remove_pos_c(&p->raw,0);
+            }
+        }
+        else
+        {
+            tmp = pop(&p->raw);
+            push(&raw_tmp, tmp);
+            free(tmp);
+            flag = pop_int(&p->flag);
+            push_int(&flag_tmp, flag);
+        }
+    }
+    p->raw = reverse(&raw_tmp);
+    p->flag = reverse_int(&flag_tmp);
+    printf(PURP"\n");
+    print_ic(p->flag, p->raw);
+    printf(ENDC);
+}
+
 void    get_inside_space(t_parser *p)
 {
 	push(&p->util.tmp,  p->util.c_tmp);
-    push_int(&p->flag, 0);
+    push_int(&p->flag, 32);// avant 0
 	free( p->util.c_tmp);	
 	while (ft_strncmp(getitem_c(p->raw, 0), " ", 1) == 0)
 	{
@@ -161,25 +206,26 @@ void    get_inside_space(t_parser *p)
 	}
 }
 
+// les flag space etaient a 0 puis -1 -><- getitem
 void    add_space_pipe(t_parser *p)
 {
     push(&p->util.tmp, " ");
-    push_int(&p->flag, 0);
+    push_int(&p->flag, 32);
 	push(&p->util.tmp,  p->util.c_tmp);
     push_int(&p->flag, 3);// 0 avant
 	push(&p->util.tmp, " ");
-    push_int(&p->flag, 0);
+    push_int(&p->flag, 32);
 	free( p->util.c_tmp);
 }
 
 void    add_space_flag(t_parser *p, int flag)
 {
     push(&p->util.tmp, " ");
-    push_int(&p->flag, 0);
+    push_int(&p->flag, 32);
 	push(&p->util.tmp,  p->util.c_tmp);
     push_int(&p->flag, flag);// 3 |, 4 <,  5> avant
 	push(&p->util.tmp, " ");
-    push_int(&p->flag, 0);
+    push_int(&p->flag, 32);
 	free( p->util.c_tmp);
     //p->util.c_tmp = NULL;//
 }
@@ -187,13 +233,13 @@ void    add_2space_flag(t_parser *p, int flag)
 {// 6 << 7 >>
     p->util.c_tmp1 = pop(&p->raw);
 	push(&p->util.tmp, " ");
-    push_int(&p->flag, 0);
+    push_int(&p->flag, 32);
 	push(&p->util.tmp,  p->util.c_tmp);
     push_int(&p->flag, flag);
 	push(&p->util.tmp, p->util.c_tmp1);
     push_int(&p->flag, flag);
 	push(&p->util.tmp, " ");
-    push_int(&p->flag, 0);
+    push_int(&p->flag, 32);
 	free( p->util.c_tmp);
 	free(p->util.c_tmp1);
 }
@@ -201,20 +247,23 @@ void    add_space_2gt(t_parser *p)
 {
     p->util.c_tmp1 = pop(&p->raw);
 	push(&p->util.tmp, " ");
-    push_int(&p->flag, 0);
+    push_int(&p->flag, 32);
 	push(&p->util.tmp,  p->util.c_tmp);
     push_int(&p->flag, 0);
 	push(&p->util.tmp, p->util.c_tmp1);
     push_int(&p->flag, 0);
 	push(&p->util.tmp, " ");
-    push_int(&p->flag, 0);
+    push_int(&p->flag, 32);
 	free( p->util.c_tmp);
 	free(p->util.c_tmp1);
 }
 
 void    check_quote_3(t_parser *p)
 {
-	while (size_stack(p->raw))
+    printf(GREEN"\n");
+    printll(p->raw);
+    printf(ENDC);
+    while (size_stack(p->raw))
 	{
 		p->util.c_tmp = pop(&p->raw);
 		if (ft_strncmp( p->util.c_tmp, "\"", 1) == 0)
@@ -303,8 +352,9 @@ void    check_quote_3(t_parser *p)
         printf("ko\n"); */
 	printf(YEL);
     print_ic(p->flag, p->raw);
-	printf(ENDC);
+	printf(ENDC"\n");
 	delete(&p->util.tmp);
+    clean_dico(p);
 }
 
 void	check_quote_1(t_parser *p)
@@ -479,7 +529,7 @@ void    create_parsing_dico(t_parser *p)
         {
             p->util.i1 = pop_int(&p->flag);
             p->util.c_tmp = pop(&p->raw);
-            if (!(p->util.i1 == 0 && ft_strncmp(p->util.c_tmp, " ", 1) == 0))//
+            if (!(p->util.i1 == 32 && ft_strncmp(p->util.c_tmp, " ", 1) == 0))// avant 0 pour p->util.i1, -1 <>getitem
                 push(&p->util.tmp, p->util.c_tmp);
             free(p->util.c_tmp);
             if (size_stack(p->raw) == 0)
@@ -500,6 +550,8 @@ void    create_parsing_dico(t_parser *p)
                     p->util.key = "6";//
                 if (p->util.i1 == 7)//
                     p->util.key = "7";//
+                if (p->util.i1 == 32)//
+                    p->util.key = "32";//
                 p->util.c_tmp = getall(&p->util.tmp);
                 push_dico(&p->cmd_d, p->util.key, p->util.c_tmp);
                     free(p->util.c_tmp);
@@ -529,6 +581,8 @@ void    create_parsing_dico(t_parser *p)
                         p->util.key = "6";//
                     if (p->util.i1 == 7)//
                         p->util.key = "7";//
+                    if (p->util.i1 == 32)//
+                        p->util.key = "32";//
                     if (size_stack(p->raw))
                     {// debug ok remet ce qui a ete enleve
                         free(p->util.c_tmp);
@@ -542,10 +596,11 @@ void    create_parsing_dico(t_parser *p)
                     p->util.tmp = reverse(&p->util.tmp);
                    // free(w_tmp);//
                     p->util.c_tmp = getall(&p->util.tmp);
+                    printf(RED"%s\n"ENDC, p->util.c_tmp);
                     delete(&p->util.tmp);
                     if (ft_strlen(p->util.c_tmp))//
-                    push_dico(&p->cmd_d, p->util.key, p->util.c_tmp);
-                    printll_dico(p->cmd_d);
+                        push_dico(&p->cmd_d, p->util.key, p->util.c_tmp);
+                    //printll_dico(p->cmd_d);
                     free(p->util.c_tmp);
                     break ;
                 }

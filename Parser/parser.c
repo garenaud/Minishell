@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:29:00 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/24 10:48:41 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/30 14:44:56 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,8 @@ char	*getall(t_list **raw)
 	i = 0;	
 	pos = size_stack(*raw);
 	str = malloc((pos +1)* sizeof(char));
+    if (str == NULL)
+        return (NULL);
 	while (i < pos)
 	{
 		c_tmp = pop(raw);

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 11:38:04 by jsollett          #+#    #+#             */
-/*   Updated: 2022/11/28 11:38:57 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/30 10:03:14 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,9 @@ void	init_pgrm(t_parser *p, char *env[])
     p->heredoc_i = NULL;
     p->word_len = NULL;
     p->flag = NULL;
-    p->struct_path.path = NULL;
-    p->struct_path.path_raw = NULL;
-    p->struct_path.split_path = NULL;
-    p->struct_path.env_list = NULL;
     p->dico = NULL;
     p->dico_tmp = NULL;
+    p->envvar = NULL;
 	p->env = env;
     p->struct_cmd.cmd = NULL;
     p->struct_cmd.option = NULL;
@@ -43,6 +40,15 @@ void	init_pgrm(t_parser *p, char *env[])
     p->cmd_d = NULL;//
     p->cmd_d_tmp = NULL;//
     init_util(p);
+    init_struct_path(p);
+}
+
+void    init_struct_path(t_parser *p)
+{
+    p->struct_path.path = NULL;
+    p->struct_path.path_raw = NULL;
+    p->struct_path.split_path = NULL;
+    p->struct_path.env_list = NULL;
 }
 
 void    init_util(t_parser *p)

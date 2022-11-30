@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 18:02:50 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/15 13:10:56 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:37:49 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@ size_t	ft_strlen(const char *str)
 	size_t	count;
 
 	count = 0;
-	while (*str != '\0')
-	{
-		str++;
-		count++;
-	}
-	return (count);
+    if (str != NULL)
+    {
+    	while (*str != '\0')
+	    {
+		    str++;
+	    	count++;
+	    }    
+    }
+    return (count);
 }
+
 
 size_t	ft_strlen_c(const char *str, char del)
 {
