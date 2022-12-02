@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/30 10:23:36 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/02 10:40:16 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ int main(int argc, char *argv[], char *env[])
 		delete_parsing_list_c(&p);
         create_dico_list(&p.envvar, env);//
 		trim_list(&p.raw);// sinon segfault
+        check_for_envvar(&p);
+        printf("--------fin envvar--------\n");
         check_quote_3(&p);
-        //
+        // essai envvar avant ou apres
         
-        create_parsing_dico(&p);
-        
+        //create_parsing_dico(&p);
+        cpd1(&p);
 
 /* 		p.cmd_d = reverse_dico(&p.cmd_d);
 	 	printf(RED);

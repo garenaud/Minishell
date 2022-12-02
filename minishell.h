@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/30 14:03:56 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:12:14 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,8 @@ void		printll_int(t_list_i *lst);
 int			remove_position_int(t_list_i **top, size_t pos);
 int			getitem_int(t_list_i *top, size_t pos);
 int			getposition_int(t_list_i *top, int item);
-
+//
+int     	transfer_int(t_list_i **start, t_list_i **end);
 // string stack (basic)
 void		push(t_list **top, char	 *item);
 char		*pop(t_list **top);
@@ -228,4 +229,7 @@ void        get_inside_squote(t_parser *p);
 void        get_inside_space(t_parser *p);
 void        create_parsing_dico(t_parser *p);
 void        clean_dico(t_parser *p);
+void        cpd1(t_parser *p);
+int		    count_successive_c(t_parser *p, char *c);
+void        check_for_envvar(t_parser *p);
 #endif

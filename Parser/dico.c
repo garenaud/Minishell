@@ -85,7 +85,7 @@ int	get_key(t_dico *top, char *item)
 	{
 		if ((ft_strncmp(top->key, item, ft_strlen(top->key)) == 0) && (ft_strlen(top->key) == ft_strlen(item)))
 		{
-			printf("\nTrouve %d\n", i);
+			//printf("\nTrouve %d\n", i);
 				return (i);
 		}
 		top = top->next;
