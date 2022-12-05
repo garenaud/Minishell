@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 11:39:37 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/25 15:35:02 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/01 14:36:50 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,125 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
-/* #define MAX_ARGC 4 // 3
-
-int main(int argc, char *argv[], char *env[])
+int pipe_pls(char **path1, char **arg, char *env[])
  {
-    (void) argc;
+    char *args[][4]= {{"/bin/ls","-allll", NULL},
+    {"/usr/bin/grep", "mini", NULL},{"/usr/bin/wc", NULL} };
+    size_t i, n;
+    int prev_pipe, pfds[2];
+	int	pid;
+    n = sizeof(args) / sizeof(*args);
+	i = 0;
+    printf("n = %zu\n", n);
+    prev_pipe = STDIN_FILENO;
+
+    while (i < n - 1) 
+	{
+        pipe(pfds);
+		pid = fork();
+        if (pid == 0) {
+            if (prev_pipe != STDIN_FILENO) {
+                dup2(prev_pipe, STDIN_FILENO);
+                close(prev_pipe);
+            }
+            dup2(pfds[1], STDOUT_FILENO);
+            close(pfds[1]);
+            execve(path1[i], &arg[i], env);
+            perror("execve failed");
+            exit(1);
+        }
+        close(prev_pipe);
+        close(pfds[1]);
+        prev_pipe = pfds[0];
+		i++;
+    }
+    if (prev_pipe != STDIN_FILENO) {
+        dup2(prev_pipe, STDIN_FILENO);
+        close(prev_pipe);
+    }
+    //execve(args1[0], args1, env);
+    execve(path1[i], &arg[i], env);
+    perror("execve failed");
+	if(fork() > 0)
+	{
+		wait(NULL);
+		exit(1);
+	}
+    exit(1);
+}
+
+int	main(int argc, char *argv[], char *env[])
+{
+	char	*path1[][2] = {{"/bin/ls", NULL}, {"/usr/bin/grep", NULL}, {"/usr/bin/wc", NULL}};
+	char	*arg1[][3] = {{ "ls", NULL}, {"-w", "test", NULL}};
+	
+	pipe_pls(*path1, *arg1, env);
+	return(0);
+}
+/* int main(int argc, char *argv[], char *env[])
+ {
+    char *args[][4]= {{"/bin/ls","-allll", NULL},
+    {"/usr/bin/grep", "mini", NULL},{"/usr/bin/wc", NULL} };
+	char	*path1[][3] = {{"/bin/ls", NULL}, {"/usr/bin/grep", NULL}, {"/usr/bin/wc", NULL}};
+	char	*arg1[][3] = {{"ls", "-al", NULL}, {"-w", "test", NULL}};
+    size_t i, n;
+    int prev_pipe, pfds[2];
+    n = sizeof(args) / sizeof(*args);
+    printf("n = %zu\n", n);
+    prev_pipe = STDIN_FILENO;
+
+    for (i = 0; i < n - 1; i++) {
+        pipe(pfds);
+
+        if (fork() == 0) {
+            // Redirect previous pipe to stdin
+            if (prev_pipe != STDIN_FILENO) {
+                dup2(prev_pipe, STDIN_FILENO);
+                close(prev_pipe);
+            }
+
+            // Redirect stdout to current pipe
+            dup2(pfds[1], STDOUT_FILENO);
+            close(pfds[1]);
+
+            // Start command
+            execve(*path1[i], arg1[i], env);
+
+            perror("execve failed");
+            exit(1);
+        }
+
+        // Close read end of previous pipe (not needed in the parent)
+        close(prev_pipe);
+
+        // Close write end of current pipe (not needed in the parent)
+        close(pfds[1]);
+
+        // Save read end of current pipe to use in next iteration
+        prev_pipe = pfds[0];
+    }
+
+    // Get stdin from last pipe
+    if (prev_pipe != STDIN_FILENO) {
+        dup2(prev_pipe, STDIN_FILENO);
+        close(prev_pipe);
+    }
+    //execve(args1[0], args1, env);
+    // Start last command
+     execve(*path1[i], arg1[i], env);
+    perror("execve failed");
+	if(fork() > 0)
+	{
+		wait(NULL);
+		exit(1);
+	}
+    exit(1);
+} */
+ /* #define MAX_ARGC 4 // 3
+
+int run_pipe(char ***args, char *env[])
+ {
+  (void) argc;
 	(void) argv;
 	char *args[][4]= {{"/bin/ls","-allll", NULL},
     {"/usr/bin/grep", "mini", NULL},{"/usr/bin/wc", NULL} };
@@ -36,12 +149,16 @@ int main(int argc, char *argv[], char *env[])
 	int		n;
 	int		prev_pipe;
 	int		pfds[2];
-	n = sizeof(args) / sizeof(*args);
+	n = (sizeof((char)args)/sizeof(*args));
+	printf(RED"args[0][0] = %s\n"ENDC, args[0][1]);
 	prev_pipe = STDIN_FILENO;
 	i = 0;
 	while(i < n - 1)
 	{
-		pipe(pfds);
+ 		printf(RED"args[%i][0] = %s\n"ENDC, i, &args[i][0]);
+		printf(PURP"args[%i] = %s\n"ENDC, i, args[i]); 
+ 		printf(PURP"args[%i][0] = %s ; args[%i] = %s \n"ENDC, i, &args[i][0], i, args[i]);
+ 		pipe(pfds);
 		if (fork() == 0)
 		{
 			if (prev_pipe != STDIN_FILENO)
@@ -65,12 +182,28 @@ int main(int argc, char *argv[], char *env[])
 		dup2(prev_pipe, STDIN_FILENO);
 		close(prev_pipe);
 	}
-	execve(args[i][0], args[i], env);
+	//printf(PURP"args[%i][0] = %s ; args[1] = %s \n"ENDC, i, &args[i][0], args[1]);
+	execve(args[6][0], args[6], env);
 	perror("execve failed");
 	exit(1);
+}
+
+int	main(int argc, char *argv[], char *env[])
+{
+    (void) argc;
+	(void) argv;
+	char	**args = 
+		{{"/bin/echo","et voila", NULL},
+    	{"/bin/echo", "out", NULL},
+		{"/usr/bin/wc", NULL} };
+	//char	**argsimple[3][10] = {"/bin/ls", "-l", NULL};
+	printf("args[0][1] = %s\n", args[0][1]);
+	printf("args[1] = %s\n", *args[1]);
+	run_pipe(&(args), env);
+	printf(PURP"fin du programme"ENDC);
 } */
 
-char	*getitem_c(t_list *top, size_t pos)
+/* char	*getitem_c(t_list *top, size_t pos)
 {
 	if (pos >= size_stack(top))
 		return (NULL);
@@ -120,8 +253,8 @@ char	*ft_strdup(char *src)
 	if (dst == NULL)
 		return (NULL);
 	ft_strcpy(dst, src);
-/* 	if (free_it)
-		free(src);  */
+ 	if (free_it)
+		free(src);  
 //	free((char *)src);
 //	printf("<%p> strdup\n", dst);
 	return (dst);
@@ -237,7 +370,7 @@ int main(int argc, char *argv[], char *env[])
 	return(0);
 }
 
-/* void runPipedCommands(cmdLine* command, char* userInput) 
+ void runPipedCommands(cmdLine* command, char* userInput) 
 {
     int numPipes = countPipes(userInput);
 
