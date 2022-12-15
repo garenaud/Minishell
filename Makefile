@@ -6,7 +6,7 @@
 #    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/11/25 11:35:06 by grenaud-         ###   ########.fr        #
+#    Updated: 2022/12/15 16:05:17 by grenaud-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME =		minishell
 HEADER = 	minishell.h
 
 CC = 		gcc
-FLAGS = 	-g -Wall -Wextra -Werror
+FLAGS = 	-g -ggdb3 -Wall -Wextra -Werror
 LDFLAGS=	 -L /Users/$(USER)/.brew/opt/readline/lib -lreadline
 CPPFLAGS=	 -I /Users/$(USER)/.brew/opt/readline/include 
 DANGER = 	 -fsanitize=address
@@ -24,11 +24,13 @@ RM = 		@rm -rf
 
 Y = "\033[33m"
 R = "\033[31m"
-G = "\033[32m"
+G = \033[32m
 B = "\033[34m"
 X = "\033[0m"
 UP = "\033[A"
 CUT = "\033[K"
+REVR = \033[7m
+BOLD = "\033[1m"
 
 CFILES = 	Parser/list_utils_int.c \
 			Parser/list_utils_int2.c \
@@ -41,21 +43,26 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/test.c \
 			Parser/dico.c \
 			Parser/path.c \
+			Exec/init.c \
 			minishell.c
 
 
-OBJECTS = $(CFILES:.c=.o)
+OBJECTS = 	$(CFILES:.c=.o)
 
-$(NAME): 	$(OBJECTS)
-			@echo $(B)"Compiling minishell..." $(X)
-			$(CC) $(FLAGS) $(OBJECTS) $(LDFLAGS) -o $(NAME)
+$(NAME): 	start $(OBJECTS)                                      
+			@echo $(BOLD) "SUCCESSFUL COMPILATION" $(X)
+			@$(CC) $(FLAGS) $(OBJECTS) $(LDFLAGS) -o $(NAME)
+			@tput setaf 3; cat includes/art; tput setaf default
 			@echo $(G)"Done !" $(X)
 
 all: 		$(NAME)
 
+start:		
+			@tput setaf 2; cat includes/artCompiling; tput setaf default
+
 danger:		$(OBJECTS)
 			@echo $(Y)"Compiling minishell with sanitize" $(X)
-			$(CC) $(FLAGS) $(DANGER) $(OBJECTS) $(LDFLAGS) -o minishellSanit
+			@$(CC) $(FLAGS) $(DANGER) $(OBJECTS) $(LDFLAGS) -o minishellSanit
 			@echo $(Y)"Done !" $(X)
 
 clean:
@@ -79,7 +86,8 @@ fclean:
 	@echo $(R)Removed [REMOVED FINISH]$(X)
 
 %.o: %.c
-	$(CC) $(CPPFLAGS) $(FLAGS) -c $^ -o $@
+	@$(CC) $(CPPFLAGS) $(FLAGS) -c $^ -o $@
+	@printf "$(G) $(REVR)  " $(X)
 
 norm:
 	@echo $(G)[--NORMINETTE SUCCES %100 CLEAN CODE...]$(G)
@@ -88,4 +96,4 @@ norm:
 
 re: fclean all
 
-.PHONY: re norm fclean clean all 
+.PHONY: re norm fclean clean all start

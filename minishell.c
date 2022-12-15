@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/21 17:10:49 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/15 21:48:06 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,17 @@ int main(int argc, char *argv[], char *env[])
 			free(word_tmp);
 		}
 
-		word = reverse_dico(&word);
+		p.cmd_line = reverse_dico(&word);
 		printf(RED);
 		printf("dico word\n");
-		printll_dico(word);
+		printll_dico(p.cmd_line);
 		printf(ENDC);
 
+		//TEST EXECUTION
+		printf("\nDebut du list_to_array \n");
+		init_exe(&p);
+		//printll_exe(p.cmd_exe);
+ 		//list_to_array(word);
 		//init_parsing_list(&p);
 
 	 	if (p.word)
@@ -120,6 +125,7 @@ int main(int argc, char *argv[], char *env[])
 		delete(&p.struct_path.split_path);	 
 		delete(&p.struct_path.path_raw);
 		delete(&p.struct_cmd.cmd);
+		//delete_exeline(&p.cmd_exe);
 		delete_dico(&word);
 		free(word);
 	}

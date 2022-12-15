@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/21 16:34:09 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/15 21:43:58 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <signal.h>
+#include <termios.h>
+
+int	g_exit_status;
 
 typedef struct s_list
 {
@@ -44,10 +48,19 @@ typedef struct s_list_i
 	struct s_list_i	*next;
 }	t_list_i;
 
+//struct list pour execve
+typedef struct s_exe
+{
+	char	**cmd_tab;
+	int		fd_in;
+	int		fd_out;
+	int		pid;
+	int		pfd[2];
+	struct s_exe	*next;
+}	t_exe;
 
 // structure "dico"
 // version stack
-
 typedef struct s_dico
 {
 	char	*key;
@@ -69,13 +82,18 @@ typedef struct s_cmd
 	t_list		*option;
 	t_list		*arg;
 	char		**cmd_array;
+	struct s_path	*path;
 }	t_cmd;
 
 typedef	struct s_file
 {
-	t_list		*file;
-	t_list		*fd;
-	t_list		*rwx;
+	t_list			*file;
+	t_list			*fd;
+	t_list			*rwx;
+	int				nb_cmd;
+	int				redir_status;
+	pid_t			pid;
+	t_cmd			*cmd;
 }	t_file;
 
 typedef	struct s_stream
@@ -89,24 +107,27 @@ typedef	struct s_stream
 
 typedef struct s_parser
 {
-	t_list		*raw;
-	t_list		*word;
-	t_list_i	*dquote;
-	t_list_i	*squote;
-	t_list_i	*pipe_i;
-	t_list_i	*to_out_i;
-	t_list_i	*to_in_i;
-	t_list_i	*append_i;
-	t_list_i	*heredoc_i;
-	t_dico		*dico;
-	t_dico		*dico_tmp;
-	t_dico		*check;
-	char   		*line;
-	char		*tmp;
-	char		**env;
-	t_path		struct_path;
-	t_cmd		struct_cmd;
-	t_file		struct_file;
+	t_list			*raw;
+	t_list			*word;
+	t_exe			*cmd_exe;
+	t_list_i		*dquote;
+	t_list_i		*squote;
+	t_list_i		*pipe_i;
+	t_list_i		*to_out_i;
+	t_list_i		*to_in_i;
+	t_list_i		*append_i;
+	t_list_i		*heredoc_i;
+	t_dico			*dico;
+	t_dico			*dico_tmp;
+	t_dico			*check;
+	t_dico			*cmd_line;
+	char   			*line;
+	char			*tmp;
+	char			**env;
+	t_path			struct_path;
+	t_cmd			struct_cmd;
+	t_file			struct_file;
+	t_exe			struct_exe;
 }	t_parser;
 
 
@@ -194,5 +215,30 @@ void		check_quote_1(t_parser *p);
 void    	delete_parsing_list_c(t_parser *p);
 t_dico		*getword_2(t_list **raw, char *search);
 void		get_path(t_parser *p, char **env);
+
+//execution
+void	exec_pipe(t_parser *p, char *env[]);
+void	execution(t_list *path, t_list *arg, char *env[]);
+void	close_pipe(t_parser *p);
+void	wait_pipe(t_parser *p);
+void	init_pipe(t_parser *p);
+void	init_exe(t_parser *p);
+void	printll_exe(t_exe *cmd_exe);
+t_exe	*init_exe_list(t_dico *cmd_line);
+int		nb_arr(t_dico *cmd_line);
+void	delete_exeline(t_exe **top);
+void	free_tab(char **tab);
+
+/* void	start_bins(t_cmd *current, t_env *env, char **envp, char **execute);
+ */
+//cmd init
+char 	**list_to_array(t_dico *word);
+
+//signal
+void	handle_sigint(int sig);
+void	handle_signal(struct termios *saved);
+void	hide_key(struct termios *saved);
+void	handle_sigquit(int sig);
+
 
 #endif
