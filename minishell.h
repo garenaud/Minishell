@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/15 21:43:58 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/22 17:31:03 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 # define PURP		"\033[0;35m"
 # define ENDC		"\033[0m"
 # define BOLDRED	"\033[31m"
+# define PIPE 124
+# define TOK_DELIM "|"
+# define WAITING 1
+# define PARSING 2
+# define WORKING 3
+# define ERROR 4
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,7 +40,7 @@
 #include <signal.h>
 #include <termios.h>
 
-int	g_exit_status;
+int	g_status;
 
 typedef struct s_list
 {
@@ -59,6 +65,15 @@ typedef struct s_exe
 	struct s_exe	*next;
 }	t_exe;
 
+typedef struct s_env {
+	char			*str;
+	char			*name;
+	char			*value;
+	int				valid;
+	int				order;
+	struct s_env	*next;
+}				t_env;
+
 // structure "dico"
 // version stack
 typedef struct s_dico
@@ -81,7 +96,7 @@ typedef struct s_cmd
 	t_list		*cmd;
 	t_list		*option;
 	t_list		*arg;
-	char		**cmd_array;
+	char		**tab_cmd;
 	struct s_path	*path;
 }	t_cmd;
 
@@ -121,9 +136,13 @@ typedef struct s_parser
 	t_dico			*dico_tmp;
 	t_dico			*check;
 	t_dico			*cmd_line;
+	char			*display_path;
 	char   			*line;
 	char			*tmp;
 	char			**env;
+	t_env			*env_l;
+	int				piped;
+	int				return_val;
 	t_path			struct_path;
 	t_cmd			struct_cmd;
 	t_file			struct_file;
@@ -137,6 +156,11 @@ size_t		ft_strlen_c(const char *str, char del);
 char		*ft_strdup(char *src);
 char		*ft_strcpy(char *dest, const char *src);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_strcmp(const char *s1, const char *s2);
+char		*ft_realloc(char *org, int n_size);
+char		*ft_strjoin(char const *s1, char const *s2);
+int			ft_isprint(int c);
+
 
 // integer stack
 
@@ -208,7 +232,7 @@ void		create_dico_list(t_dico **dico, char *env[]);
 void		printll_dico(t_dico *dico);
 void		check_quote(t_parser *p);
 
-void		create_path_access(t_list *path, t_parser *p);
+void		create_path_access(t_parser *p);
 void		init_parsing_list_c(t_parser *p);
 void    	add_space(t_parser *p);
 void		check_quote_1(t_parser *p);
@@ -217,22 +241,25 @@ t_dico		*getword_2(t_list **raw, char *search);
 void		get_path(t_parser *p, char **env);
 
 //execution
-void	exec_pipe(t_parser *p, char *env[]);
-void	execution(t_list *path, t_list *arg, char *env[]);
-void	close_pipe(t_parser *p);
+void	close_pipes(t_exe *curr);
 void	wait_pipe(t_parser *p);
-void	init_pipe(t_parser *p);
+void	init_pipes(t_parser *p);
 void	init_exe(t_parser *p);
-void	printll_exe(t_exe *cmd_exe);
-t_exe	*init_exe_list(t_dico *cmd_line);
-int		nb_arr(t_dico *cmd_line);
+t_exe	*init_exe_list(int size);
 void	delete_exeline(t_exe **top);
 void	free_tab(char **tab);
-
-/* void	start_bins(t_cmd *current, t_env *env, char **envp, char **execute);
- */
-//cmd init
-char 	**list_to_array(t_dico *word);
+void	printll_exe(t_exe *exec);
+int		checknb_arg(t_dico *top);
+int		checknb_pipe(t_dico *top);
+size_t	size_stack_exe(t_exe *top);
+int		is_function(char **str, t_parser *p);
+int		pipe_loop(t_parser *p);
+int		child_pro(t_parser *p, t_exe *curr);
+void	do_waits(t_parser *p);
+int		inpt_checker(char **str, t_parser *p);
+int		inpt_checker_1(char **str, t_parser *p);
+int		is_builtin(char **str);
+char	*set_and_get(t_parser *p);
 
 //signal
 void	handle_sigint(int sig);

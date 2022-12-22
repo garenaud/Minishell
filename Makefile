@@ -6,7 +6,7 @@
 #    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/12/15 16:05:17 by grenaud-         ###   ########.fr        #
+#    Updated: 2022/12/22 17:29:24 by grenaud-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME =		minishell
 HEADER = 	minishell.h
 
 CC = 		gcc
-FLAGS = 	-g -ggdb3 -Wall -Wextra -Werror
+FLAGS = 	-g -O1 -ggdb3 -Wall -Wextra -Werror
 LDFLAGS=	 -L /Users/$(USER)/.brew/opt/readline/lib -lreadline
 CPPFLAGS=	 -I /Users/$(USER)/.brew/opt/readline/include 
 DANGER = 	 -fsanitize=address
@@ -44,10 +44,16 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/dico.c \
 			Parser/path.c \
 			Exec/init.c \
+			Exec/check_pipe_utils.c \
+			Exec/pipe.c \
+			Exec/list_utils_exe.c \
+			Exec/utils_2.c \
 			minishell.c
 
 
 OBJECTS = 	$(CFILES:.c=.o)
+
+LIBFT = libft/
 
 $(NAME): 	start $(OBJECTS)                                      
 			@echo $(BOLD) "SUCCESSFUL COMPILATION" $(X)
@@ -61,9 +67,12 @@ start:
 			@tput setaf 2; cat includes/artCompiling; tput setaf default
 
 danger:		$(OBJECTS)
-			@echo $(Y)"Compiling minishell with sanitize" $(X)
+			@echo $(Y)"\n Compiling minishell with -fsanitize=address \n" $(X)
 			@$(CC) $(FLAGS) $(DANGER) $(OBJECTS) $(LDFLAGS) -o minishellSanit
-			@echo $(Y)"Done !" $(X)
+			@tput setaf 3; cat includes/danger; tput setaf default
+			
+libft:
+			@ $(MAKE) bonus -C $(LIBFT)
 
 clean:
 	$(RM) ./Parser/*.o
@@ -75,13 +84,16 @@ clean:
 	@echo $(R)Removed [REMOVED FINISH]$(X)
 
 fclean:
+	@tput setaf 3; cat includes/trash; tput setaf default
 	$(RM) ./minishell
+	@echo $(B)Removed [TEMPORARY FILES]$(X)
 	$(RM) ./parser/*.o
+	@echo $(R)Removed [./Parser/*.o]$(X)
 	$(RM) ./a.out.dSYM
 	$(RM) ./*.o
 	$(RM) ./minishellSanit
-	@echo $(B)Removed [TEMPORARY FILES]$(X)
-	@echo $(R)Removed [./Parser/*.o]$(X)
+	$(RM) ./Exec/*.o
+	@echo $(R)Removed [./Exec/*.o]$(X)
 	@echo $(R)Removed [REMOVED FINISH]$(X)
 	@echo $(R)Removed [REMOVED FINISH]$(X)
 
