@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 10:47:13 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 17:14:25 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/22 23:13:27 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,47 @@ int		is_builtin(char **str)
 	{
 		return (1);
 	}
+	return (0);
+}
+
+/*int	is_function_2(t_parser *p)
+{
+ 	char	*path;
+	int		i;
+	t_exe	*curr;
+	t_list	*path_list;
+	
+	curr = p->cmd_exe;
+	path_list = p->struct_cmd->cmd;
+	i = 0;
+	while (curr)
+	{
+		path = strdup(path_list);
+		if (execve(path, curr->cmd_tab, p->env) == -1)
+			i++;
+		curr = p->cmd_exe->next;
+		path_list = p->struct_cmd->cmd->next;
+		i++;
+	}
+	free(path);
+	printf ("Error : %s\n", strerror(22));
+	return (1); 
+}*/
+
+int	is_function(t_parser *p)
+{
+	pid_t	childpid;
+
+	childpid = fork();
+	if (childpid == 0)
+	{
+		//is_function_2(p);
+		exit (127);
+	}
+	else
+		waitpid(childpid, &(p->return_val), 0);
+	if (WIFEXITED(p->return_val))
+		p->return_val = WEXITSTATUS(p->return_val);
 	return (0);
 }
 

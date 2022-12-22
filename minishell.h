@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 18:25:24 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/22 23:05:44 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,7 +312,7 @@ void	printll_exe(t_exe *exec);
 int		checknb_arg(t_dico *top);
 int		checknb_pipe(t_dico *top);
 size_t	size_stack_exe(t_exe *top);
-int		is_function(char **str, t_parser *p);
+int		is_function(t_parser *p);
 int		pipe_loop(t_parser *p);
 int		child_pro(t_parser *p, t_exe *curr);
 void	do_waits(t_parser *p);
@@ -320,6 +320,7 @@ int		inpt_checker(char **str, t_parser *p);
 int		inpt_checker_1(char **str, t_parser *p);
 int		is_builtin(char **str);
 char	*set_and_get(t_parser *p);
+void	free_cmds(t_parser	*p);
 
 //signal
 void	handle_sigint(int sig);

@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 17:53:14 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/22 23:07:46 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ int	main(int argc, char *argv[], char *env[])
 		 printf(GREEN);
 		printll(p.word);
 		printf(ENDC);
+		init_exe(&p);
+		printll_exe(p.cmd_exe);
+		//run_shell(p);
 		clean_memory_parsing(&p);
 	}
 	printf(RED"----------------- sortie prgm ----------------\n"ENDC);

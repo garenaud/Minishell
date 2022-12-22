@@ -6,34 +6,33 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 22:42:43 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 17:20:51 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/22 22:41:33 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	run_shell(t_parser *p, char **args, char *inpt)
+int	run_shell(t_parser *p)
 {
 	if (p->piped)
 	{
-		if (!pipe_checker(args))
+		if (!pipe_checker(p->cmd_exe))
 		{
-			if (pipe_loop(args, p))
+			if (pipe_loop(p))
 			{
-				free_all(args, inpt, p->escape);
+				free_all(p, p->escape);
 				return (0);
 			}
 		}
 	}
-	else if (inpt_checker(args, p))
-		exit_free(p, args);
-	free_all(args, NULL, p->escape);
+	else if (inpt_checker(p))
+	//	exit_free(p);
+	//free_all(args, NULL, p->escape);
 	return (1);
 }
 
-int	pipe_loop(char **str, t_parser *p)
+int	pipe_loop(t_parser *p)
 {
 	t_cmd	*curr;
 
-	fill_tab(str, p);
 	curr = p->cmd_exe;
 	init_pipes(p);
 	while (curr)
@@ -53,7 +52,7 @@ int	pipe_loop(char **str, t_parser *p)
 	return (0);
 }
 
-int	child_pro(t_parser *p, t_cmd *curr)
+int	child_pro(t_parser *p, t_exe *curr)
 {
 	int	old_stdin;
 	int	old_stdout;
@@ -90,8 +89,8 @@ int	inpt_checker(char **str, t_parser *p)
 		return (0);
 	if (is_builtin(str))
 	{
-		if (inpt_checker_1(str, p))
-			return (1);
+		printf("builtin, ca sera bientot la\n\n");
+		return (1);
 	}
 	else
 		if (is_function(str, p))
@@ -99,24 +98,8 @@ int	inpt_checker(char **str, t_parser *p)
 	return (0);
 }
 
-int	is_function(char **str, t_parser *p)
-{
-	pid_t	childpid;
 
-	childpid = fork();
-	if (childpid == 0)
-	{
-		is_function_2(str, p);
-		exit (127);
-	}
-	else
-		waitpid(childpid, &(p->return_val), 0);
-	if (WIFEXITED(p->return_val))
-		p->return_val = WEXITSTATUS(p->return_val);
-	return (0);
-}
-
-static void	do_waits(t_parser *p)
+void	do_waits(t_parser *p)
 {
 	t_cmd	*curr;
 
@@ -129,21 +112,21 @@ static void	do_waits(t_parser *p)
 	}
 }
 
-int	pipe_checker(char **str)
+int	pipe_checker(t_parser *p)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (p->cmd_exe->cmd_tab)
 	{
-		if (str[0][0] == '|')
+		if (p->cmd_exe->cmd_tab[0][0] == '|')
 		{
 			ft_putstr_fd("error near unexpected token\n", STDERR_FILENO);
 			return (1);
 		}
-		if (ft_pipetok(str[i][0]))
+		if (ft_pipetok(p->cmd_exe->cmd_tab[i][0]))
 		{
-			if (!str[i + 1] || ft_pipetok(str[i + 1][0]))
+			if (!p->cmd_exe->cmd_tab[i + 1] || ft_pipetok(p->cmd_exe->cmd_tab[i + 1][0]))
 			{
 				ft_putstr_fd("error near unexpected token\n", STDERR_FILENO);
 				return (1);
@@ -154,9 +137,23 @@ int	pipe_checker(char **str)
 	return (0);
 }
 
-int	ft_pipetok(char c)
+
+
+void	free_cmds(t_parser	*p)
 {
-	if (c == '|' || c == '>' || c == '<')
-		return (1);
-	return (0);
+	t_exe	*curr;
+	t_exe	*next;
+
+	curr = p->cmd_exe;
+	while (curr)
+	{
+		next = curr->next;
+		if (curr->cmd_tab)
+		{
+			free_tab(curr->cmd_tab);
+			free(curr->cmd_tab);
+		}
+		free(curr);
+		curr = next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:44:55 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/20 17:06:07 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/22 22:38:46 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,11 @@ int		checknb_pipe(t_dico *top)
 		top = top->next;
 	}
 	return (i);
+}
+
+int	ft_pipetok(char c)
+{
+	if (c == '|' || c == '>' || c == '<')
+		return (1);
+	return (0);
 }

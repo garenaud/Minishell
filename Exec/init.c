@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 17:13:58 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/22 22:46:03 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,24 @@ void	init_exe(t_parser *p)
 	
 	j = 0;
 	int size;
-	int	nb_pipe;
 	t_exe	*curr;
-	nb_pipe = checknb_pipe(p->cmd_line);
-	size = checknb_arg(p->cmd_line);
+	p->piped = checknb_pipe(p->cmd_d);
+	size = checknb_arg(p->cmd_d);
 	curr = init_exe_list(size);
 	p->cmd_exe = curr;
-	while (j <= nb_pipe)
+	while (j <= p->piped)
 	{
-		size = checknb_arg(p->cmd_line);
+		size = checknb_arg(p->cmd_d);
 		i = 0;
 		while (i < size)
 		{
-			curr->cmd_tab[i] = ft_strdup(p->cmd_line->value);
-			remove_pos_dico(&p->cmd_line, 0);
+			curr->cmd_tab[i] = ft_strdup(p->cmd_d->value);
+			remove_pos_dico(&p->cmd_d, 0);
 			i++;
 		}
 		curr->cmd_tab[i] = NULL;
-		remove_pos_dico(&p->cmd_line, 0);	
-		if (j != nb_pipe)
+		remove_pos_dico(&p->cmd_d, 0);	
+		if (j != p->piped)
 		{
 			curr->next = init_exe_list(size);
 			curr = curr->next;
@@ -63,4 +62,12 @@ char	*set_and_get(t_parser *p)
 		add_history(inpt);
 	return (inpt);
 }
-
+int	free_all(t_parser *p)
+{
+	if (p->cmd_exe->cmd_tab != NULL)
+	{
+		free_tab(p->cmd_exe->cmd_tab);
+		free(p->cmd_exe->cmd_tab);
+	}
+	return (0);
+}
