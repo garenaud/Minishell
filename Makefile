@@ -6,7 +6,7 @@
 #    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/11/24 11:30:36 by jsollett         ###   ########.fr        #
+#    Updated: 2022/12/21 13:56:50 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ HEADER = 	minishell.h
 CC = 		gcc
 FLAGS = 	-g -Wall -Wextra -Werror
 LDFLAGS=	 -L /Users/$(USER)/.brew/opt/readline/lib -lreadline
-CPPFLAGS=	 -I /Users/$(USER)/.brew/opt/readline/include 
+CPPFLAGS=	 -I /Users/$(USER)/.brew/opt/readline/include
 DANGER = 	 -fsanitize=address
 AR = 		ar -rcs
 RM = 		@rm -rf
@@ -36,13 +36,20 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/list_utils2.c \
 			Parser/utils.c \
 			Parser/parser.c \
+			Parser/parser_1.c \
+			Parser/parser_2.c \
 			Parser/readline_util.c \
 			Parser/parsing_init.c \
+			Parser/parsing_init_1.c \
+			Parser/parsing_init_2.c \
 			Parser/test.c \
 			Parser/dico.c \
+			Parser/dico_1.c \
+			Parser/dico_2.c \
 			Parser/path.c \
 			Parser/parser_util.c \
-			minishell.c 
+			Parser/memory_cleaning.c \
+			minishell.c
 
 
 OBJECTS = $(CFILES:.c=.o)
@@ -89,4 +96,4 @@ norm:
 
 re: fclean all
 
-.PHONY: re norm fclean clean all 
+.PHONY: re norm fclean clean all

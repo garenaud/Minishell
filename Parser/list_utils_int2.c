@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:57:35 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/01 17:02:27 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/21 10:29:21 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ int	getposition_int(t_list_i *top, int item)
 
 int	transfer_int(t_list_i **start, t_list_i **end)
 {
-	int     tmp;
-	
+	int	tmp;
+
 	if (size_stack_int(*start) >= 1)
 	{
-		tmp  = pop_int(start);
+		tmp = pop_int(start);
 		push_int(end, tmp);
 		return (1);
 	}

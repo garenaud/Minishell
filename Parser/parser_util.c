@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_util.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/21 10:31:49 by jsollett          #+#    #+#             */
+/*   Updated: 2022/12/21 10:32:10 by jsollett         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    remove_successive_key(t_parser *p)
-{// ? ne check pas parite ' ou " 
+void	remove_successive_key(t_parser *p)
+{// ? ne check pas parite ' ou "
 	int	count;
 	int	index;
 

@@ -6,36 +6,35 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:45:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/25 14:47:26 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/21 10:30:41 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 void	push(t_list **top, char *item)
-{// ok
+{
 	t_list	*tmp;
-	
+
 	tmp = malloc(sizeof(t_list));
 	if (!tmp)
-		return;
+		return ;
 	tmp->data = strdup(item);
 	tmp->next = *top;
-	*top = tmp; //?
+	*top = tmp;
 }
 
 char	*pop(t_list **top)
-{// modifiee
+{
 	t_list	*tmp;
 	char	*item;
-	
+
 	if (*top == NULL)
 	{
 		printf("Stack empty\n");
 		//return (NULL);
 		exit (0);
 	}
-
 	tmp = *top;
 	item = ft_strdup(tmp->data);
 	*top = (*top)->next;
@@ -45,15 +44,14 @@ char	*pop(t_list **top)
 }
 
 void	delete(t_list **top)
-{// modifiee
+{
 	t_list	*tmp;
 
 	if (*top == NULL)
-		return;
+		return ;
 	while (*top != NULL)
 	{
-	
-	 	tmp = *top;
+		tmp = *top;
 		*top = (*top)->next;
 		free(tmp->data);
 		free(tmp);
@@ -61,10 +59,10 @@ void	delete(t_list **top)
 }
 
 t_list	*reverse(t_list **top)
-{// modifiee
+{
 	t_list	*tmp;
 	char	*c_tmp;
-	
+
 	tmp = NULL;
 	while (*top != NULL)
 	{
