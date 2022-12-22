@@ -6,7 +6,7 @@
 #    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/12/22 17:55:12 by grenaud-         ###   ########.fr        #
+#    Updated: 2022/12/22 18:26:13 by grenaud-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/dico_1.c \
 			Parser/dico_2.c \
 			Parser/path.c \
+			Parser/memory_cleaning.c \
 			Exec/init.c \
 			Exec/check_pipe_utils.c \
 			Exec/pipe.c \

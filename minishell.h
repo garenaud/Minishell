@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 17:54:01 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/22 18:25:24 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,20 @@ typedef struct s_list_i
 	int				data;
 	struct s_list_i	*next;
 }	t_list_i;
+
+// structure "dico"
+// version stack
+typedef struct s_util
+{
+	int		flag;
+	int		position;
+	int		i1;
+	int		i2;
+	char	*c_tmp;
+	char	*c_tmp1;
+	char	*key;
+	t_list	*tmp;
+}	t_util;
 
 //struct list pour execve
 typedef struct s_exe
@@ -123,29 +137,11 @@ typedef struct s_file
 */
 typedef struct s_parser
 {
-	t_list		*raw;
-	t_list		*word;
-	t_list_i	*dquote;
-	t_list_i	*squote;
-	t_list_i	*pipe_i;
-	t_list_i	*to_out_i;
-	t_list_i	*to_in_i;
-	t_list_i	*append_i;
-	t_list_i	*heredoc_i;
 	t_list_i	*word_len;
 	t_list_i	*flag;
-	t_dico		*dico;
-	t_dico		*dico_tmp;
-	t_dico		*check;
 	t_dico		*cmd_d_tmp;
 	t_dico		*cmd_d;
 	t_dico		*envvar;
-	char		*line;
-	char		*tmp;
-	char		**env;
-	t_path		struct_path;
-	t_cmd		struct_cmd;
-	t_file		struct_file;
 	t_util		util;
 	t_list			*raw;
 	t_list			*word;
