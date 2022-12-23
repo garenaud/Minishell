@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 15:00:06 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/23 15:10:31 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct s_parser
 	t_list_i	*heredoc_i;
 	t_list_i	*word_len;
 	t_list_i	*flag;
+
 	t_dico		*dico;
 	t_dico		*dico_tmp;
 	t_dico		*check;

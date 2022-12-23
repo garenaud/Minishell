@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:26:45 by jsollett          #+#    #+#             */
-/*   Updated: 2022/12/21 13:27:18 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/23 14:34:04 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_pgrm_list_i(t_parser *p)
 	p->heredoc_i = NULL;
 	p->word_len = NULL;
 	p->flag = NULL;
+//	p->dollars = NULL;
 }
 
 void	init_pgrm_list_c(t_parser *p)

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:55:24 by jsollett          #+#    #+#             */
-/*   Updated: 2022/12/22 16:18:57 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/23 14:07:27 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,12 +137,10 @@ void	get_inside_dquote(t_parser *p)
 
 void	get_inside_dquote1(t_parser **p)
 {
-	printf("\"");
 	if ((size_stack_int((*p)->dquote) % 2) == 0)
 	{
 		(*p)->util.position = -pop_int(&(*p)->dquote) + pop_int(&(*p)->dquote) - 1;
 		free((*p)->util.c_tmp);
-		//remove_pos_c(&p->raw, 0);//
 		while ((*p)->util.position)
 		{
 			(*p)->util.c_tmp = pop(&(*p)->raw);
@@ -151,7 +149,6 @@ void	get_inside_dquote1(t_parser **p)
 			if (ft_strncmp((*p)->util.c_tmp, "\'", 1) == 0)
 				pop_int(&(*p)->squote);
 			free((*p)->util.c_tmp);
-			//(*p)->util.c_tmp = NULL;//
 			(*p)->util.position--;
 		}
 		remove_pos_c(&(*p)->raw, 0);
@@ -159,6 +156,33 @@ void	get_inside_dquote1(t_parser **p)
 	}
 	else
 	{
+		free((*p)->util.c_tmp);
+		printf("synatx error\n");
+	}
+}
+
+void	get_inside_squote1(t_parser **p)
+{
+	printf("\'");
+	if ((size_stack_int((*p)->squote) % 2) == 0)
+	{
+		(*p)->util.position = -pop_int(&(*p)->squote) + pop_int(&(*p)->squote) - 1;
+		free((*p)->util.c_tmp);
+		while ((*p)->util.position)
+		{
+			(*p)->util.c_tmp = pop(&(*p)->raw);
+			push(&(*p)->util.tmp, (*p)->util.c_tmp);
+			push_int(&(*p)->flag, 1);
+			if (ft_strncmp((*p)->util.c_tmp, "\"", 1) == 0)
+				pop_int(&(*p)->dquote);
+			free((*p)->util.c_tmp);
+			(*p)->util.position--;
+		}
+		remove_pos_c(&(*p)->raw, 0);
+		(*p)->util.c_tmp = ft_strdup("");
+	}
+	else
+	{// a ameliorer
 		free((*p)->util.c_tmp);
 		printf("synatx error\n");
 	}
@@ -230,6 +254,18 @@ void	clean_dico(t_parser *p)
 	printf(ENDC);
 }
 
+void	check_for_dollar(t_parser *p)
+{// test2312
+	int	pos_dollar;
+	int	consecutive_dollar;
+
+	pos_dollar = getpos_c(p->raw, "$");
+	consecutive_dollar = count_successive_c(p, "$");
+	if (ft_strncmp(getitem_c(p->raw, pos_dollar + consecutive_dollar), " ", 1))
+		check_for_envvar(p);
+}
+
+
 void	check_for_envvar(t_parser *p)
 {
 	t_list		*raw_tmp;
@@ -237,7 +273,6 @@ void	check_for_envvar(t_parser *p)
 	t_list_i	*flag_tmp;
 	t_dico		*env;
 	char		*tmp;
-	//int         flag;
 	int			pos;
 	int			status; // 0 aucun ,1 un squote, 2 dquote
 	int			pos_dollar;
@@ -250,7 +285,7 @@ void	check_for_envvar(t_parser *p)
 
 	if (getpos_c(p->raw, "$") != -1)
 	{
-		printf("$ detecte a la pos %d \n", getpos_c(p->raw, "$") );
+		printf("$ detecte a la pos %d \n", getpos_c(p->raw, "$"));
 		while (size_stack(p->raw))
 		{
 			printf("entree while\n");
@@ -260,22 +295,22 @@ void	check_for_envvar(t_parser *p)
 				break ;
 			while (pos <= pos_dollar)// avant = sinon boucle infini
 			{
-				if (ft_strncmp(getitem_c(p->raw, 0),"$", 1) == 0)
+				if (ft_strncmp(getitem_c(p->raw, 0), "$", 1) == 0)
 				{// pose un pb, le remove
 					remove_pos_c(&p->raw, 0);
 					pos++;
 					continue ;
 				}
-				if (ft_strncmp(getitem_c(p->raw, 0),"'", 1) == 0)
+				if (ft_strncmp(getitem_c(p->raw, 0), "'", 1) == 0)
 				{
-					if (size_stack_int(p->squote) %2 == 0)
+					if (size_stack_int(p->squote) % 2 == 0)
 					{
 						transfer_c(&p->raw, &raw_tmp);
-						pos++;//
+						pos++;
 						while (ft_strncmp(getitem_c(p->raw, 0),"'", 1) != 0)
 						{
 							transfer_c(&p->raw, &raw_tmp);
-							pos++;//
+							pos++;
 						}
 						status = 1;
 					}
@@ -337,7 +372,7 @@ void	check_for_envvar(t_parser *p)
 				transfer_c(&p->raw, &raw_tmp);
 			}
 		}
-		p->raw = reverse(&raw_tmp);//
+		p->raw = reverse(&raw_tmp);
 	}
 }
 
@@ -434,7 +469,7 @@ void	check_quote_3(t_parser *p)
 		if (ft_strncmp(p->util.c_tmp, "\"", 1) == 0)
 			get_inside_dquote1(&p);
 		if (ft_strncmp(p->util.c_tmp, "\'", 1) == 0)
-			get_inside_squote(p);
+			get_inside_squote1(&p);
 		if (ft_strncmp(p->util.c_tmp, " ", 1) == 0)
 			get_inside_space(p);
 		else
@@ -443,6 +478,8 @@ void	check_quote_3(t_parser *p)
 			{
 				if (count_successive_c(p, "|") == 1)
 					add_space_flag(p, 3);
+				else if (count_successive_c(p, "|") == 2)
+					add_2space_flag(p, 8);
 				else
 				{// voir comment gerer erreur
 					printf("erreur\n");
@@ -495,18 +532,16 @@ void	check_quote_3(t_parser *p)
 				continue ;
 			}
 			if (ft_strlen(p->util.c_tmp))
+			{
 				push(&p->util.tmp, p->util.c_tmp);
-			push_int(&p->flag, 0);
+				push_int(&p->flag, 0);// mod2312
+			}
 			free(p->util.c_tmp);
-			printf("free %p util.c_tmp\n", p->util.c_tmp);
 		}
 	}
-	printf("after free %p util.tmp\n", p->util.tmp);
 
 	p->raw = reverse(&p->util.tmp);
-	printf("1\n");
 	p->flag = reverse_int(&p->flag);
-	printf("2\n");
 	printf(YEL);
 	print_ic(p->flag, p->raw);
 	printf(ENDC"\n");
@@ -688,6 +723,8 @@ static void cpd1_key(t_parser *p)
 		p->util.key = "6";
 	if (p->util.i1 == 7)
 		p->util.key = "7";
+	if (p->util.i1 == 8)
+		p->util.key = "8";
 }
 
 void	cpd1(t_parser *p)
