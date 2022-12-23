@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 22:42:43 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 22:41:33 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/23 14:20:36 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@ int	run_shell(t_parser *p)
 {
 	if (p->piped)
 	{
-		if (!pipe_checker(p->cmd_exe))
+		if (!pipe_checker(p))
 		{
 			if (pipe_loop(p))
 			{

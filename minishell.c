@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 23:07:46 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/23 14:18:22 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char *argv[], char *env[])
 		// essai envvar avant ou apres
 		//create_parsing_dico(&p);
 		cpd1(&p);
-		p.cmd_d = reverse_dico(&p.cmd_d);
+		//p.cmd_d = reverse_dico(&p.cmd_d);
 		printf(RED);
 		printf("dico p.cmd_d\n");
 		printll_dico(p.cmd_d);
@@ -66,7 +66,8 @@ int	main(int argc, char *argv[], char *env[])
 		printf(ENDC);
 		init_exe(&p);
 		printll_exe(p.cmd_exe);
-		//run_shell(p);
+		delete_exeline(&p.cmd_exe);
+		run_shell(&p);
 		clean_memory_parsing(&p);
 	}
 	printf(RED"----------------- sortie prgm ----------------\n"ENDC);

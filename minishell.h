@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 23:05:44 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/23 14:18:12 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,6 +321,7 @@ int		inpt_checker_1(char **str, t_parser *p);
 int		is_builtin(char **str);
 char	*set_and_get(t_parser *p);
 void	free_cmds(t_parser	*p);
+int		run_shell(t_parser *p);
 
 //signal
 void	handle_sigint(int sig);

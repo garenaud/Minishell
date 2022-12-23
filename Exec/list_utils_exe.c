@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:45:54 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 12:04:20 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/23 12:43:18 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void delete_exeline(t_exe **top)
         next = current->next;
         free_tab(current->cmd_tab);
         //free(current->cmd_tab);
-        free(current);
-        current = next;
+        current = current->next;
     }
+    free(current);
     *top = NULL;
 }
 
@@ -84,11 +84,11 @@ void free_tab(char **tab)
 	i = 0;
     if (tab == NULL)
         return;
-    while (tab[i])
+    while (tab[i] != NULL)
 	{
 		free(tab[i]);
 		i++;
 	}
-	free(tab[i]);
+	//free(tab[i]);
     free(tab);
 }
