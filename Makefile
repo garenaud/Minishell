@@ -6,7 +6,7 @@
 #    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/12/21 13:56:50 by jsollett         ###   ########.fr        #
+#    Updated: 2022/12/28 16:01:20 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/list_utils1.c \
 			Parser/list_utils2.c \
 			Parser/utils.c \
+			Parser/utils1.c \
 			Parser/parser.c \
 			Parser/parser_1.c \
 			Parser/parser_2.c \
