@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:55:24 by jsollett          #+#    #+#             */
-/*   Updated: 2022/12/28 16:35:36 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/29 15:32:58 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	get_inside_dquote1(t_parser **p)
 		(*p)->util.c_tmp = ft_strdup("");
 	}
 	else
-	{
+	{// pb malloc
 		free((*p)->util.c_tmp);
 		printf("synatx error\n");
 	}
@@ -174,7 +174,7 @@ void	get_inside_squote1(t_parser **p)
 		(*p)->util.c_tmp = ft_strdup("");
 	}
 	else
-	{// a ameliorer
+	{// a ameliorer pb malloc
 		free((*p)->util.c_tmp);
 		printf("synatx error\n");
 	}
@@ -251,9 +251,9 @@ void	clean_dico(t_parser *p)
 	}
 	p->raw = reverse(&raw_tmp);
 	p->flag = reverse_int(&flag_tmp);
-	printf(PURP"\n");
+/*	printf(PURP"\n");
 	print_ic(p->flag, p->raw);
-	printf(ENDC);
+	printf(ENDC);*/
 }
 
 void	check_for_dollar(t_parser *p)
@@ -285,45 +285,48 @@ void	check_for_envvar(t_parser *p)
 	flag_tmp = NULL;
 	key_raw = NULL;
 	env = NULL;
-	if (getpos_c(p->raw, "$") != -1)
+	if (getpos_c(p->raw, "$") != -1)// if
 	{
 		printf("$ detecte a la pos %d \n", getpos_c(p->raw, "$"));
 		while (size_stack(p->raw))
 		{
-			printf("entree while\n");
+			printf("entree while: status %d'\n", status);
 			pos = 0;
 			pos_dollar = getpos_c(p->raw, "$");
 			if (pos_dollar == -1)
 				break ;
 			while (pos <= pos_dollar)// avant = sinon boucle infini
 			{
-				if (ft_strncmp(getitem_c(p->raw, 0), "$", 1) == 0)
+				if (size_stack(p->raw) && ft_strncmp(getitem_c(p->raw, 0), "$", 1) == 0)
 				{// pose un pb, le remove
 					remove_pos_c(&p->raw, 0);
 					pos++;
 					continue ;
 				}
-				if (ft_strncmp(getitem_c(p->raw, 0), "'", 1) == 0 && status != 2)// cas non /"/'
+				if (size_stack(p->raw) && ft_strncmp(getitem_c(p->raw, 0), "'", 1) == 0 && status != 2)// cas non /"/'
 				{
 					if (size_stack_int(p->squote) % 2 == 0)
 					{
 						transfer_c(&p->raw, &raw_tmp);
 						pos++;
-						while (ft_strncmp(getitem_c(p->raw, 0),"'", 1) != 0)
+						while (ft_strncmp(getitem_c(p->raw, 0), "'", 1) != 0)
 						{
 							transfer_c(&p->raw, &raw_tmp);
 							pos++;
 						}
+						//transfer_c(&p->raw, &raw_tmp);//segf
+						//pos++;// segf
 						status = 1;
 					}
 					/*else
 						printf("erreur\n"); */
 				}
 		//		else
-					if (ft_strncmp(getitem_c(p->raw, 0), "\"", 1) == 0)
-					{
-						status = 2;
-					}
+				if (size_stack(p->raw) && ft_strncmp(getitem_c(p->raw, 0), "\"", 1) == 0)
+				{
+					status = 2;
+				}
+				printf("\t        end w1 status %d\n", status);
 				transfer_c(&p->raw, &raw_tmp);
 				pos++;
 			}
@@ -331,24 +334,26 @@ void	check_for_envvar(t_parser *p)
 			p->util.i2 = p->util.i1;
 			while (size_stack(p->raw) && p->util.i1 == p->util.i2 && ft_strncmp(getitem_c(p->raw,0), "$", 1) != 0)
 			{
-				if (ft_strncmp(getitem_c(p->raw, 0),"\'", 1) == 0)
+				if (ft_strncmp(getitem_c(p->raw, 0), "\'", 1) == 0)
 				{
 					printf("1");
 					p->util.i2 = 1;
+					//status = 0;// test 2912
 					break ;
 				}
 				else
-				if (ft_strncmp(getitem_c(p->raw, 0),"\"", 1) == 0)
+				if (ft_strncmp(getitem_c(p->raw, 0), "\"", 1) == 0)
 				{
 					printf("2");
 					p->util.i2 = 2;
 					break ;
 				}
-				if (status == 1)
+			/*	if (status == 1)
 				{// simple quote
 					transfer_c(&p->raw, &raw_tmp);
+					printf(RED"\n status = 1\n"ENDC);
 				}
-				else
+				else*/
 				{// double quote or nothing
 					if (ft_isalnum(getitem_c(p->raw, 0)[0])) //
 						transfer_c(&p->raw, &key_raw);
@@ -358,22 +363,36 @@ void	check_for_envvar(t_parser *p)
 			}
 			key_raw = reverse(&key_raw);
 			tmp = getall(&key_raw);
-			printf("getall -> %s\n", tmp);
+			printf("getall -> [%s], status = %d\n", tmp, status);
 			if (get_key(p->envvar, tmp) != -1)
 			{
-				printf("key searching...pos=[%d]\n", get_key(p->envvar, tmp));
+			//	printf("key searching...pos=[%d]\n", get_key(p->envvar, tmp));
 				env = getitem_dico(p->envvar, get_key(p->envvar, tmp));
 				free(tmp);
 				printf("value = [%s]\n", env->value);
-				printf("env adress %p\n", env);
+			//	printf("env adress %p\n", env);
 				tmp = ft_strdup(env->value);
 				create_raw_list(&raw_tmp ,tmp);// doute
 				free(tmp);// rajout 2812
+				raw_tmp1 = reverse(&raw_tmp1);// 2912 test corr 1 inversion
 				tmp = getall(&raw_tmp1);// rajout 2812
 				create_raw_list(&raw_tmp ,tmp); // rajout 2812
 				free(tmp);//
 				delete_dico(&env);//
 			}
+/*			else
+			{// test 2912 faux
+				printf("\n TEST \n");
+			//	free(tmp);
+				raw_tmp1 = reverse(&raw_tmp1);
+			//	tmp = getall(&raw_tmp1);
+				create_raw_list(&raw_tmp, tmp);
+				free(tmp);
+				tmp = getall(&raw_tmp1);
+				create_raw_list(&raw_tmp, tmp);
+				free(tmp);
+			}*/
+			status = 0;//test 2912
 			printf("sortie while \n");
 		}
 		if (getpos_c(p->raw, "$") == -1)
@@ -467,10 +486,10 @@ void	add_space_2gt(t_parser *p)
 
 void	check_quote_3(t_parser *p)
 {
-	printf(GREEN"entree check_quote_3\n");
+/*	printf(GREEN"entree check_quote_3\n");
 	printll(p->raw);
 	printll_int(p->dquote);
-	printf(ENDC);
+	printf(ENDC);*/
 //	create_quote_list(&p->raw, &p->dquote, "\"");//
 //	create_quote_list(&p->raw, &p->squote, "\'");//
 	while (size_stack(p->raw))

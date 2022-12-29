@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/28 13:41:14 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/29 10:38:29 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char *argv[], char *env[])
 		get_path(&p, env);
 		if (readline_manager(&p) == 1)
 			break ;
-		printll(p.struct_path.split_path);
+	//	printll(p.struct_path.split_path);
 		/* init_pgrm(&p, env);
 		get_path(&p, env); */
 		create_raw_list(&p.raw, p.line);
