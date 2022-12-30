@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 22:42:43 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/30 17:13:05 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/30 18:01:01 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -457,4 +457,62 @@ int	ret(char *msg, int status, int num)
 		curr = curr->next;
 	}
 	return (0);
+} */
+
+/* int	pipe_exec(t_parser *p, t_exe *curr)
+{
+	int	prev_pipe;
+	int	i;
+	int	y;
+	int	size;
+	char	*path;
+
+	i = 0;
+	size = size_stack(p->struct_cmd.cmd);
+	y = size_stack(p->struct_cmd.cmd) - 1;
+	prev_pipe = STDIN_FILENO;
+	while(i < size - 1)
+	{
+		pipe(curr->pfd);
+		curr->pid = fork();
+		path = getitem(p->struct_cmd.cmd, y);
+		//printf("\nla commande est: %s et le chemin est: %s\n", curr->cmd_tab[0], path);
+		if(curr->pid == 0)
+		{
+			if (prev_pipe != STDIN_FILENO)
+			{
+				dup2(prev_pipe, STDIN_FILENO);
+				close(prev_pipe);
+			}
+			dup2(curr->pfd[1], STDOUT_FILENO);
+			//printf("je suis dans l'enfant pipe exe et mon pid est: %d", curr->pid);
+			close(curr->pfd[1]);
+			execve(path, curr->cmd_tab p->env);
+			perror("execve failed pipe");
+			exit(1);
+		}
+		close(prev_pipe);
+		close(curr->pfd[1]);
+		prev_pipe = curr->pfd[0];
+		curr = curr->next;
+		i++;
+		y--;
+	}
+	if (prev_pipe != STDIN_FILENO)
+	{
+		dup2(prev_pipe, STDIN_FILENO);
+		close(prev_pipe);
+	}
+	//printll_exe(p->cmd_exe);
+	path = getitem(p->struct_cmd.cmd, y);
+	//printf("\nla commande est: %s et le chemin est: %s\n", curr->cmd_tab[0], path);
+	execve(path, curr->cmd_tab, p->env);
+		perror("execve failed last command");
+	//printf("\nPID derniere commande = %d", curr->pid);
+	close(prev_pipe);
+	close(curr->pfd[1]);
+	do_waits(p);
+	printf("avant wait \n");
+	printf("avant le dernier execve");
+	return(1);
 } */
