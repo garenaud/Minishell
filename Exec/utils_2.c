@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:39:54 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/21 22:55:52 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/28 15:26:39 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,19 @@ int	ft_isprint(int c)
 {
 	if (' ' <= c && c <= '~')
 		return (1);
+	return (0);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
+}
+
+int	return1(int i)
+{
+	if (i == 0)
+		return (-1);
 	return (0);
 }

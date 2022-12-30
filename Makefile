@@ -6,7 +6,7 @@
 #    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/12/23 14:18:43 by grenaud-         ###   ########.fr        #
+#    Updated: 2022/12/29 10:27:17 by grenaud-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Exec/pipe.c \
 			Exec/list_utils_exe.c \
 			Exec/utils_2.c \
+			signal.c \
 			minishell.c
 
 
