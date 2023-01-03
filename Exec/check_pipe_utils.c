@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:44:55 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/30 17:10:04 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/03 17:36:51 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,24 @@ int	if_path_not_exist(t_exe *curr, char **path_tab, char **env)
 	return (0);
 }
 
-char	*get_cmd_path(t_parser *p, t_exe *curr)
+char	*get_pos_path(t_parser *p, char *cmd)
 {
-	int		pos_path;
+	int		i;
 	char	*path;
+	char	*path_search;
 	
-	pos_path = getpos(p->struct_cmd.cmd, curr->cmd_tab[0]);
-	printf(GREEN"\nle pos_path: %d et la cmd: %s\n", pos_path, curr->cmd_tab[0]);
-	printll(p->struct_cmd.cmd);
-	path = getitem(p->struct_cmd.cmd, pos_path);
-	printf(" le chemin: %s", path);
-	printf(ENDC);
+	i = 0;
+	while (i < (int)size_stack(p->struct_cmd.cmd))
+	{
+		path = getitem(p->struct_cmd.cmd, i);
+		path_search = ft_substr(path, ft_strlen(path) - ft_strlen(cmd), ft_strlen(cmd));
+		if (ft_strcmp(path_search, cmd) == 0)
+		{
+			free(path_search);
+			break;
+		}
+		i++;
+		free(path_search);
+	}
 	return(path);
 }

@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/30 15:45:08 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/03 17:06:57 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	main(int argc, char *argv[], char *env[])
 		create_dico_list(&p.envvar, env);
 		trim_list(&p.raw);
 		check_for_envvar(&p);
-		//printf("--------fin envvar--------\n");				delete_int(&p.dquote);
+		//printf("--------fin envvar--------\n");				
+		delete_int(&p.dquote);
 		delete_int(&p.squote);
 		init_parsing_list_c(&p);
 		delete_parsing_list_c(&p);
@@ -59,7 +60,7 @@ int	main(int argc, char *argv[], char *env[])
 		if (p.cmd_d)
 		{
 			create_path_access(&p);
-			//reverse(&p.struct_cmd.cmd);
+			p.struct_cmd.cmd = reverse(&p.struct_cmd.cmd);
 			printf("\n les chemins = ");
 			printll(p.struct_cmd.cmd);
 		}
