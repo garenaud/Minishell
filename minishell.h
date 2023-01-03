@@ -6,11 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/01/03 19:00:05 by grenaud-         ###   ########.fr       */
-=======
-/*   Updated: 2022/12/28 15:55:30 by jsollett         ###   ########.fr       */
->>>>>>> jsollet
+/*   Updated: 2023/01/03 22:34:24 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,17 +139,14 @@ typedef struct s_parser
 {
 	t_list_i	*word_len;
 	t_list_i	*flag;
-<<<<<<< HEAD
-=======
 
-	t_dico		*dico;
-	t_dico		*dico_tmp;
-	t_dico		*check;
->>>>>>> jsollet
-	t_dico		*cmd_d_tmp;
-	t_dico		*cmd_d;
-	t_dico		*envvar;
-	t_util		util;
+	t_dico			*dico;
+	t_dico			*dico_tmp;
+	t_dico			*check;
+	t_dico			*cmd_d_tmp;
+	t_dico			*cmd_d;
+	t_dico			*envvar;
+	t_util			util;
 	t_list			*raw;
 	t_list			*word;
 	t_exe			*cmd_exe;
@@ -164,9 +157,6 @@ typedef struct s_parser
 	t_list_i		*to_in_i;
 	t_list_i		*append_i;
 	t_list_i		*heredoc_i;
-	t_dico			*dico;
-	t_dico			*dico_tmp;
-	t_dico			*check;
 	t_dico			*cmd_line;
 	char			*display_path;
 	char   			*line;
@@ -187,22 +177,14 @@ size_t		ft_strlen_c(const char *str, char del);
 char		*ft_strdup(char *src);
 char		*ft_strcpy(char *dest, const char *src);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
-<<<<<<< HEAD
+int			ft_isalnum(int c);
 int			ft_strcmp(const char *s1, const char *s2);
-char		*ft_realloc(char *org, int n_size);
-char		*ft_strjoin(char const *s1, char const *s2);
-int			ft_isprint(int c);
-void		ft_putstr_fd(char *s, int fd);
-void		ft_putchar_fd(char c, int fd);
-int			getpos(t_list *top, char *item);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 void		ft_putnbr_fd(int n, int fd);
+void		ft_putchar_fd(char c, int fd);
+void		ft_putstr_fd(char *s, int fd);
 
-
-=======
-int			ft_isalnum(int c);
->>>>>>> jsollet
 
 // integer stack
 

@@ -6,11 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:55:24 by jsollett          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/12/30 09:49:02 by grenaud-         ###   ########.fr       */
-=======
-/*   Updated: 2022/12/29 15:32:58 by jsollett         ###   ########.fr       */
->>>>>>> jsollet
+/*   Updated: 2023/01/03 22:32:14 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -490,17 +486,10 @@ void	add_space_2gt(t_parser *p)
 
 void	check_quote_3(t_parser *p)
 {
-<<<<<<< HEAD
-	//printf(GREEN"entree check_quote_3\n");
-	//printll(p->raw);
-	//printll_int(p->dquote);
-	//printf(ENDC);
-=======
 /*	printf(GREEN"entree check_quote_3\n");
 	printll(p->raw);
 	printll_int(p->dquote);
 	printf(ENDC);*/
->>>>>>> jsollet
 //	create_quote_list(&p->raw, &p->dquote, "\"");//
 //	create_quote_list(&p->raw, &p->squote, "\'");//
 	while (size_stack(p->raw))
@@ -578,20 +567,6 @@ void	check_quote_3(t_parser *p)
 				push_int(&p->flag, 0);// mod2312
 			}
 			free(p->util.c_tmp);
-<<<<<<< HEAD
-			//printf("free %p util.c_tmp\n", p->util.c_tmp);
-		}
-	}
-	//printf("after free %p util.tmp\n", p->util.tmp);
-
-	p->raw = reverse(&p->util.tmp);
-	//printf("1\n");
-	p->flag = reverse_int(&p->flag);
-	//printf("2\n");
-	//printf(YEL);
-	//print_ic(p->flag, p->raw);
-	//printf(ENDC"\n");
-=======
 		}
 	}
 
@@ -600,7 +575,6 @@ void	check_quote_3(t_parser *p)
 	printf(YEL);
 	print_ic(p->flag, p->raw);
 	printf(ENDC"\n");
->>>>>>> jsollet
 	delete(&p->util.tmp);
 	clean_dico(p);
 }
