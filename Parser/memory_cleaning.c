@@ -6,7 +6,11 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:45:58 by jsollett          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/01/03 19:21:34 by grenaud-         ###   ########.fr       */
+=======
+/*   Updated: 2022/12/23 14:33:18 by jsollett         ###   ########.fr       */
+>>>>>>> jsollet
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +32,7 @@ void	clean_memory_parsing(t_parser *p)
 	delete(&p->raw);
 	delete_int(&p->dquote);
 	delete_int(&p->squote);
+//	delete_int(&p->dollars);
 	free(p->line);
 	delete_dico(&p->check);
 	delete(&p->struct_path.split_path);

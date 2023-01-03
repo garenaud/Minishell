@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 18:02:50 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/30 15:37:49 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/28 15:52:36 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@ size_t	ft_strlen(const char *str)
 	size_t	count;
 
 	count = 0;
-    if (str != NULL)
-    {
-    	while (*str != '\0')
-	    {
-		    str++;
-	    	count++;
-	    }    
-    }
-    return (count);
+	if (str != NULL)
+	{
+		while (*str != '\0')
+		{
+			str++;
+			count++;
+		}
+	}
+	return (count);
 }
-
 
 size_t	ft_strlen_c(const char *str, char del)
 {
@@ -57,10 +56,10 @@ char	*ft_strcpy(char *dest, const char *src)
 }
 
 char	*ft_strdup(char *src)
-{// la version normal ok, remise a normal
+{
 	char	*dst;
 
-	dst = (char *)malloc((ft_strlen(src) + 1) * sizeof(char));// leak
+	dst = (char *)malloc((ft_strlen(src) + 1) * sizeof(char));
 	if (dst == NULL)
 		return (NULL);
 	ft_strcpy(dst, src);
@@ -71,12 +70,12 @@ char	*ft_strdup(char *src)
 	return (dst);
 }
 
-int	ft_strncmp (const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	if (n == 0)
 		return (0);
-	while (((n -1 ) > 0) && (*s1 != '\0') && (*s2 != '\0') && (*s1 == *s2))
-	{// avant n-1
+	while (((n -1) > 0) && (*s1 != '\0') && (*s2 != '\0') && (*s1 == *s2))
+	{
 		s1++;
 		s2++;
 		n--;

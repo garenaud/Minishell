@@ -6,7 +6,11 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:55:24 by jsollett          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/12/30 09:49:02 by grenaud-         ###   ########.fr       */
+=======
+/*   Updated: 2022/12/29 15:32:58 by jsollett         ###   ########.fr       */
+>>>>>>> jsollet
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,45 +45,6 @@ void	create_env_list(t_list **env_list, char *env[])
 	*env_list = reverse(env_list);
 }
 
-void	create_dico_list(t_dico **dico,  char *env[])
-{//leak
-	int		i;
-	int		j;
-	t_list	*tmp;
-	char	*s1;
-	char	*s2;
-
-	tmp = NULL;
-	i = 0;
-	while (*(env + i) != NULL)
-	{
-		j = 0;
-		while (env[i][j] != '=')
-		{
-			push(&tmp, &env[i][j]);
-			j++;
-		}
-		tmp = reverse(&tmp);
-		s1 = getword1(&tmp, " ");
-		delete(&tmp);
-		tmp = NULL;
-		j++;
-		while (env[i][j] != '\0')
-		{
-			push(&tmp, &env[i][j]);
-			j++;
-		}
-		tmp = reverse(&tmp);
-		s2 = getword1(&tmp, " ");
-		delete(&tmp);
-		push_dico(dico, s1, s2);
-		free(s1);
-		free(s2);
-		i++;
-	}
-   /*  *dico = reverse_dico(dico); */
-}
-
 void	printll_dico(t_dico *dico)
 {
 	printf("start dico");
@@ -91,58 +56,87 @@ void	printll_dico(t_dico *dico)
 	printf("-->[end]\n");
 }
 
-/* void	printll_dico(t_dico **dico)
+char	*put_key(int *i, int *j, char *env[])
 {
-	t_dico	*dico_tmp;
+	t_list	*tmp;
+	char	*key;
 
-	dico_tmp = NULL;
-	while (size_stack_dico(*dico))
+	tmp = NULL;
+	while (env[*i][*j] != '=')
 	{
-		dico_tmp = pop_dico(dico);// ici plutot avec les ->next... pas de pop
-		printf("key = %s\t\t\t\t value = %s\n", dico_tmp->key, dico_tmp->value);
-		free(dico_tmp->key);
-		free(dico_tmp->value);
-		free(dico_tmp);
-		//delete_dico(&dico_tmp);
+		push(&tmp, &env[*i][*j]);
+		(*j)++;
 	}
+	tmp = reverse(&tmp);
+	key = getword1(&tmp, " ");
+	delete(&tmp);
+	return (key);
 }
- */
 
-void	get_inside_dquote(t_parser *p)
+char	*put_value(int *i, int *j, char *env[])
 {
-	printf("\"");
-	if ((size_stack_int(p->dquote) % 2) == 0)
+	t_list	*tmp;
+	char	*value;
+
+	tmp = NULL;
+	(*j)++;
+	while (env[*i][*j] != '\0')
 	{
-		p->util.position = -pop_int(&p->dquote) + pop_int(&p->dquote) - 1;
-		free(p->util.c_tmp);
-		//remove_pos_c(&p->raw, 0);//
-		while (p->util.position)
-		{
-			p->util.c_tmp = pop(&p->raw);
-			push(&p->util.tmp, p->util.c_tmp);
-			push_int(&p->flag, 2);
-			if (ft_strncmp(p->util.c_tmp, "\'", 1) == 0)
-				pop_int(&p->squote);
-			free(p->util.c_tmp);
-			p->util.position--;
-		}
-		remove_pos_c(&p->raw, 0);
+		push(&tmp, &env[*i][*j]);
+		(*j)++;
 	}
-	else
+	tmp = reverse(&tmp);
+	value = getword1(&tmp, " ");
+	delete(&tmp);
+	return (value);
+}
+
+void	create_dico_list(t_dico **dico, char *env[])
+{//leak original
+	int		i;
+	int		j;
+	t_list	*tmp;
+	char	*s1;
+	char	*s2;
+
+	tmp = NULL;
+	i = 0;
+	while (*(env + i) != NULL)
 	{
-		free(p->util.c_tmp);
-		printf("synatx error\n");
+		j = 0;
+		/*while (env[i][j] != '=')
+		{
+			push(&tmp, &env[i][j]);
+			j++;
+		}
+		tmp = reverse(&tmp);
+		s1 = getword1(&tmp, " ");
+		delete(&tmp);
+		tmp = NULL;*/
+		s1 = put_key(&i, &j, env);//
+		/*j++;
+		while (env[i][j] != '\0')
+		{
+			push(&tmp, &env[i][j]);
+			j++;
+		}
+		tmp = reverse(&tmp);
+		s2 = getword1(&tmp, " ");
+		delete(&tmp);*/
+		s2 = put_value(&i, &j, env);
+		push_dico(dico, s1, s2);
+		free(s1);
+		free(s2);
+		i++;
 	}
 }
 
 void	get_inside_dquote1(t_parser **p)
 {
-	printf("\"");
 	if ((size_stack_int((*p)->dquote) % 2) == 0)
 	{
 		(*p)->util.position = -pop_int(&(*p)->dquote) + pop_int(&(*p)->dquote) - 1;
 		free((*p)->util.c_tmp);
-		//remove_pos_c(&p->raw, 0);//
 		while ((*p)->util.position)
 		{
 			(*p)->util.c_tmp = pop(&(*p)->raw);
@@ -151,59 +145,93 @@ void	get_inside_dquote1(t_parser **p)
 			if (ft_strncmp((*p)->util.c_tmp, "\'", 1) == 0)
 				pop_int(&(*p)->squote);
 			free((*p)->util.c_tmp);
-			//(*p)->util.c_tmp = NULL;//
 			(*p)->util.position--;
 		}
 		remove_pos_c(&(*p)->raw, 0);
 		(*p)->util.c_tmp = ft_strdup("");
 	}
 	else
-	{
+	{// pb malloc
 		free((*p)->util.c_tmp);
 		printf("synatx error\n");
 	}
 }
 
-void	get_inside_squote(t_parser *p)
+void	get_inside_squote1(t_parser **p)
 {
-		printf("\'");
-	if ((size_stack_int(p->squote) % 2) == 0)
+	printf("\'");
+	if ((size_stack_int((*p)->squote) % 2) == 0)
 	{
-		p->util.position = -pop_int(&p->squote) + pop_int(&p->squote) - 1;
-		free(p->util.c_tmp);
-		while (p->util.position)
+		(*p)->util.position = -pop_int(&(*p)->squote) + pop_int(&(*p)->squote) - 1;
+		free((*p)->util.c_tmp);
+		while ((*p)->util.position)
 		{
-			p->util.c_tmp = pop(&p->raw);
-			push(&p->util.tmp, p->util.c_tmp);
-			push_int(&p->flag, 1);
-			if (ft_strncmp(p->util.c_tmp, "\"", 1) == 0)
-				pop_int(&p->dquote);
-			free(p->util.c_tmp);
-			p->util.position--;
+			(*p)->util.c_tmp = pop(&(*p)->raw);
+			push(&(*p)->util.tmp, (*p)->util.c_tmp);
+			push_int(&(*p)->flag, 1);
+			if (ft_strncmp((*p)->util.c_tmp, "\"", 1) == 0)
+				pop_int(&(*p)->dquote);
+			free((*p)->util.c_tmp);
+			(*p)->util.position--;
 		}
-		remove_pos_c(&p->raw, 0);
+		remove_pos_c(&(*p)->raw, 0);
+		(*p)->util.c_tmp = ft_strdup("");
 	}
 	else
-	{// a ameliorer
-		free(p->util.c_tmp);
+	{// a ameliorer pb malloc
+		free((*p)->util.c_tmp);
 		printf("synatx error\n");
 	}
 }
 
+void	clean_dico_32(t_parser **p, t_list **raw_tmp, t_list_i **flag_tmp)
+{//foire
+	char	*tmp;
+	int		flag;
+
+	tmp = pop(&(*p)->raw);
+/*	push(&raw_tmp, tmp);
+	free(tmp);
+	flag = pop_int(&(*p)->flag);
+	push_int(&flag_tmp, flag);*/
+	push(&(*raw_tmp), tmp);
+	free(tmp);
+	flag = pop_int(&(*p)->flag);
+	push_int(&(*flag_tmp), flag);
+	while (getitem_int((*p)->flag, 0) == 32)
+	{
+		remove_position_int(&(*p)->flag, 0);
+		remove_pos_c(&(*p)->raw, 0);
+	}
+}
+
+void	clean_dico_helper(t_parser **p, t_list **raw_tmp, t_list_i **flag_tmp)
+{//foire
+	char	*tmp;
+	int		flag;
+
+	tmp = pop(&(*p)->raw);
+	push(&(*raw_tmp), tmp);
+	free(tmp);
+	flag = pop_int(&(*p)->flag);
+	push_int(&(*flag_tmp), flag);
+}
+
 void	clean_dico(t_parser *p)
-{// foire
+{//
 	t_list		*raw_tmp;
 	t_list_i	*flag_tmp;
-	char		*tmp;
-	int			flag;
+//	char		*tmp;
+//	int			flag;
 
 	raw_tmp = NULL;
 	flag_tmp = NULL;
 	while (size_stack(p->raw))
 	{
 		if (getitem_int(p->flag, 0) == 32)
-		{
-			tmp = pop(&p->raw);
+		{// ok
+			clean_dico_32(&p, &raw_tmp, &flag_tmp);
+		/*	tmp = pop(&p->raw);
 			push(&raw_tmp, tmp);
 			free(tmp);
 			flag = pop_int(&p->flag);
@@ -213,121 +241,162 @@ void	clean_dico(t_parser *p)
 				remove_position_int(&p->flag, 0);
 				remove_pos_c(&p->raw, 0);
 			}
+			*/
 		}
 		else
-		{
-			tmp = pop(&p->raw);
+		{// ok
+			clean_dico_helper(&p, &raw_tmp, &flag_tmp);
+			/*tmp = pop(&p->raw);
 			push(&raw_tmp, tmp);
 			free(tmp);
 			flag = pop_int(&p->flag);
-			push_int(&flag_tmp, flag);
+			push_int(&flag_tmp, flag);*/
 		}
 	}
 	p->raw = reverse(&raw_tmp);
 	p->flag = reverse_int(&flag_tmp);
-	printf(PURP"\n");
+/*	printf(PURP"\n");
 	print_ic(p->flag, p->raw);
-	printf(ENDC);
+	printf(ENDC);*/
+}
+
+void	check_for_dollar(t_parser *p)
+{// test2312
+	int	pos_dollar;
+	int	consecutive_dollar;
+
+	pos_dollar = getpos_c(p->raw, "$");
+	consecutive_dollar = count_successive_c(p, "$");
+	if (ft_strncmp(getitem_c(p->raw, pos_dollar + consecutive_dollar), " ", 1))
+		check_for_envvar(p);
 }
 
 void	check_for_envvar(t_parser *p)
 {
 	t_list		*raw_tmp;
+	t_list		*raw_tmp1;
 	t_list		*key_raw;
 	t_list_i	*flag_tmp;
 	t_dico		*env;
 	char		*tmp;
-	//int         flag;
 	int			pos;
 	int			status; // 0 aucun ,1 un squote, 2 dquote
 	int			pos_dollar;
 
 	status = 0;
 	raw_tmp = NULL;
+	raw_tmp1 = NULL;
 	flag_tmp = NULL;
 	key_raw = NULL;
 	env = NULL;
-
-	if (getpos_c(p->raw, "$") != -1)
+	if (getpos_c(p->raw, "$") != -1)// if
 	{
-		printf("$ detecte a la pos %d \n", getpos_c(p->raw, "$") );
+		printf("$ detecte a la pos %d \n", getpos_c(p->raw, "$"));
 		while (size_stack(p->raw))
 		{
-			printf("entree while\n");
+			printf("entree while: status %d'\n", status);
 			pos = 0;
 			pos_dollar = getpos_c(p->raw, "$");
 			if (pos_dollar == -1)
 				break ;
 			while (pos <= pos_dollar)// avant = sinon boucle infini
 			{
-				if (ft_strncmp(getitem_c(p->raw, 0),"$", 1) == 0)
+				if (size_stack(p->raw) && ft_strncmp(getitem_c(p->raw, 0), "$", 1) == 0)
 				{// pose un pb, le remove
 					remove_pos_c(&p->raw, 0);
 					pos++;
 					continue ;
 				}
-				if (ft_strncmp(getitem_c(p->raw, 0),"'", 1) == 0)
+				if (size_stack(p->raw) && ft_strncmp(getitem_c(p->raw, 0), "'", 1) == 0 && status != 2)// cas non /"/'
 				{
-					if (size_stack_int(p->squote) %2 == 0)
+					if (size_stack_int(p->squote) % 2 == 0)
 					{
 						transfer_c(&p->raw, &raw_tmp);
-						pos++;//
-						while (ft_strncmp(getitem_c(p->raw, 0),"'", 1) != 0)
+						pos++;
+						while (ft_strncmp(getitem_c(p->raw, 0), "'", 1) != 0)
 						{
 							transfer_c(&p->raw, &raw_tmp);
-							pos++;//
+							pos++;
 						}
+						//transfer_c(&p->raw, &raw_tmp);//segf
+						//pos++;// segf
 						status = 1;
 					}
 					/*else
 						printf("erreur\n"); */
 				}
-				else
-				if (ft_strncmp(getitem_c(p->raw, 0),"\"", 1) == 0)
+		//		else
+				if (size_stack(p->raw) && ft_strncmp(getitem_c(p->raw, 0), "\"", 1) == 0)
 				{
 					status = 2;
 				}
+				printf("\t        end w1 status %d\n", status);
 				transfer_c(&p->raw, &raw_tmp);
 				pos++;
 			}
-			p->util.i1 = status ;//getitem_int(p->flag, 0);
+			p->util.i1 = status ;
 			p->util.i2 = p->util.i1;
 			while (size_stack(p->raw) && p->util.i1 == p->util.i2 && ft_strncmp(getitem_c(p->raw,0), "$", 1) != 0)
 			{
-				if (ft_strncmp(getitem_c(p->raw, 0),"\'", 1) == 0)
+				if (ft_strncmp(getitem_c(p->raw, 0), "\'", 1) == 0)
 				{
 					printf("1");
 					p->util.i2 = 1;
+					//status = 0;// test 2912
 					break ;
 				}
 				else
-				if (ft_strncmp(getitem_c(p->raw, 0),"\"", 1) == 0)
+				if (ft_strncmp(getitem_c(p->raw, 0), "\"", 1) == 0)
 				{
 					printf("2");
 					p->util.i2 = 2;
 					break ;
 				}
-				if (status == 1)
+			/*	if (status == 1)
 				{// simple quote
 					transfer_c(&p->raw, &raw_tmp);
+					printf(RED"\n status = 1\n"ENDC);
 				}
-				else
+				else*/
 				{// double quote or nothing
-					transfer_c(&p->raw, &key_raw);
+					if (ft_isalnum(getitem_c(p->raw, 0)[0])) //
+						transfer_c(&p->raw, &key_raw);
+					else
+						transfer_c(&p->raw, &raw_tmp1);// je pense faux
 				}
 			}
 			key_raw = reverse(&key_raw);
 			tmp = getall(&key_raw);
-			printf("getall -> %s\n", tmp);
+			printf("getall -> [%s], status = %d\n", tmp, status);
 			if (get_key(p->envvar, tmp) != -1)
 			{
-				printf("key searching...pos=[%d]\n", get_key(p->envvar, tmp));
+			//	printf("key searching...pos=[%d]\n", get_key(p->envvar, tmp));
 				env = getitem_dico(p->envvar, get_key(p->envvar, tmp));
 				free(tmp);
 				printf("value = [%s]\n", env->value);
+			//	printf("env adress %p\n", env);
 				tmp = ft_strdup(env->value);
 				create_raw_list(&raw_tmp ,tmp);// doute
+				free(tmp);// rajout 2812
+				raw_tmp1 = reverse(&raw_tmp1);// 2912 test corr 1 inversion
+				tmp = getall(&raw_tmp1);// rajout 2812
+				create_raw_list(&raw_tmp ,tmp); // rajout 2812
+				free(tmp);//
+				delete_dico(&env);//
 			}
+/*			else
+			{// test 2912 faux
+				printf("\n TEST \n");
+			//	free(tmp);
+				raw_tmp1 = reverse(&raw_tmp1);
+			//	tmp = getall(&raw_tmp1);
+				create_raw_list(&raw_tmp, tmp);
+				free(tmp);
+				tmp = getall(&raw_tmp1);
+				create_raw_list(&raw_tmp, tmp);
+				free(tmp);
+			}*/
+			status = 0;//test 2912
 			printf("sortie while \n");
 		}
 		if (getpos_c(p->raw, "$") == -1)
@@ -337,7 +406,7 @@ void	check_for_envvar(t_parser *p)
 				transfer_c(&p->raw, &raw_tmp);
 			}
 		}
-		p->raw = reverse(&raw_tmp);//
+		p->raw = reverse(&raw_tmp);
 	}
 }
 
@@ -421,10 +490,17 @@ void	add_space_2gt(t_parser *p)
 
 void	check_quote_3(t_parser *p)
 {
+<<<<<<< HEAD
 	//printf(GREEN"entree check_quote_3\n");
 	//printll(p->raw);
 	//printll_int(p->dquote);
 	//printf(ENDC);
+=======
+/*	printf(GREEN"entree check_quote_3\n");
+	printll(p->raw);
+	printll_int(p->dquote);
+	printf(ENDC);*/
+>>>>>>> jsollet
 //	create_quote_list(&p->raw, &p->dquote, "\"");//
 //	create_quote_list(&p->raw, &p->squote, "\'");//
 	while (size_stack(p->raw))
@@ -434,7 +510,7 @@ void	check_quote_3(t_parser *p)
 		if (ft_strncmp(p->util.c_tmp, "\"", 1) == 0)
 			get_inside_dquote1(&p);
 		if (ft_strncmp(p->util.c_tmp, "\'", 1) == 0)
-			get_inside_squote(p);
+			get_inside_squote1(&p);
 		if (ft_strncmp(p->util.c_tmp, " ", 1) == 0)
 			get_inside_space(p);
 		else
@@ -443,6 +519,8 @@ void	check_quote_3(t_parser *p)
 			{
 				if (count_successive_c(p, "|") == 1)
 					add_space_flag(p, 3);
+				else if (count_successive_c(p, "|") == 2)
+					add_2space_flag(p, 8);
 				else
 				{// voir comment gerer erreur
 					printf("erreur\n");
@@ -495,9 +573,12 @@ void	check_quote_3(t_parser *p)
 				continue ;
 			}
 			if (ft_strlen(p->util.c_tmp))
+			{
 				push(&p->util.tmp, p->util.c_tmp);
-			push_int(&p->flag, 0);
+				push_int(&p->flag, 0);// mod2312
+			}
 			free(p->util.c_tmp);
+<<<<<<< HEAD
 			//printf("free %p util.c_tmp\n", p->util.c_tmp);
 		}
 	}
@@ -510,101 +591,18 @@ void	check_quote_3(t_parser *p)
 	//printf(YEL);
 	//print_ic(p->flag, p->raw);
 	//printf(ENDC"\n");
+=======
+		}
+	}
+
+	p->raw = reverse(&p->util.tmp);
+	p->flag = reverse_int(&p->flag);
+	printf(YEL);
+	print_ic(p->flag, p->raw);
+	printf(ENDC"\n");
+>>>>>>> jsollet
 	delete(&p->util.tmp);
 	clean_dico(p);
-}
-
-void	check_quote_1(t_parser *p)
-{
-	int		q_index;
-	int		index;
-	int		flag;
-	char	*c_tmp;
-	int		start;
-	//int		end;
-
-	index = 0;
-	start = 0;
-	flag = 0;
-	c_tmp = NULL;
-	while (index < (int)size_stack(p->raw))
-	{
-		if (size_stack_int(p->dquote) && size_stack_int(p->squote))
-		{// deux piles existent
-			if (getitem_int(p->dquote, 0) < getitem_int(p->squote, 0))
-			{
-				q_index = pop_int(&p->dquote);
-				flag = 8;
-			}
-			else
-			{
-				q_index = pop_int(&p->squote);
-				flag = 4;
-			}
-		}
-		else if (size_stack_int(p->dquote) && size_stack_int(p->squote) == 0)
-		{
-			q_index = pop_int(&p->dquote);
-			flag = 2;
-		}
-		else if (size_stack_int(p->dquote) == 0 && size_stack_int(p->squote))
-		{
-			q_index = pop_int(&p->squote);
-			flag = 1;
-		}
-		else if (size_stack_int(p->dquote) == 0 && size_stack_int(p->squote) == 0)
-		{
-			q_index = size_stack(p->raw);
-			flag = 0;
-		}
-		while (start == 0 && index < q_index)
-		{// debut du scan
-			c_tmp = getitem_c(p->raw, index);
-			push_dico(&p->check, "0", c_tmp);
-			//free(c_tmp);
-			index++;
-		}
-		while (flag == 0 && index < q_index)
-		{
-			c_tmp = getitem_c(p->raw, index);
-			push_dico(&p->check, "0", c_tmp);
-			//free(c_tmp);
-			index++;
-		}
-		while (flag == 1 && index <= q_index && index > start)
-		{
-			c_tmp = getitem_c(p->raw, index);
-			push_dico(&p->check, "1", c_tmp);
-			//free(c_tmp);
-			index++;
-		}
-		while (flag == 2 && index <= q_index && index > start)
-		{
-			c_tmp = getitem_c(p->raw, index);
-			push_dico(&p->check, "2", c_tmp);
-			//free(c_tmp);
-			index++;
-		}
-		while (flag == 4 && index <= q_index && index > start)
-		{
-			c_tmp = getitem_c(p->raw, index);
-			push_dico(&p->check, "4", c_tmp);
-			//free(c_tmp);
-			index++;
-		}
-		while (flag == 8 && index <= q_index && index > start)
-		{
-			c_tmp = getitem_c(p->raw, index);
-			push_dico(&p->check, "8", c_tmp);
-			//free(c_tmp);
-			index++;
-		}
-		start = q_index;
-	}
-	p->check = reverse_dico(&p->check);
-	printf(PURP);
-	printll_dico(p->check);
-	printf(ENDC);
 }
 
 void test_dico(t_parser p, char **env)
@@ -656,9 +654,9 @@ void	get_word_list(t_parser p)
 	{
 		trim_list(&p.raw);
 		p.tmp = getword1(&p.raw, " ");
-		if (ft_strncmp(p.tmp,"", 1))
+		if (ft_strncmp(p.tmp, "", 1))
 		{
-			push(&p.word,p.tmp);
+			push(&p.word, p.tmp);
 			free(p.tmp);
 		}
 		else
@@ -688,6 +686,8 @@ static void cpd1_key(t_parser *p)
 		p->util.key = "6";
 	if (p->util.i1 == 7)
 		p->util.key = "7";
+	if (p->util.i1 == 8)
+		p->util.key = "8";
 }
 
 void	cpd1(t_parser *p)

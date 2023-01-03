@@ -6,7 +6,11 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/01/03 21:23:48 by grenaud-         ###   ########.fr       */
+=======
+/*   Updated: 2022/12/29 10:38:29 by jsollett         ###   ########.fr       */
+>>>>>>> jsollet
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +36,12 @@ int	main(int argc, char *argv[], char *env[])
 		get_path(&p, env);
 		if (readline_manager(&p) == 1)
 			break ;
+<<<<<<< HEAD
+=======
+	//	printll(p.struct_path.split_path);
+		/* init_pgrm(&p, env);
+		get_path(&p, env); */
+>>>>>>> jsollet
 		create_raw_list(&p.raw, p.line);
 		p.raw = reverse(&p.raw);
 
@@ -40,13 +50,22 @@ int	main(int argc, char *argv[], char *env[])
 		create_dico_list(&p.envvar, env);
 		trim_list(&p.raw);
 		check_for_envvar(&p);
+<<<<<<< HEAD
 		//printf("--------fin envvar--------\n");				
+=======
+		printf("--------fin envvar--------\n");
+>>>>>>> jsollet
 		delete_int(&p.dquote);
 		delete_int(&p.squote);
 		init_parsing_list_c(&p);
 		delete_parsing_list_c(&p);
 		check_quote_3(&p);
+<<<<<<< HEAD
 		//printf("--------fin quote 3--------\n");
+=======
+    //    check_for_envvar(&p);
+		printf("--------fin quote 3--------\n");
+>>>>>>> jsollet
 		// essai envvar avant ou apres
 		//create_parsing_dico(&p);
 		cpd1(&p);
@@ -64,6 +83,7 @@ int	main(int argc, char *argv[], char *env[])
 			printf("\n les chemins = ");
 			printll(p.struct_cmd.cmd);
 		}
+<<<<<<< HEAD
 		//printf(GREEN);
 		//printll(p.word);
 		//printf(ENDC);
@@ -72,6 +92,11 @@ int	main(int argc, char *argv[], char *env[])
 		//init_pipe_cmd(&p);
 		//printll_exe(p.cmd_exe);
 		//delete_exeline(&p.cmd_exe);
+=======
+		printf(GREEN);
+		printll(p.word);
+		printf(ENDC);
+>>>>>>> jsollet
 		clean_memory_parsing(&p);
 	}
 	printf(RED"----------------- sortie prgm ----------------\n"ENDC);

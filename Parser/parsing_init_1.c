@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:18:38 by jsollett          #+#    #+#             */
-/*   Updated: 2022/12/21 13:20:14 by jsollett         ###   ########.fr       */
+/*   Updated: 2022/12/27 11:01:03 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	init_parsing_list(t_parser *p)
 	create_quote_list(&p->word, &p->heredoc_i, "<<");
 	create_quote_list(&p->raw, &p->dquote, "\"");
 	create_quote_list(&p->raw, &p->squote, "\'");
+//	create_quote_list(&p->raw, &p->dollars, "$");
 }
 
 void	init_parsing_list_c(t_parser *p)

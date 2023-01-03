@@ -6,7 +6,11 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/01/03 19:00:05 by grenaud-         ###   ########.fr       */
+=======
+/*   Updated: 2022/12/28 15:55:30 by jsollett         ###   ########.fr       */
+>>>>>>> jsollet
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +143,13 @@ typedef struct s_parser
 {
 	t_list_i	*word_len;
 	t_list_i	*flag;
+<<<<<<< HEAD
+=======
+
+	t_dico		*dico;
+	t_dico		*dico_tmp;
+	t_dico		*check;
+>>>>>>> jsollet
 	t_dico		*cmd_d_tmp;
 	t_dico		*cmd_d;
 	t_dico		*envvar;
@@ -176,6 +187,7 @@ size_t		ft_strlen_c(const char *str, char del);
 char		*ft_strdup(char *src);
 char		*ft_strcpy(char *dest, const char *src);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+<<<<<<< HEAD
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_realloc(char *org, int n_size);
 char		*ft_strjoin(char const *s1, char const *s2);
@@ -188,6 +200,9 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 void		ft_putnbr_fd(int n, int fd);
 
 
+=======
+int			ft_isalnum(int c);
+>>>>>>> jsollet
 
 // integer stack
 
@@ -260,6 +275,7 @@ void		init_pgrm_file(t_parser *p);
 void		init_pgrm_cmd(t_parser *p);
 void		free_parsing(t_parser *p);
 void		init_util(t_parser *p);
+void		init_only_util(t_util *p);
 void		init_struct_path(t_parser *p);
 
 // dico
@@ -298,8 +314,10 @@ void		check_quote_1(t_parser *p);
 void		check_quote_3(t_parser *p);
 void		remove_successive_key(t_parser *p);
 void		print_ic(t_list_i *lst_i, t_list *lst);
-void		get_inside_dquote(t_parser *p);
-void		get_inside_squote(t_parser *p);
+void		get_inside_dquote1(t_parser **p);
+void		get_inside_squote1(t_parser **p);
+/*void		get_inside_dquote(t_parser *p);
+void		get_inside_squote(t_parser *p);*/
 void		get_inside_space(t_parser *p);
 void		create_parsing_dico(t_parser *p);
 void		clean_dico(t_parser *p);
