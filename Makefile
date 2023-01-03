@@ -6,7 +6,7 @@
 #    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2022/12/22 18:26:13 by grenaud-         ###   ########.fr        #
+#    Updated: 2023/01/03 18:47:06 by grenaud-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,10 +51,14 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/path.c \
 			Parser/memory_cleaning.c \
 			Exec/init.c \
+			Exec/exe.c \
 			Exec/check_pipe_utils.c \
-			Exec/pipe.c \
 			Exec/list_utils_exe.c \
 			Exec/utils_2.c \
+			Builtin/built_utils.c \
+			Builtin/builtins.c \
+			Builtin/echo.c \
+			signal.c \
 			minishell.c
 
 
@@ -96,6 +100,10 @@ fclean:
 	@echo $(B)Removed [TEMPORARY FILES]$(X)
 	$(RM) ./parser/*.o
 	@echo $(R)Removed [./Parser/*.o]$(X)
+	$(RM) ./Exec/*.o
+	@echo $(R)Removed [./Exec/*.o]$(X)
+	$(RM) ./Builtin/*.o
+	@echo $(R)Removed [./Builtin/*.o]$(X)
 	$(RM) ./a.out.dSYM
 	$(RM) ./*.o
 	$(RM) ./minishellSanit

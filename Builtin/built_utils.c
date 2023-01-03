@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:30:57 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/11/21 16:32:13 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/03 18:49:01 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,21 @@ void	ft_putchar_fd(char c, int fd)
 	write(fd, &c, 1);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putnbr_fd(int n, int fd)
 {
-	int	i;
+	long long int	t;
 
-	i = 0;
-	if (!s)
-		return ;
-	while (s[i] != '\0')
+	t = n;
+	if (t < 0)
 	{
-		write(fd, &s[i], 1);
-		i++;
+		t = t * -1;
+		ft_putchar_fd('-', fd);
 	}
+	if (t > 9)
+	{
+		ft_putnbr_fd((t / 10), fd);
+		ft_putchar_fd((t % 10 + '0'), fd);
+	}
+	else
+		ft_putchar_fd((t + '0'), fd);
 }

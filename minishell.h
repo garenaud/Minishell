@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 23:05:44 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/03 19:00:05 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_exe
 	char	**cmd_tab;
 	int		fd_in;
 	int		fd_out;
-	int		pid;
+	pid_t	pid;
 	int		pfd[2];
 	struct s_exe	*next;
 }	t_exe;
@@ -180,6 +180,13 @@ int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_realloc(char *org, int n_size);
 char		*ft_strjoin(char const *s1, char const *s2);
 int			ft_isprint(int c);
+void		ft_putstr_fd(char *s, int fd);
+void		ft_putchar_fd(char c, int fd);
+int			getpos(t_list *top, char *item);
+char		*ft_substr(char const *s, unsigned int start, size_t len);
+size_t		ft_strlcpy(char *dst, const char *src, size_t size);
+void		ft_putnbr_fd(int n, int fd);
+
 
 
 // integer stack
@@ -301,9 +308,6 @@ int			count_successive_c(t_parser *p, char *c);
 void		check_for_envvar(t_parser *p);
 
 //execution
-void	close_pipes(t_exe *curr);
-void	wait_pipe(t_parser *p);
-void	init_pipes(t_parser *p);
 void	init_exe(t_parser *p);
 t_exe	*init_exe_list(int size);
 void	delete_exeline(t_exe **top);
@@ -312,21 +316,26 @@ void	printll_exe(t_exe *exec);
 int		checknb_arg(t_dico *top);
 int		checknb_pipe(t_dico *top);
 size_t	size_stack_exe(t_exe *top);
-int		is_function(t_parser *p);
-int		pipe_loop(t_parser *p);
-int		child_pro(t_parser *p, t_exe *curr);
 void	do_waits(t_parser *p);
-int		inpt_checker(char **str, t_parser *p);
-int		inpt_checker_1(char **str, t_parser *p);
-int		is_builtin(char **str);
-char	*set_and_get(t_parser *p);
-void	free_cmds(t_parser	*p);
+int		free_all(t_parser *p);
+int		ft_pipetok(char c);
+void	init_pipe_cmd(t_parser *p);
+int		cmd(t_parser *p, t_exe *curr);
+int		pipe_exec(t_parser *p, t_exe *curr);
+void	piping_main(t_parser *p);
+char	*get_pos_path(t_parser *p, char *cmd);
 
 //signal
 void	handle_sigint(int sig);
 void	handle_signal(struct termios *saved);
 void	hide_key(struct termios *saved);
 void	handle_sigquit(int sig);
+void	handle_sigquit(int signum);
 
+//builtin
+int		bultin_search(t_exe *curr);
+int		is_builtin(char **str);
+int		bultin_echo(int i, t_exe *curr);
+int		bultin_echo_n(t_exe *curr);
 
 #endif

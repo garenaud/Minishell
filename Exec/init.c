@@ -6,11 +6,60 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 22:46:03 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/03 18:54:25 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	piping_main(t_parser *p)
+{
+	int pfd[2];
+	pid_t	pid;
+	
+	pipe(pfd);
+	pid = fork();
+	if (pid == 0)
+	{
+		init_exe(p);
+		dup2(pfd[0], STDIN_FILENO);
+		close(pfd[0]);
+		close(pfd[1]);
+		init_pipe_cmd(p);
+	}
+	close(pfd[1]);
+	waitpid(pid, &p->return_val, 0);
+	delete(&p->struct_cmd.cmd);
+}
+
+void	init_pipe_cmd(t_parser *p)
+{
+	t_exe	*curr;
+
+	curr = p->cmd_exe;
+	if (curr != NULL)
+	{
+		//init_pipe(curr);
+		//printll_exe(curr);
+		cmd(p, curr);
+	}
+}
+
+int	cmd(t_parser *p, t_exe *curr)
+{
+	signal(SIGINT, handle_sigquit);
+	signal(SIGQUIT, handle_sigquit);
+	//redirection_tab(curr);
+	if (is_builtin(curr->cmd_tab) != -1 && curr->next == NULL)
+		bultin_search(curr);
+	else
+	{	
+		if(pipe_exec(p, curr) != 1)
+			printf("\n\nben ca a merde kkk");
+	}
+	return (0);
+}
+
 
 void	init_exe(t_parser *p)
 {
@@ -45,29 +94,3 @@ void	init_exe(t_parser *p)
 	}
 }
 
-char	*set_and_get(t_parser *p)
-{
-	char	*inpt;
-
-	inpt = NULL;
-	p->piped = 0;
-	//path_update(p);
-	if (g_status > 4)
-		p->return_val = g_status;
-	g_status = WAITING;
-	signal(SIGQUIT, SIG_IGN);
-	inpt = readline(p->display_path);
-	g_status = PARSING;
-	if (inpt && ft_isprint(inpt[0]))
-		add_history(inpt);
-	return (inpt);
-}
-int	free_all(t_parser *p)
-{
-	if (p->cmd_exe->cmd_tab != NULL)
-	{
-		free_tab(p->cmd_exe->cmd_tab);
-		free(p->cmd_exe->cmd_tab);
-	}
-	return (0);
-}

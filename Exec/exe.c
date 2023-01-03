@@ -6,138 +6,74 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 22:42:43 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/22 22:41:33 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/03 21:30:20 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	run_shell(t_parser *p)
+#include "../minishell.h"
+
+int	pipe_exec(t_parser *p, t_exe *curr)
 {
-	if (p->piped)
-	{
-		if (!pipe_checker(p->cmd_exe))
-		{
-			if (pipe_loop(p))
-			{
-				free_all(p, p->escape);
-				return (0);
-			}
-		}
-	}
-	else if (inpt_checker(p))
-	//	exit_free(p);
-	//free_all(args, NULL, p->escape);
-	return (1);
-}
-
-int	pipe_loop(t_parser *p)
-{
-	t_cmd	*curr;
-
-	curr = p->cmd_exe;
-	init_pipes(p);
-	while (curr)
-	{
-		if (curr->fd_in < 0 || curr->fd_out < 0)
-		{
-			curr = curr->next;
-			continue ;
-		}
-		curr->pid = fork();
-		if (curr->pid == 0)
-			child_pro(p, curr);
-		curr = curr->next;
-	}
-	do_waits(p);
-	free_cmds(p);
-	return (0);
-}
-
-int	child_pro(t_parser *p, t_exe *curr)
-{
-	int	old_stdin;
-	int	old_stdout;
-
-	old_stdin = dup(STDIN_FILENO);
-	old_stdout = dup(STDOUT_FILENO);
-	if (curr->fd_in > 2)
-		dup2(curr->fd_in, STDIN_FILENO);
-	if (curr->fd_out > 2)
-		dup2(curr->fd_out, STDOUT_FILENO);
-	close_pipes(p->cmd_exe);
-	inpt_checker(curr->cmd_tab, p);
-	exit(0);
-}
-
-static void	close_pipes(t_cmd *curr)
-{
-	while (curr)
-	{
-		if (curr->fd_in > 2)
-			close(curr->fd_in);
-		if (curr->fd_out > 2)
-			close(curr->fd_out);
-		curr = curr->next;
-	}
-}
-
-int	inpt_checker(char **str, t_parser *p)
-{
+	int	prev_pipe;
 	int	i;
+	int	size;
+	char	*path;
 
 	i = 0;
-	if (!(str))
-		return (0);
-	if (is_builtin(str))
+	size = size_stack(p->struct_cmd.cmd);
+	prev_pipe = STDIN_FILENO;
+	while(i < size - 1)
 	{
-		printf("builtin, ca sera bientot la\n\n");
-		return (1);
+		pipe(curr->pfd);
+		curr->pid = fork();
+		path = get_pos_path(p, curr->cmd_tab[0]);
+		if(curr->pid == 0)
+		{
+			if (prev_pipe != STDIN_FILENO)
+			{
+				dup2(prev_pipe, STDIN_FILENO);
+				close(prev_pipe);
+			}
+			dup2(curr->pfd[1], STDOUT_FILENO);
+			close(curr->pfd[1]);
+			execve(path, curr->cmd_tab, p->env);
+			perror("execve failed pipe");
+			exit(1);
+		}
+		close(prev_pipe);
+		close(curr->pfd[1]);
+		prev_pipe = curr->pfd[0];
+		curr = curr->next;
+		i++;
 	}
-	else
-		if (is_function(str, p))
-			return (1);
-	return (0);
+	if (prev_pipe != STDIN_FILENO)
+	{
+		dup2(prev_pipe, STDIN_FILENO);
+		close(prev_pipe);
+	}
+	path = get_pos_path(p, curr->cmd_tab[0]);
+	execve(path, curr->cmd_tab, p->env);
+		perror("execve failed last command");
+	close(prev_pipe);
+	close(curr->pfd[1]);
+	do_waits(p);
+	return(1);
 }
-
 
 void	do_waits(t_parser *p)
 {
-	t_cmd	*curr;
-
-	curr = p->cmd_exe;
-	close_pipes(curr);
-	while (curr)
+	while (waitpid(-1, &p->return_val, WUNTRACED) < 0)
+		continue;
+	if (errno != ECHILD)
 	{
-		waitpid(curr->pid, &p->return_val, 0);
-		curr = curr->next;
+		//ERROR
+		printf("\n la merde!!!! c'est dowait qui le dit\n");
+	}
+	if (WIFEXITED(p->return_val))
+	{
+		g_status = WEXITSTATUS(p->return_val);
 	}
 }
-
-int	pipe_checker(t_parser *p)
-{
-	int	i;
-
-	i = 0;
-	while (p->cmd_exe->cmd_tab)
-	{
-		if (p->cmd_exe->cmd_tab[0][0] == '|')
-		{
-			ft_putstr_fd("error near unexpected token\n", STDERR_FILENO);
-			return (1);
-		}
-		if (ft_pipetok(p->cmd_exe->cmd_tab[i][0]))
-		{
-			if (!p->cmd_exe->cmd_tab[i + 1] || ft_pipetok(p->cmd_exe->cmd_tab[i + 1][0]))
-			{
-				ft_putstr_fd("error near unexpected token\n", STDERR_FILENO);
-				return (1);
-			}
-		}
-		i++;
-	}
-	return (0);
-}
-
-
 
 void	free_cmds(t_parser	*p)
 {
@@ -156,4 +92,14 @@ void	free_cmds(t_parser	*p)
 		free(curr);
 		curr = next;
 	}
+}
+
+int	free_all(t_parser *p)
+{
+	if (p->cmd_exe->cmd_tab != NULL)
+	{
+		free_tab(p->cmd_exe->cmd_tab);
+		free(p->cmd_exe->cmd_tab);
+	}
+	return (0);
 }
