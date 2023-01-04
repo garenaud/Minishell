@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:45:58 by jsollett          #+#    #+#             */
-/*   Updated: 2022/12/23 14:33:18 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/04 14:47:37 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	clean_memory_end(t_parser *p)
 	delete_dico(&p->cmd_d);
 	free(p->cmd_d);
 	delete_int(&p->flag);
+	delete(&p->util.delim);
 }
 
 void	clean_memory_parsing(t_parser *p)

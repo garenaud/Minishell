@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/28 15:55:30 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/04 15:17:40 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ typedef struct s_util
 	char	*c_tmp1;
 	char	*key;
 	t_list	*tmp;
+	t_list	*delim;
+	t_list	*raw;
+	t_list	*raw_tmp;
+	t_list	*sq;
+	t_list	*dq;
+	t_list	*dollar;
+	t_list	*key_l;
+	t_list	*del;
 }	t_util;
 
 typedef struct s_dico
@@ -185,7 +193,7 @@ void		init_pgrm_cmd(t_parser *p);
 void		init_parsing_list(t_parser *p);
 void		init_parsing_list_c(t_parser *p);
 void		delete_parsing_list_c(t_parser *p);
-
+void		create_delim(t_parser *p);
 // memory cleaning
 void		clean_memory_end(t_parser *p);
 void		clean_memory_parsing(t_parser *p);
@@ -229,6 +237,7 @@ void		check_quote(t_parser *p);
 char		*path_list(char *env[]);
 void		create_env_list(t_list **env_list, char *env[]);
 void		create_path_access(t_parser *p);
+//void		create_path_access1(t_parser *p);
 void		get_path(t_parser *p, char **env);
 
 // test

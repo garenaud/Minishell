@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:18:38 by jsollett          #+#    #+#             */
-/*   Updated: 2022/12/27 11:01:03 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/04 15:17:45 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@ void	init_util(t_parser *p)
 	p->util.c_tmp1 = NULL;
 	p->util.key = NULL;
 	p->util.tmp = NULL;
+	p->util.raw = NULL;
+	p->util.raw_tmp = NULL;
+	p->util.sq = NULL;
+	p->util.dq = NULL;
+	p->util.dollar = NULL;
+	p->util.key_l = NULL;
+	p->util.del = NULL;
 }
 
 void	init_parsing_list(t_parser *p)
@@ -53,4 +60,19 @@ void	init_parsing_list_c(t_parser *p)
 	//create_quote_list(&p->raw, &p->heredoc_i, "<<");
 	create_quote_list(&p->raw, &p->dquote, "\"");
 	create_quote_list(&p->raw, &p->squote, "\'");
+}
+
+// a tester
+void	create_delim(t_parser *p)
+{
+	p->util.delim = NULL;
+	push(&p->util.delim, " ");
+	push(&p->util.delim, "'");
+	push(&p->util.delim, "\"");
+	push(&p->util.delim, "$");
+	push(&p->util.delim, "|");
+	push(&p->util.delim, ">");
+	push(&p->util.delim, ">>");
+	push(&p->util.delim, "<");
+	push(&p->util.delim, "<<");
 }

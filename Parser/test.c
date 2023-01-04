@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:55:24 by jsollett          #+#    #+#             */
-/*   Updated: 2022/12/29 15:32:58 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/04 14:12:35 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,7 @@ void	clean_dico(t_parser *p)
 }
 
 void	check_for_dollar(t_parser *p)
-{// test2312
+{
 	int	pos_dollar;
 	int	consecutive_dollar;
 
@@ -354,13 +354,18 @@ void	check_for_envvar(t_parser *p)
 					printf(RED"\n status = 1\n"ENDC);
 				}
 				else*/
+				//if (getpos_c(p->raw, "$") != -1) // probleme
 				{// double quote or nothing
 					if (ft_isalnum(getitem_c(p->raw, 0)[0])) //
 						transfer_c(&p->raw, &key_raw);
 					else
 						transfer_c(&p->raw, &raw_tmp1);// je pense faux
 				}
+				//else
+				//	transfer_c(&p->raw, &raw_tmp);// probleme
 			}
+			//if (getpos_c(p->raw, "$") != -1)
+			{
 			key_raw = reverse(&key_raw);
 			tmp = getall(&key_raw);
 			printf("getall -> [%s], status = %d\n", tmp, status);
@@ -380,6 +385,7 @@ void	check_for_envvar(t_parser *p)
 				free(tmp);//
 				delete_dico(&env);//
 			}
+			}
 /*			else
 			{// test 2912 faux
 				printf("\n TEST \n");
@@ -394,6 +400,8 @@ void	check_for_envvar(t_parser *p)
 			}*/
 			status = 0;//test 2912
 			printf("sortie while \n");
+			while (size_stack(raw_tmp1))//
+				transfer_c(&raw_tmp1, &raw_tmp);//
 		}
 		if (getpos_c(p->raw, "$") == -1)
 		{
@@ -403,32 +411,6 @@ void	check_for_envvar(t_parser *p)
 			}
 		}
 		p->raw = reverse(&raw_tmp);
-	}
-}
-
-int		count_successive_c(t_parser *p, char *c)
-{
-	int	count;
-	int	index;
-
-	count = 1;
-	index = 0;
-	while (index < (int)size_stack(p->raw) && ft_strncmp(getitem_c(p->raw, index), c, 1) == 0)
-	{
-		count++;
-		index++;
-	}
-	return (count);
-}
-
-void	get_inside_space(t_parser *p)
-{
-	push(&p->util.tmp, p->util.c_tmp);
-	push_int(&p->flag, 32);
-	free(p->util.c_tmp);
-	while (ft_strncmp(getitem_c(p->raw, 0), " ", 1) == 0)
-	{
-		remove_pos_c(&p->raw, 0);
 	}
 }
 
@@ -569,7 +551,6 @@ void	check_quote_3(t_parser *p)
 			free(p->util.c_tmp);
 		}
 	}
-
 	p->raw = reverse(&p->util.tmp);
 	p->flag = reverse_int(&p->flag);
 	printf(YEL);
@@ -623,7 +604,7 @@ void	get_path(t_parser *p, char **env)
 }
 
 void	get_word_list(t_parser p)
-{// copie de la 1ere version
+{
 	while (size_stack(p.raw))
 	{
 		trim_list(&p.raw);
