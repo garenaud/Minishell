@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:55:24 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/04 14:12:35 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/05 15:08:13 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -437,6 +437,7 @@ void	add_space_flag(t_parser *p, int flag)
 	free(p->util.c_tmp);
 	//p->util.c_tmp = NULL;//
 }
+
 void	add_2space_flag(t_parser *p, int flag)
 {// 6 << 7 >>
 	p->util.c_tmp1 = pop(&p->raw);
@@ -451,7 +452,8 @@ void	add_2space_flag(t_parser *p, int flag)
 	free(p->util.c_tmp);
 	free(p->util.c_tmp1);
 }
-void	add_space_2gt(t_parser *p)
+
+/*void	add_space_2gt(t_parser *p)
 {
 	p->util.c_tmp1 = pop(&p->raw);
 	push(&p->util.tmp, " ");
@@ -464,7 +466,7 @@ void	add_space_2gt(t_parser *p)
 	push_int(&p->flag, 32);
 	free(p->util.c_tmp);
 	free(p->util.c_tmp1);
-}
+}*/
 
 void	check_quote_3(t_parser *p)
 {
@@ -489,7 +491,7 @@ void	check_quote_3(t_parser *p)
 			if (ft_strncmp(p->util.c_tmp, "|", 1) == 0)
 			{
 				if (count_successive_c(p, "|") == 1)
-					add_space_flag(p, 3);
+					add_space_flag(p, 5);//** avant 3
 				else if (count_successive_c(p, "|") == 2)
 					add_2space_flag(p, 8);
 				else

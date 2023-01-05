@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/04 15:17:40 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/05 15:39:54 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,23 @@ typedef struct s_list_i
 // version stack
 typedef struct s_util
 {
-	int		flag;
-	int		position;
-	int		i1;
-	int		i2;
-	char	*c_tmp;
-	char	*c_tmp1;
-	char	*key;
-	t_list	*tmp;
-	t_list	*delim;
-	t_list	*raw;
-	t_list	*raw_tmp;
-	t_list	*sq;
-	t_list	*dq;
-	t_list	*dollar;
-	t_list	*key_l;
-	t_list	*del;
+	int			flag;
+	int			position;
+	int			i1;
+	int			i2;
+	char		*c_tmp;
+	char		*c_tmp1;
+	char		*key;
+	t_list		*tmp;
+	t_list		*delim;
+	t_list		*raw;
+	t_list		*raw_tmp;
+	t_list		*sq;
+	t_list		*dq;
+	t_list		*dollar;
+	t_list		*key_l;
+	t_list		*del;
+	t_list_i	*code;
 }	t_util;
 
 typedef struct s_dico
@@ -256,4 +257,12 @@ void		clean_dico(t_parser *p);
 void		cpd1(t_parser *p);
 int			count_successive_c(t_parser *p, char *c);
 void		check_for_envvar(t_parser *p);
+
+// token
+int			get_code_c(t_parser *p, char c);
+int			get_code_s(char *s);
+void		transfer_2c_space(t_parser *p, char *s);
+int			transfer_normal_char(t_parser *p);
+int			transfer_successive_c(t_list **start, t_list **end, char c);
+void		transfer_char_space(t_parser *p);
 #endif

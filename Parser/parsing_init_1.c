@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:18:38 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/04 15:17:45 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/05 11:42:39 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	init_util(t_parser *p)
 	p->util.dollar = NULL;
 	p->util.key_l = NULL;
 	p->util.del = NULL;
+	p->util.code = NULL;
 }
 
 void	init_parsing_list(t_parser *p)
