@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/03 22:36:39 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/05 11:43:48 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	main(int argc, char *argv[], char *env[])
 	p.line = NULL;
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
-//	rl_catch_signals = 0;
+	rl_catch_signals = 0;
 	init_pgrm(&p, env);// ne pas le deplacer
-	get_path(&p, env);
-	while ((p.line =readline("mini-->")))
+	//get_path(&p, env);
+	while ((p.line =readline(BLUE"mini--> "ENDC)))
 	{
 		//init_pgrm(&p, env);
 		//printll(p.struct_path.split_path);
@@ -49,7 +49,7 @@ int	main(int argc, char *argv[], char *env[])
 		init_parsing_list_c(&p);
 		delete_parsing_list_c(&p);
 		check_quote_3(&p);
-    //    check_for_envvar(&p);
+		//check_for_envvar(&p);
 		printf("--------fin quote 3--------\n");
 		// essai envvar avant ou apres
 		//create_parsing_dico(&p);
@@ -64,7 +64,7 @@ int	main(int argc, char *argv[], char *env[])
 		if (p.cmd_d)
 		{
 			create_path_access(&p);
-			p.struct_cmd.cmd = reverse(&p.struct_cmd.cmd);
+			//p.struct_cmd.cmd = reverse(&p.struct_cmd.cmd);
 			printf("\n les chemins = ");
 			printll(p.struct_cmd.cmd);
 		}
@@ -72,8 +72,6 @@ int	main(int argc, char *argv[], char *env[])
 		//printll(p.word);
 		//printf(ENDC);
 		piping_main(&p);
-		//init_exe(&p);
-		//init_pipe_cmd(&p);
 		//printll_exe(p.cmd_exe);
 		//delete_exeline(&p.cmd_exe);
 		//printf(GREEN);
@@ -81,7 +79,7 @@ int	main(int argc, char *argv[], char *env[])
 		//printf(ENDC);
 		clean_memory_parsing(&p);
 	}
-	printf(RED"----------------- sortie prgm ----------------\n"ENDC);
+	//printf(RED"----------------- sortie prgm ----------------\n"ENDC);
 	clean_memory_end(&p);
 	return (0);
 }

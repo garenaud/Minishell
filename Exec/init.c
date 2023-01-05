@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/03 18:54:25 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/05 14:22:21 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,21 @@ void	init_exe(t_parser *p)
 		i = 0;
 		while (i < size)
 		{
+ 			if(ft_strcmp(p->cmd_d->key, "3") == 0 || ft_strcmp(p->cmd_d->key, "4") == 0 
+				|| ft_strcmp(p->cmd_d->key, "6") == 0 || ft_strcmp(p->cmd_d->key, "7") == 0)
+			{
+				//printf("je vais faire une redir\n");
+				redir(p->cmd_d, curr);
+ 				remove_pos_dico(&p->cmd_d, i);
+				i++;
+				remove_pos_dico(&p->cmd_d, i);
+				//size--;
+				//printf(BLUE"\nprint dico depuis redir: \n"ENDC);
+			}
 			curr->cmd_tab[i] = ft_strdup(p->cmd_d->value);
+			//printf("\n curr->cmd_tab[%d] = %s\n", i, curr->cmd_tab[i]);
 			remove_pos_dico(&p->cmd_d, 0);
+			//printll_dico(p->cmd_d);
 			i++;
 		}
 		curr->cmd_tab[i] = NULL;

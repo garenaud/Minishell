@@ -6,7 +6,7 @@
 #    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/03 22:26:48 by grenaud-         ###   ########.fr        #
+#    Updated: 2023/01/05 10:26:00 by grenaud-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,10 +56,12 @@ CFILES = 	Parser/list_utils_int.c \
 			Exec/check_pipe_utils.c \
 			Exec/list_utils_exe.c \
 			Exec/utils_2.c \
+			Exec/redirection.c \
 			Builtin/built_utils.c \
 			Builtin/builtins.c \
 			Builtin/echo.c \
 			signal.c \
+			start_banner.c \
 			minishell.c
 
 

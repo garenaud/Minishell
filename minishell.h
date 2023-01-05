@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/03 22:34:24 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/05 10:26:35 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define PURP		"\033[0;35m"
 # define ENDC		"\033[0m"
 # define BOLDRED	"\033[31m"
+# define BLUE		"\033[1;34m"
 # define PIPE 124
 # define TOK_DELIM "|"
 # define WAITING 1
@@ -325,6 +326,11 @@ int		pipe_exec(t_parser *p, t_exe *curr);
 void	piping_main(t_parser *p);
 char	*get_pos_path(t_parser *p, char *cmd);
 
+//redirection
+void	redir(t_dico *cmd_d, t_exe *curr);
+int		output(t_dico *cmd_d, t_exe *curr);
+int		input(t_dico *cmd_d, t_exe *curr);
+
 //signal
 void	handle_sigint(int sig);
 void	handle_signal(struct termios *saved);
@@ -337,5 +343,7 @@ int		bultin_search(t_exe *curr);
 int		is_builtin(char **str);
 int		bultin_echo(int i, t_exe *curr);
 int		bultin_echo_n(t_exe *curr);
+
+void	print_banner(void);
 
 #endif

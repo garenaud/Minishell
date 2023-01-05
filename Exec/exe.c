@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 22:42:43 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/03 21:30:20 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/05 11:55:47 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,25 @@ int	pipe_exec(t_parser *p, t_exe *curr)
 		path = get_pos_path(p, curr->cmd_tab[0]);
 		if(curr->pid == 0)
 		{
-			if (prev_pipe != STDIN_FILENO)
+ 			if (curr->fd_in > 0)
+			{
+				dup2(prev_pipe, curr->fd_in);
+				close(prev_pipe);	
+			}	
+			else if (prev_pipe != STDIN_FILENO)
 			{
 				dup2(prev_pipe, STDIN_FILENO);
 				close(prev_pipe);
 			}
-			dup2(curr->pfd[1], STDOUT_FILENO);
+			if (curr->fd_out > 0)
+				dup2(curr->pfd[1], curr->fd_out);
+			else
+				dup2(curr->pfd[1], STDOUT_FILENO);
 			close(curr->pfd[1]);
+			//close(curr->pfd[0]);
 			execve(path, curr->cmd_tab, p->env);
 			perror("execve failed pipe");
+			close(prev_pipe);
 			exit(1);
 		}
 		close(prev_pipe);
