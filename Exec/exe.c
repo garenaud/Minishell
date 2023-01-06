@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 22:42:43 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/05 11:55:47 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/05 19:58:28 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int	pipe_exec(t_parser *p, t_exe *curr)
 			{
 				dup2(prev_pipe, curr->fd_in);
 				close(prev_pipe);	
-			}	
-			else if (prev_pipe != STDIN_FILENO)
+			}	 
+			if (prev_pipe != STDIN_FILENO)
 			{
 				dup2(prev_pipe, STDIN_FILENO);
 				close(prev_pipe);
 			}
-			if (curr->fd_out > 0)
-				dup2(curr->pfd[1], curr->fd_out);
+ 			if (curr->fd_out > 0)
+				dup2(curr->pfd[1], curr->fd_out); 
 			else
 				dup2(curr->pfd[1], STDOUT_FILENO);
 			close(curr->pfd[1]);
@@ -48,6 +48,7 @@ int	pipe_exec(t_parser *p, t_exe *curr)
 			execve(path, curr->cmd_tab, p->env);
 			perror("execve failed pipe");
 			close(prev_pipe);
+			do_waits(p);
 			exit(1);
 		}
 		close(prev_pipe);

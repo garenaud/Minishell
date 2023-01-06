@@ -6,45 +6,50 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:53:46 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/05 12:11:59 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/06 10:40:37 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	redir(t_dico *cmd_d, t_exe *curr)
+int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i)
 {
 	if (ft_strcmp(cmd_d->key, "3") == 0)
-		output(cmd_d, curr);
+	{
+		output(p, cmd_d, curr, i);
+		i += 2;
+	}
 	else if (ft_strcmp(cmd_d->key, "4") == 0)
-		input(cmd_d, curr);		
+	{
+		input(p, cmd_d, curr);
+		//printf("finis input \n");
+		//i++;
+	}
+	return (i);	
 }
 
-int output(t_dico *cmd_d, t_exe *curr) 
+int output(t_parser *p, t_dico *cmd_d, t_exe *curr, int i) 
 {
-	// Vérifiez que cmd_d et curr ne sont pas NULL
 	if (cmd_d == NULL || curr == NULL) 
 		return -1;
-	// Ouvrez le fichier de destination de la redirection
 	int fd = open(cmd_d->next->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1) 
 	{
 		perror("open: ");
 		return -1;
 	}
-	// Fermez le fd actuel de sortie s'il est supérieur à 2
 	if (curr->fd_out > 2)
 		close(curr->fd_out);
-	// Dupliquez le fd du fichier sur le fd standard de sortie (1)
 	dup2(fd, 1);
-	// Fermez le fd original du fichier
 	close(fd);
-	// Mettez à jour le fd de sortie courant
 	curr->fd_out = fd;
+	//printf("cmd_d depuis input = %s et la valeur de i = %d\n", cmd_d->value, i);
+	remove_pos_dico(&p->cmd_d, i);
+	remove_pos_dico(&p->cmd_d, i + 1);
 	return 0;
 }
 
-int input(t_dico *cmd_d, t_exe *curr) 
+int input(t_parser *p, t_dico *cmd_d, t_exe *curr) 
 {
 	if (cmd_d == NULL || curr == NULL)
 		return -1;
@@ -54,15 +59,14 @@ int input(t_dico *cmd_d, t_exe *curr)
 		perror("open: ");
 		return(-1);
 	}
-	// Fermez le fd actuel d'entrée s'il est supérieur à 2
 	if (curr->fd_in > 2)
     	close(curr->fd_in);
-	// Dupliquez le fd du fichier sur le fd standard d'entrée (0)
 	dup2(fd, 0);
-	// Fermez le fd original du fichier
 	close(fd);
-	// Mettez à jour le fd d'entrée courant
 	curr->fd_in = fd;
+	//printf("cmd_d depuis input = %s et la valeur de i = %d\n", cmd_d->value, i);
+	remove_pos_dico(&p->cmd_d, 0);
+	//i++;
 	return 0;
 }
 

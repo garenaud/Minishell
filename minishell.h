@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/05 10:26:35 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/06 10:40:07 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,9 +327,9 @@ void	piping_main(t_parser *p);
 char	*get_pos_path(t_parser *p, char *cmd);
 
 //redirection
-void	redir(t_dico *cmd_d, t_exe *curr);
-int		output(t_dico *cmd_d, t_exe *curr);
-int		input(t_dico *cmd_d, t_exe *curr);
+int		redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
+int		output(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
+int 	input(t_parser *p, t_dico *cmd_d, t_exe *curr);
 
 //signal
 void	handle_sigint(int sig);

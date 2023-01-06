@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/05 14:22:21 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/06 10:37:35 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,14 @@ void	init_exe(t_parser *p)
 	int	i;
 	int	j;
 	
-	j = 0;
+	j = -1;
 	int size;
 	t_exe	*curr;
 	p->piped = checknb_pipe(p->cmd_d);
 	size = checknb_arg(p->cmd_d);
 	curr = init_exe_list(size);
 	p->cmd_exe = curr;
-	while (j <= p->piped)
+	while (j < p->piped)
 	{
 		size = checknb_arg(p->cmd_d);
 		i = 0;
@@ -82,23 +82,23 @@ void	init_exe(t_parser *p)
  			if(ft_strcmp(p->cmd_d->key, "3") == 0 || ft_strcmp(p->cmd_d->key, "4") == 0 
 				|| ft_strcmp(p->cmd_d->key, "6") == 0 || ft_strcmp(p->cmd_d->key, "7") == 0)
 			{
-				//printf("je vais faire une redir\n");
-				redir(p->cmd_d, curr);
- 				remove_pos_dico(&p->cmd_d, i);
-				i++;
-				remove_pos_dico(&p->cmd_d, i);
-				//size--;
-				//printf(BLUE"\nprint dico depuis redir: \n"ENDC);
+				i = redir(p, p->cmd_d, curr, i);
+				//printf("\napres redir la valeur de i est %d", i);
 			}
 			curr->cmd_tab[i] = ft_strdup(p->cmd_d->value);
-			//printf("\n curr->cmd_tab[%d] = %s\n", i, curr->cmd_tab[i]);
-			remove_pos_dico(&p->cmd_d, 0);
+			//printf("\n APRES REDIR curr->cmd_tab[%d] = %s et la size %d\n", i, curr->cmd_tab[i], size);
 			//printll_dico(p->cmd_d);
+			remove_pos_dico(&p->cmd_d, 0);
 			i++;
+			if (p->cmd_d == NULL || ft_strncmp(p->cmd_d->value,"|",1) == 0)
+				break;
 		}
 		curr->cmd_tab[i] = NULL;
-		remove_pos_dico(&p->cmd_d, 0);	
-		if (j != p->piped)
+		
+		//printf("apres le nul p->cmd_tab = %s et i = %d", curr->cmd_tab[i - 1], i);
+		if (p->cmd_d != NULL)
+			remove_pos_dico(&p->cmd_d, 0);	
+		if (j != p->piped && p->piped != 0)
 		{
 			curr->next = init_exe_list(size);
 			curr = curr->next;
