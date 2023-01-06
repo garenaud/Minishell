@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/03 14:44:55 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/06 15:02:47 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,15 @@ int	main(int argc, char *argv[], char *env[])
 		get_path(&p, env);
 		if (readline_manager(&p) == 1)
 			break ;
-	//	printll(p.struct_path.split_path);
-		/* init_pgrm(&p, env);
-		get_path(&p, env); */
+
 		create_raw_list(&p.raw, p.line);
 		p.raw = reverse(&p.raw);
 		init_parsing_list_c(&p);
 		delete_parsing_list_c(&p);
 		create_dico_list(&p.envvar, env);
+		{// test de la partie token
+			tester(&p);
+		}
 		trim_list(&p.raw);
 		check_for_envvar(&p);
 		printf("--------fin envvar--------\n");
@@ -45,7 +46,7 @@ int	main(int argc, char *argv[], char *env[])
 		init_parsing_list_c(&p);
 		delete_parsing_list_c(&p);
 		check_quote_3(&p);
-    //    check_for_envvar(&p);
+	//    check_for_envvar(&p);
 		printf("--------fin quote 3--------\n");
 		//create_parsing_dico(&p);
 		cpd1(&p);

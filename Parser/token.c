@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:05:08 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/05 15:16:20 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/06 11:04:51 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	transfer_successive_c(t_list **start, t_list **end, char c)
 	return (count);
 }
 
-// a tester regle 1
+// a tester regle 1 peut etre mettre expand $ et enlever $ delim
 int	transfer_normal_char(t_parser *p)
 {
 	char	*c_tmp;
@@ -77,9 +77,11 @@ int	transfer_normal_char(t_parser *p)
 	c_tmp = getitem_c(p->util.raw, 0);
 	while (size_stack(p->util.raw) && getpos_c(p->util.delim, c_tmp) == -1)
 	{
-		push_int(&p->util.code, 0);
 		transfer_c(&p->util.raw, &p->util.raw_tmp);
+		push_int(&p->util.code, 0);
 		count++;
 	}
 	return (count);
 }
+
+

@@ -6,7 +6,7 @@
 #    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/05 15:17:13 by jsollett         ###   ########.fr        #
+#    Updated: 2023/01/06 11:18:38 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,8 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/memory_cleaning.c \
 			Parser/token.c \
 			Parser/token1.c \
+			Parser/token2.c \
+			Parser/token_test.c \
 			minishell.c
 
 

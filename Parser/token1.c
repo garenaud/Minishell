@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:34:55 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/05 16:46:48 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/06 15:40:06 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	get_code_c(t_parser *p, char c)
 		return (3);
 	if (c == '<')
 		return (4);
-	if (c == '|')// a corriger avant 3
+	if (c == '|')
 		return (5);
 	if (c == ' ')
 		return (32);
@@ -78,31 +78,34 @@ void	expand_to_value(t_parser *p)
 		env = getitem_dico(p->envvar, get_key(p->envvar, tmp));
 		free(tmp);
 		tmp = ft_strdup(env->value);
-		while (i < (int)ft_strlen(tmp))
-			push_int(&p->util.code, 2);
+		while (i++ < (int)ft_strlen(tmp))
+		{
+			push_int(&p->util.code, 2);// ou 0 faux depend d'ou appele
+			//i++;
+		}
 		create_raw_list(&p->util.raw, tmp);
 		free (tmp);
 	}
 	else
+	{
 		delete(&p->util.key_l); // destroy...
-	free (tmp);
+		free (tmp);
+	}
 }
 
 // a verifier ????
-void	get_inside_squote2(t_parser *p)
+void	get_inside_dquote2(t_parser *p)
 {
 	char	c;
 
-	transfer_c(&p->util.raw, &p->util.raw_tmp);
+//	transfer_c(&p->util.raw, &p->util.raw_tmp);
 	c = *getitem_c(p->util.raw, 0);
-	push_int(&p->util.code, 2);
+//	push_int(&p->util.code, 2);
 	while (c != '\"')
 	{
-		transfer_c(&p->util.raw, &p->util.raw_tmp);
-		push_int(&p->util.code, 2);
 		if (ft_strncmp(getitem_c(p->util.raw, 0), "$", 1) == 0)
 		{
-			while (ft_isalnum(getitem_c(p->raw, 0)[0]))
+			while (ft_isalnum(getitem_c(p->util.raw, 0)[0]))
 			{
 				transfer_c(&p->util.raw, &p->util.key_l);
 			}
@@ -112,5 +115,7 @@ void	get_inside_squote2(t_parser *p)
 			continue ;
 			// continue...?
 		}
+		transfer_c(&p->util.raw, &p->util.raw_tmp);
+		push_int(&p->util.code, 2);
 	}
 }

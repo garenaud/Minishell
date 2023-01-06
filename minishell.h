@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/05 15:39:54 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/06 14:47:37 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,11 +258,17 @@ void		cpd1(t_parser *p);
 int			count_successive_c(t_parser *p, char *c);
 void		check_for_envvar(t_parser *p);
 
-// token
+// token a verifier
 int			get_code_c(t_parser *p, char c);
 int			get_code_s(char *s);
 void		transfer_2c_space(t_parser *p, char *s);
 int			transfer_normal_char(t_parser *p);
+void		transfer_normal_char1(t_parser *p);
 int			transfer_successive_c(t_list **start, t_list **end, char c);
 void		transfer_char_space(t_parser *p);
+void		expand_to_value(t_parser *p);
+void		get_inside_dquote2(t_parser *p);
+void		get_inside_squote2(t_parser *p);
+void		transfer_normal_char11(t_parser **p);
+void		tester(t_parser *p);
 #endif
