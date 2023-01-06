@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/06 10:37:35 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/06 16:47:40 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	init_pipe_cmd(t_parser *p)
 		//init_pipe(curr);
 		//printll_exe(curr);
 		cmd(p, curr);
+		//printf("je sors de init_pipe_cmd");
 	}
 }
 
@@ -51,7 +52,7 @@ int	cmd(t_parser *p, t_exe *curr)
 	signal(SIGQUIT, handle_sigquit);
 	//redirection_tab(curr);
 	if (is_builtin(curr->cmd_tab) != -1 && curr->next == NULL)
-		bultin_search(curr);
+		bultin_search(p, curr);
 	else
 	{	
 		if(pipe_exec(p, curr) != 1)
@@ -87,7 +88,6 @@ void	init_exe(t_parser *p)
 			}
 			curr->cmd_tab[i] = ft_strdup(p->cmd_d->value);
 			//printf("\n APRES REDIR curr->cmd_tab[%d] = %s et la size %d\n", i, curr->cmd_tab[i], size);
-			//printll_dico(p->cmd_d);
 			remove_pos_dico(&p->cmd_d, 0);
 			i++;
 			if (p->cmd_d == NULL || ft_strncmp(p->cmd_d->value,"|",1) == 0)

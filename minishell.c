@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/06 10:23:17 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/06 16:31:24 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char *argv[], char *env[])
 	rl_catch_signals = 0;
 	init_pgrm(&p, env);// ne pas le deplacer
 	//get_path(&p, env);
-	while ((p.line =readline(BLUE"mini--> "ENDC)))
+	while ((p.line = readline("mini--> ")))
 	{
 		//init_pgrm(&p, env);
 		//printll(p.struct_path.split_path);
@@ -71,13 +71,13 @@ int	main(int argc, char *argv[], char *env[])
 		//printf(GREEN);
 		//printll(p.word);
 		//printf(ENDC);
+		//init_exe(&p);
 		piping_main(&p);
-		//printll_exe(p.cmd_exe);
-		//delete_exeline(&p.cmd_exe);
 		//printf(GREEN);
 		//printll(p.word);
 		//printf(ENDC);
 		clean_memory_parsing(&p);
+		printf("\na la fin du programme\n");
 	}
 	//printf(RED"----------------- sortie prgm ----------------\n"ENDC);
 	clean_memory_end(&p);

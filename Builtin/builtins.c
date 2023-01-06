@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 18:09:44 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/03 18:57:26 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/06 14:02:58 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ int		is_builtin(char **str)
 	return (-1);
 }
 
-int	bultin_search(t_exe *curr)
+int	bultin_search(t_parser *p, t_exe *curr)
 {
-	if (ft_strcmp(curr->cmd_tab[0], "echo") == 0 || ft_strcmp(curr->cmd_tab[0], "ECHO") == 0)
+	if (ft_strcmp(curr->cmd_tab[0], "echo") == 0 || ft_strcmp(curr->cmd_tab[0], "ECHO") == 0){
+		printf("Echo p->line = %s\n", p->line);
 		return (bultin_echo_n(curr));
+		}
 	else if (ft_strcmp(curr->cmd_tab[0], "cd") == 0)
-		printf("encore a faire\n");
+		return(bultin_cd(curr));
 	else if (ft_strcmp(curr->cmd_tab[0], "pwd") == 0
 		|| ft_strcmp(curr->cmd_tab[0], "PWD") == 0)
 		printf("encore a faire\n");

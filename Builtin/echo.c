@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:26:11 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/03 18:42:33 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/06 12:47:19 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ int	bultin_echo(int i, t_exe *curr)
 	{
 		if (ft_strcmp(curr->cmd_tab[i], "$?") == 0)
 			ft_putnbr_fd(g_status, 1);
-		else
+		else{
 			ft_putstr_fd(curr->cmd_tab[i], 1);
+			//printf("ECHO curr->cmd_tab[%d] = %s", i, curr->cmd_tab[i]);
+			}
 		if (curr->cmd_tab[i + 1])
 			ft_putchar_fd(' ', 1);
 		i++;

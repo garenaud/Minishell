@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/06 10:40:07 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/06 15:10:38 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ void		ft_putnbr_fd(int n, int fd);
 void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
 
-
 // integer stack
 
 void		push_int(t_list_i **top, int item);
@@ -325,11 +324,14 @@ int		cmd(t_parser *p, t_exe *curr);
 int		pipe_exec(t_parser *p, t_exe *curr);
 void	piping_main(t_parser *p);
 char	*get_pos_path(t_parser *p, char *cmd);
+void 	free_exe_list(t_exe *list);
 
 //redirection
 int		redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
 int		output(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
 int 	input(t_parser *p, t_dico *cmd_d, t_exe *curr);
+int		append(t_parser *p, t_dico *cmd_d, t_exe *curr);
+
 
 //signal
 void	handle_sigint(int sig);
@@ -339,10 +341,11 @@ void	handle_sigquit(int sig);
 void	handle_sigquit(int signum);
 
 //builtin
-int		bultin_search(t_exe *curr);
+int		bultin_search(t_parser *p, t_exe *curr);
 int		is_builtin(char **str);
 int		bultin_echo(int i, t_exe *curr);
 int		bultin_echo_n(t_exe *curr);
+int		bultin_cd(t_exe *curr);
 
 void	print_banner(void);
 
