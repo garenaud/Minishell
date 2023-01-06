@@ -6,9 +6,10 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/06 14:47:37 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:03:20 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -19,18 +20,29 @@
 # define PURP		"\033[0;35m"
 # define ENDC		"\033[0m"
 # define BOLDRED	"\033[31m"
+# define BLUE		"\033[1;34m"
+# define PIPE 124
+# define TOK_DELIM "|"
+# define WAITING 1
+# define PARSING 2
+# define WORKING 3
+# define ERROR 4
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-# include <limits.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <limits.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <signal.h>
+#include <termios.h>
+
+int	g_status;
 
 typedef struct s_list
 {
@@ -67,6 +79,28 @@ typedef struct s_util
 	t_list_i	*code;
 }	t_util;
 
+//struct list pour execve
+typedef struct s_exe
+{
+	char	**cmd_tab;
+	int		fd_in;
+	int		fd_out;
+	pid_t	pid;
+	int		pfd[2];
+	struct s_exe	*next;
+}	t_exe;
+
+typedef struct s_env {
+	char			*str;
+	char			*name;
+	char			*value;
+	int				valid;
+	int				order;
+	struct s_env	*next;
+}				t_env;
+
+// structure "dico"
+// version stack
 typedef struct s_dico
 {
 	char			*key;
@@ -87,14 +121,19 @@ typedef struct s_cmd
 	t_list		*cmd;
 	t_list		*option;
 	t_list		*arg;
-	char		**cmd_array;
+	char		**tab_cmd;
+	struct s_path	*path;
 }	t_cmd;
 
 typedef struct s_file
 {
-	t_list		*file;
-	t_list		*fd;
-	t_list		*rwx;
+	t_list			*file;
+	t_list			*fd;
+	t_list			*rwx;
+	int				nb_cmd;
+	int				redir_status;
+	pid_t			pid;
+	t_cmd			*cmd;
 }	t_file;
 
 /*typedef struct s_stream
@@ -108,31 +147,38 @@ typedef struct s_file
 */
 typedef struct s_parser
 {
-	t_list		*raw;
-	t_list		*word;
-	t_list_i	*dquote;
-	t_list_i	*squote;
-	t_list_i	*pipe_i;
-	t_list_i	*to_out_i;
-	t_list_i	*to_in_i;
-	t_list_i	*append_i;
-	t_list_i	*heredoc_i;
 	t_list_i	*word_len;
 	t_list_i	*flag;
 
-	t_dico		*dico;
-	t_dico		*dico_tmp;
-	t_dico		*check;
-	t_dico		*cmd_d_tmp;
-	t_dico		*cmd_d;
-	t_dico		*envvar;
-	char		*line;
-	char		*tmp;
-	char		**env;
-	t_path		struct_path;
-	t_cmd		struct_cmd;
-	t_file		struct_file;
-	t_util		util;
+	t_dico			*dico;
+	t_dico			*dico_tmp;
+	t_dico			*check;
+	t_dico			*cmd_d_tmp;
+	t_dico			*cmd_d;
+	t_dico			*envvar;
+	t_util			util;
+	t_list			*raw;
+	t_list			*word;
+	t_exe			*cmd_exe;
+	t_list_i		*dquote;
+	t_list_i		*squote;
+	t_list_i		*pipe_i;
+	t_list_i		*to_out_i;
+	t_list_i		*to_in_i;
+	t_list_i		*append_i;
+	t_list_i		*heredoc_i;
+	t_dico			*cmd_line;
+	char			*display_path;
+	char   			*line;
+	char			*tmp;
+	char			**env;
+	t_env			*env_l;
+	int				piped;
+	int				return_val;
+	t_path			struct_path;
+	t_cmd			struct_cmd;
+	t_file			struct_file;
+	t_exe			struct_exe;
 }	t_parser;
 
 // la libft
@@ -142,6 +188,12 @@ char		*ft_strdup(char *src);
 char		*ft_strcpy(char *dest, const char *src);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_isalnum(int c);
+int			ft_strcmp(const char *s1, const char *s2);
+char		*ft_substr(char const *s, unsigned int start, size_t len);
+size_t		ft_strlcpy(char *dst, const char *src, size_t size);
+void		ft_putnbr_fd(int n, int fd);
+void		ft_putchar_fd(char c, int fd);
+void		ft_putstr_fd(char *s, int fd);
 
 // integer stack
 
@@ -231,6 +283,13 @@ t_dico		*reverse_dico(t_dico **top);
 t_dico		*getitem_dico(t_dico *top, size_t pos);
 void		create_dico_list(t_dico **dico, char *env[]);
 void		printll_dico(t_dico *dico);
+void		check_quote(t_parser *p);
+
+void		create_path_access(t_parser *p);
+void		init_parsing_list_c(t_parser *p);
+void    	add_space(t_parser *p);
+void		check_quote_1(t_parser *p);
+void    	delete_parsing_list_c(t_parser *p);
 t_dico		*getword_2(t_list **raw, char *search);
 
 // env + path
@@ -271,4 +330,46 @@ void		get_inside_dquote2(t_parser *p);
 void		get_inside_squote2(t_parser *p);
 void		transfer_normal_char11(t_parser **p);
 void		tester(t_parser *p);
+//execution
+void	init_exe(t_parser *p);
+t_exe	*init_exe_list(int size);
+void	delete_exeline(t_exe **top);
+void	free_tab(char **tab);
+void	printll_exe(t_exe *exec);
+int		checknb_arg(t_dico *top);
+int		checknb_pipe(t_dico *top);
+size_t	size_stack_exe(t_exe *top);
+void	do_waits(t_parser *p);
+int		free_all(t_parser *p);
+int		ft_pipetok(char c);
+void	init_pipe_cmd(t_parser *p);
+int		cmd(t_parser *p, t_exe *curr);
+int		pipe_exec(t_parser *p, t_exe *curr);
+void	piping_main(t_parser *p);
+char	*get_pos_path(t_parser *p, char *cmd);
+void 	free_exe_list(t_exe *list);
+
+//redirection
+int		redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
+int		output(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
+int 	input(t_parser *p, t_dico *cmd_d, t_exe *curr);
+int		append(t_parser *p, t_dico *cmd_d, t_exe *curr);
+
+
+//signal
+void	handle_sigint(int sig);
+void	handle_signal(struct termios *saved);
+void	hide_key(struct termios *saved);
+void	handle_sigquit(int sig);
+void	handle_sigquit(int signum);
+
+//builtin
+int		bultin_search(t_parser *p, t_exe *curr);
+int		is_builtin(char **str);
+int		bultin_echo(int i, t_exe *curr);
+int		bultin_echo_n(t_exe *curr);
+int		bultin_cd(t_exe *curr);
+
+void	print_banner(void);
+
 #endif

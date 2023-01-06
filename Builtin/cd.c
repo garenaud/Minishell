@@ -1,37 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_utils.c                                      :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/21 14:30:57 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/03 18:49:01 by grenaud-         ###   ########.fr       */
+/*   Created: 2023/01/06 13:53:17 by grenaud-          #+#    #+#             */
+/*   Updated: 2023/01/06 13:58:57 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_putchar_fd(char c, int fd)
+int	bultin_cd(t_exe *curr)
 {
-	write(fd, &c, 1);
-}
-
-void	ft_putnbr_fd(int n, int fd)
-{
-	long long int	t;
-
-	t = n;
-	if (t < 0)
-	{
-		t = t * -1;
-		ft_putchar_fd('-', fd);
-	}
-	if (t > 9)
-	{
-		ft_putnbr_fd((t / 10), fd);
-		ft_putchar_fd((t % 10 + '0'), fd);
-	}
-	else
-		ft_putchar_fd((t + '0'), fd);
+	printf("\ntest fonction builtin, curr = %s", curr->cmd_tab[0]);
+	return(0);
 }
