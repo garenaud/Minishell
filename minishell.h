@@ -330,6 +330,8 @@ void		get_inside_dquote2(t_parser *p);
 void		get_inside_squote2(t_parser *p);
 void		transfer_normal_char11(t_parser **p);
 void		tester(t_parser *p);
+void		tester1(t_parser **p);
+
 //execution
 void	init_exe(t_parser *p);
 t_exe	*init_exe_list(int size);
