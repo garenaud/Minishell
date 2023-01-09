@@ -38,8 +38,7 @@ int	main(int argc, char *argv[], char *env[])
 		printf("\nentree tester\n");
 		create_delim(&p);
 		{// test de la partie token
-			//tester(&p);
-			//tester1(*(&p));
+			tester(&p);
 		}
 		trim_list(&p.raw);
 		check_for_envvar(&p);
@@ -53,7 +52,7 @@ int	main(int argc, char *argv[], char *env[])
 		printf("--------fin quote 3--------\n");
 		//create_parsing_dico(&p);
 		cpd1(&p);
-		p.cmd_d = reverse_dico(&p.cmd_d);
+		//p.cmd_d = reverse_dico(&p.cmd_d);
 		printf(RED);
 		printf("dico p.cmd_d\n");
 		printll_dico(p.cmd_d);
