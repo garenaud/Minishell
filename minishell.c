@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/06 17:03:11 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:29:11 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int	main(int argc, char *argv[], char *env[])
 	init_pgrm(&p, env);
 	while ((p.line =readline("mini-->")))
 	{
-		//init_pgrm(&p, env);
-		//printll(p.struct_path.split_path);
 		init_pgrm(&p, env);
 		get_path(&p, env);
 		if (readline_manager(&p) == 1)
@@ -37,8 +35,11 @@ int	main(int argc, char *argv[], char *env[])
 		init_parsing_list_c(&p);
 		delete_parsing_list_c(&p);
 		create_dico_list(&p.envvar, env);
+		printf("\nentree tester\n");
+		create_delim(&p);
 		{// test de la partie token
 			tester(&p);
+			//tester1(*(&p));
 		}
 		trim_list(&p.raw);
 		check_for_envvar(&p);
@@ -52,31 +53,24 @@ int	main(int argc, char *argv[], char *env[])
 		printf("--------fin quote 3--------\n");
 		//create_parsing_dico(&p);
 		cpd1(&p);
-		//p.cmd_d = reverse_dico(&p.cmd_d);
-		//printf(RED);
-		//printf("dico p.cmd_d\n");
-		//printll_dico(p.cmd_d);
-		//printf(ENDC);
+		p.cmd_d = reverse_dico(&p.cmd_d);
+		printf(RED);
+		printf("dico p.cmd_d\n");
+		printll_dico(p.cmd_d);
+		printf(ENDC);
 		//init_parsing_list(&p);
 		if (p.cmd_d)
 		{
 			create_path_access(&p);
-			//p.struct_cmd.cmd = reverse(&p.struct_cmd.cmd);
-			printf("\n les chemins = ");
 			printll(p.struct_cmd.cmd);
 		}
-		//printf(GREEN);
-		//printll(p.word);
-		//printf(ENDC);
-		//init_exe(&p);
+		printf(GREEN);
+		printll(p.word);
+		printf(ENDC);
 		piping_main(&p);
-		//printf(GREEN);
-		//printll(p.word);
-		//printf(ENDC);
 		clean_memory_parsing(&p);
-		printf("\na la fin du programme\n");
 	}
-	//printf(RED"----------------- sortie prgm ----------------\n"ENDC);
+	printf(RED"----------------- sortie prgm ----------------\n"ENDC);
 	clean_memory_end(&p);
 	return (0);
 }
