@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:53:46 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/06 11:38:54 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/09 11:41:58 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i)
 		//printf("finis input \n");
 		//i++;
 	}
-	if (ft_strcmp(cmd_d->key, "7") == 0)
+	else if (ft_strcmp(cmd_d->key, "7") == 0)
 	{
 		append(p, cmd_d, curr);
 		i++;

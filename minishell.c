@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/06 17:03:11 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/09 11:14:57 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ int	main(int argc, char *argv[], char *env[])
 		init_parsing_list_c(&p);
 		delete_parsing_list_c(&p);
 		create_dico_list(&p.envvar, env);
+		create_delim(&p);
+		printll(p.util.delim);
 		{// test de la partie token
-			tester(&p);
+			//tester(&p);
 		}
 		trim_list(&p.raw);
 		check_for_envvar(&p);
@@ -73,7 +75,7 @@ int	main(int argc, char *argv[], char *env[])
 		//printf(GREEN);
 		//printll(p.word);
 		//printf(ENDC);
-		clean_memory_parsing(&p);
+		//clean_memory_parsing(&p);
 		printf("\na la fin du programme\n");
 	}
 	//printf(RED"----------------- sortie prgm ----------------\n"ENDC);
