@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:45:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/03 14:57:46 by grenaud-         ###   ########.fr       */
+/*   Updated: 2022/12/21 10:30:41 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,21 +104,6 @@ int	getpos_c(t_list *top, char *item)
 	while (top != NULL)
 	{
 		if (ft_strncmp(top->data, item, ft_strlen(item)) == 0)
-			return (i);
-		top = top->next;
-		i++;
-	}
-	return (-1);
-}
-
-int	getpos(t_list *top, char *item)
-{
-	int	i;
-
-	i = 0;
-	while (top != NULL)
-	{
-		if (ft_strcmp(top->data, item) == 0)
 			return (i);
 		top = top->next;
 		i++;

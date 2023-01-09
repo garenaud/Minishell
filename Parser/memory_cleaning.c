@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory_cleaning.c                                  :+:      :+:    :+:   */
+/*   Memory_cleaning.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:45:58 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/06 17:01:50 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/04 14:47:37 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,4 @@ void	clean_memory_parsing(t_parser *p)
 	free(p->cmd_d);
 	delete_int(&p->flag);
 	delete_dico(&p->envvar);
-	//delete_exeline(&p->cmd_exe);
 }
