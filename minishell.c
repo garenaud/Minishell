@@ -6,11 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2023/01/06 17:29:11 by jsollett         ###   ########.fr       */
-=======
-/*   Updated: 2023/01/09 11:14:57 by grenaud-         ###   ########.fr       */
->>>>>>> cc67d6e6b62d2742415d62a0f4155f61854a449a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +38,7 @@ int	main(int argc, char *argv[], char *env[])
 		printf("\nentree tester\n");
 		create_delim(&p);
 		{// test de la partie token
-			tester(&p);
+			//tester(&p);
 			//tester1(*(&p));
 		}
 		trim_list(&p.raw);
