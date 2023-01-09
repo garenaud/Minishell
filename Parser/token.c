@@ -27,6 +27,16 @@ int	count_successive_c(t_parser *p, char *c)
 	return (count);
 }
 
+void	get_inside_space1(t_parser *p)
+{
+	transfer_c(&p->util.raw, &p->util.raw_tmp);
+	push_int(&p->util.code, 32);
+	while (size_stack(p->util.raw) && ft_strncmp(getitem_c(p->raw, 0), " ", 1) == 0)
+	{
+		remove_pos_c(&p->raw, 0);
+	}
+}
+
 //a verifier
 void	get_inside_space(t_parser *p)
 {

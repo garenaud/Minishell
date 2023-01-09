@@ -17,7 +17,7 @@ void	transfer_normal_char1(t_parser *p)
 	char	*c_tmp;
 
 	c_tmp = getitem_c(p->util.raw, 0);
-	while (size_stack(p->util.raw) && getpos_c(p->util.delim, getitem_c(p->util.raw, 0)) == -1)
+	while (size_stack(p->util.raw) && getpos_c(p->util.delim, c_tmp) == -1)
 	{
 		if (ft_strncmp(getitem_c(p->util.raw, 0), "$", 1) == 0)
 		{
@@ -27,7 +27,6 @@ void	transfer_normal_char1(t_parser *p)
 			{
 				transfer_c(&p->util.raw, &p->util.key_l);
 			}
-			p->util.code_nb = 0;
 			// chercher valeur
 			// transerer la valeur dans tmp
 			expand_to_value(p);
@@ -65,14 +64,12 @@ void	transfer_normal_char11(t_parser **p)
 }
 void	get_inside_squote2(t_parser *p)
 {
-//	char	*c;
+	char	c;
 
-	remove_pos_c(&p->util.raw, 0);
-//	c = getitem_c(p->util.raw, 0);
-	while (size_stack(p->util.raw) && ft_strncmp(getitem_c(p->util.raw, 0), "'\'", 1) != 0)
+	c = *getitem_c(p->util.raw, 0);
+	while (c != '\'')
 	{
 		transfer_c(&p->util.raw, &p->util.raw_tmp);
-		push_int(&p->util.code, 1);
+		push_int(&p->util.code, 2);
 	}
-	remove_pos_c(&p->util.raw, 0);
 }

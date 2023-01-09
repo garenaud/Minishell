@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/06 17:03:20 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/09 17:00:37 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_util
 	char		*c_tmp;
 	char		*c_tmp1;
 	char		*key;
+	int			code_nb;
 	t_list		*tmp;
 	t_list		*delim;
 	t_list		*raw;
@@ -194,6 +195,8 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 void		ft_putnbr_fd(int n, int fd);
 void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
+void		ft_putendl_fd(char *s, int fd);
+
 
 // integer stack
 
@@ -328,6 +331,7 @@ void		transfer_char_space(t_parser *p);
 void		expand_to_value(t_parser *p);
 void		get_inside_dquote2(t_parser *p);
 void		get_inside_squote2(t_parser *p);
+void		get_inside_space1(t_parser *p);
 void		transfer_normal_char11(t_parser **p);
 void		tester(t_parser *p);
 void		tester1(t_parser **p);
@@ -356,7 +360,8 @@ int		redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
 int		output(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
 int 	input(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int		append(t_parser *p, t_dico *cmd_d, t_exe *curr);
-
+void	own_heredocs_to_long(char *delimiter, char *line, int *fd, t_exe *curr);
+int		own_heredocs(t_parser *p, t_dico *cmd_d, t_exe *curr);
 
 //signal
 void	handle_sigint(int sig);

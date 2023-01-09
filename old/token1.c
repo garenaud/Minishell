@@ -80,10 +80,10 @@ void	expand_to_value(t_parser *p)
 		tmp = ft_strdup(env->value);
 		while (i++ < (int)ft_strlen(tmp))
 		{
-			push_int(&p->util.code, p->util.code_nb);//2 ou 0 faux depend d'ou appele
+			push_int(&p->util.code, 2);// ou 0 faux depend d'ou appele
 			//i++;
 		}
-		create_raw_list(&p->util.raw_tmp, tmp);
+		create_raw_list(&p->util.raw, tmp);
 		free (tmp);
 	}
 	else
@@ -98,21 +98,19 @@ void	get_inside_dquote2(t_parser *p)
 {
 	char	c;
 
-	remove_pos_c(&p->util.raw, 0);
+//	transfer_c(&p->util.raw, &p->util.raw_tmp);
 	c = *getitem_c(p->util.raw, 0);
-	while (ft_strncmp(getitem_c(p->util.raw, 0), "\"", 1) != 0)
+//	push_int(&p->util.code, 2);
+	while (c != '\"')
 	{
 		if (ft_strncmp(getitem_c(p->util.raw, 0), "$", 1) == 0)
 		{
-			// mettre cas $?
-			remove_pos_c(&p->util.raw, 0);// enleve le $
 			while (ft_isalnum(getitem_c(p->util.raw, 0)[0]))
 			{
 				transfer_c(&p->util.raw, &p->util.key_l);
 			}
 			// chercher valeur
 			// transerer la valeur dans tmp
-			p->util.code_nb = 2;
 			expand_to_value(p);
 			continue ;
 			// continue...?
@@ -120,5 +118,4 @@ void	get_inside_dquote2(t_parser *p)
 		transfer_c(&p->util.raw, &p->util.raw_tmp);
 		push_int(&p->util.code, 2);
 	}
-	remove_pos_c(&p->util.raw, 0);
 }
