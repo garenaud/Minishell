@@ -40,7 +40,6 @@ int	transfer_dico(t_dico **start, t_dico **end)
 		free(tmp->key);
 		free(tmp->value);
 		free(tmp);
-		//delete_dico(&tmp);
 		return (1);
 	}
 	return (0);
@@ -66,7 +65,6 @@ int	remove_pos_dico(t_dico **top, size_t pos)
 		free(c_tmp->key);
 		free(c_tmp->value);
 		free(c_tmp);
-		//delete_dico(&c_tmp);
 		while (tmp != NULL)
 			transfer_dico(&tmp, top);
 		return (0);
@@ -87,7 +85,6 @@ t_dico	*reverse_dico(t_dico **top)
 		free(c_tmp->key);
 		free(c_tmp->value);
 		free(c_tmp);
-	//	delete_dico(&c_tmp);
 	}
 	return (tmp);
 }
@@ -110,7 +107,7 @@ t_dico	*getitem_dico(t_dico *top, size_t pos)
 		}
 		tmp->key = ft_strdup(top->key);
 		tmp->value = ft_strdup(top->value);
-		tmp->next = NULL; // tres important
+		tmp->next = NULL;
 		return (tmp);
 	}
 }

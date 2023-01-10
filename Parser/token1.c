@@ -94,7 +94,7 @@ void	expand_to_value(t_parser *p)
 	env = NULL;
 	tmp = getall(&p->util.key_l);
 	i = 0;
-	if (get_key(p->envvar, tmp )!= -1) //expand...
+	if (get_key(p->envvar, tmp ) != -1)
 	{
 		env = getitem_dico(p->envvar, get_key(p->envvar, tmp));
 		free(tmp);
@@ -102,14 +102,13 @@ void	expand_to_value(t_parser *p)
 		while (i++ < (int)ft_strlen(tmp))
 		{
 			push_int(&p->util.code, p->util.code_nb);//2 ou 0 faux depend d'ou appele
-			//i++;
 		}
 		create_raw_list(&p->util.raw_tmp, tmp);
 		free (tmp);
 	}
 	else
 	{
-		delete(&p->util.key_l); // destroy...
+		delete(&p->util.key_l);
 		free (tmp);
 	}
 }
@@ -126,17 +125,14 @@ void	get_inside_dquote2(t_parser *p)
 		if (ft_strncmp(getitem_c(p->util.raw, 0), "$", 1) == 0)
 		{
 			// mettre cas $?
-			remove_pos_c(&p->util.raw, 0);// enleve le $
+			remove_pos_c(&p->util.raw, 0);
 			while (ft_isalnum(getitem_c(p->util.raw, 0)[0]))
 			{
 				transfer_c(&p->util.raw, &p->util.key_l);
 			}
-			// chercher valeur
-			// transerer la valeur dans tmp
 			p->util.code_nb = 2;
 			expand_to_value(p);
 			continue ;
-			// continue...?
 		}
 		transfer_c(&p->util.raw, &p->util.raw_tmp);
 		push_int(&p->util.code, 2);

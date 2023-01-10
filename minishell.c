@@ -29,27 +29,16 @@ int	main(int argc, char *argv[], char *env[])
 		get_path(&p, env);
 		if (readline_manager(&p) == 1)
 			break ;
-
 		create_raw_list(&p.raw, p.line);
 		p.raw = reverse(&p.raw);
-
 		create_dico_list(&p.envvar, env);
-		printf("\nentree tester\n");
 		create_delim(&p);
-		{// test de la partie token
-			tester(&p);
-		}
-		printf("\nfin tester\n");
+		tester(&p);
 		trim_list(&p.raw);
 	//	check_for_envvar(&p);
-		printf("--------fin envvar--------\n");
 		delete_int(&p.dquote);
 		delete_int(&p.squote);
-
 	//	check_quote_3(&p);
-	//    check_for_envvar(&p);
-		printf("--------fin quote 3--------\n");
-		//create_parsing_dico(&p);
 		{
 			delete(&p.raw);
 			delete_int(&p.flag);
@@ -63,15 +52,12 @@ int	main(int argc, char *argv[], char *env[])
 			}
 			p.raw = reverse(&p.raw);
 			p.flag = reverse_int(&p.flag);
-
 		}
 		cpd1(&p);
-		//p.cmd_d = reverse_dico(&p.cmd_d);
 		printf(RED);
 		printf("dico p.cmd_d\n");
 		printll_dico(p.cmd_d);
 		printf(ENDC);
-		//init_parsing_list(&p);
 		if (p.cmd_d)
 		{
 			create_path_access(&p);
@@ -83,7 +69,6 @@ int	main(int argc, char *argv[], char *env[])
 		piping_main(&p);
 		clean_memory_parsing(&p);
 	}
-	printf(RED"----------------- sortie prgm ----------------\n"ENDC);
 	clean_memory_end(&p);
 	return (0);
 }

@@ -41,7 +41,7 @@ int	c_s_c(t_parser *p, char *c)
 	}
 	return (count);
 }
-//a verifier
+
 void	get_inside_space1(t_parser *p)
 {
 	transfer_c(&p->util.raw, &p->util.raw_tmp);
@@ -65,12 +65,12 @@ void	get_inside_space(t_parser *p)
 
 // transfer avec space le > | <
 void	transfer_char_space(t_parser *p)
-{// semble ok faux
+{
 	char	c[3];
 
 	if (ft_strncmp(getitem_c(p->util.raw, 0), "\"", 1) == 0
 		|| ft_strncmp(getitem_c(p->util.raw, 0), "\'", 1) == 0)
-			return ;
+		return ;
 	if (ft_strncmp(getitem_c(p->util.raw_tmp, 0), " ", 1))
 	{
 		push_int(&p->util.code, 32);
@@ -86,8 +86,7 @@ void	transfer_char_space(t_parser *p)
 		transfer_c(&p->util.raw, &p->util.raw_tmp);
 		transfer_c(&p->util.raw, &p->util.raw_tmp);
 	}
-	else
-	if (c_s_c(p, "|") == 1 || c_s_c(p, "<") == 1 || c_s_c(p, ">") == 1)
+	else if (c_s_c(p, "|") == 1 || c_s_c(p, "<") == 1 || c_s_c(p, ">") == 1)
 	{
 		push_int(&p->util.code, get_code_c1(p, getitem_c(p->util.raw, 0)));
 		transfer_c(&p->util.raw, &p->util.raw_tmp);
@@ -134,5 +133,3 @@ int	transfer_normal_char(t_parser *p)
 	}
 	return (count);
 }
-
-

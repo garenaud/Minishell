@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -148,8 +147,8 @@ typedef struct s_file
 */
 typedef struct s_parser
 {
-	t_list_i	*word_len;
-	t_list_i	*flag;
+	t_list_i		*word_len;
+	t_list_i		*flag;
 
 	t_dico			*dico;
 	t_dico			*dico_tmp;
@@ -170,7 +169,7 @@ typedef struct s_parser
 	t_list_i		*heredoc_i;
 	t_dico			*cmd_line;
 	char			*display_path;
-	char   			*line;
+	char			*line;
 	char			*tmp;
 	char			**env;
 	t_env			*env_l;
@@ -196,7 +195,6 @@ void		ft_putnbr_fd(int n, int fd);
 void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
 void		ft_putendl_fd(char *s, int fd);
-
 
 // integer stack
 
@@ -224,7 +222,7 @@ int			transfer_c(t_list **start, t_list **end);
 char		*getitem_c(t_list *top, size_t pos);
 char		*getitem(t_list *top, size_t pos); // doublon
 int			remove_pos_c(t_list **top, size_t pos);
-int			remove_position(t_list **top, size_t pos);
+//int			remove_position(t_list **top, size_t pos);
 int			getpos_c(t_list *top, char *item);
 int			getposition(t_list *top, char *item);
 void		print_adr(t_list *lst);
@@ -290,9 +288,9 @@ void		check_quote(t_parser *p);
 
 void		create_path_access(t_parser *p);
 void		init_parsing_list_c(t_parser *p);
-void    	add_space(t_parser *p);
+void		add_space(t_parser *p);
 void		check_quote_1(t_parser *p);
-void    	delete_parsing_list_c(t_parser *p);
+void		delete_parsing_list_c(t_parser *p);
 t_dico		*getword_2(t_list **raw, char *search);
 
 // env + path
@@ -304,7 +302,6 @@ void		create_path_access(t_parser *p);
 void		get_path(t_parser *p, char **env);
 
 // test
-void		add_space(t_parser *p);
 void		check_quote_1(t_parser *p);
 void		check_quote_3(t_parser *p);
 void		remove_successive_key(t_parser *p);
@@ -338,46 +335,46 @@ void		tester(t_parser *p);
 void		tester1(t_parser **p);
 
 //execution
-void	init_exe(t_parser *p);
-t_exe	*init_exe_list(int size);
-void	delete_exeline(t_exe **top);
-void	free_tab(char **tab);
-void	printll_exe(t_exe *exec);
-int		checknb_arg(t_dico *top);
-int		checknb_pipe(t_dico *top);
-size_t	size_stack_exe(t_exe *top);
-void	do_waits(t_parser *p);
-int		free_all(t_parser *p);
-int		ft_pipetok(char c);
-void	init_pipe_cmd(t_parser *p);
-int		cmd(t_parser *p, t_exe *curr);
-int		pipe_exec(t_parser *p, t_exe *curr);
-void	piping_main(t_parser *p);
-char	*get_pos_path(t_parser *p, char *cmd);
-void 	free_exe_list(t_exe *list);
+void		init_exe(t_parser *p);
+t_exe		*init_exe_list(int size);
+void		delete_exeline(t_exe **top);
+void		free_tab(char **tab);
+void		printll_exe(t_exe *exec);
+int			checknb_arg(t_dico *top);
+int			checknb_pipe(t_dico *top);
+size_t		size_stack_exe(t_exe *top);
+void		do_waits(t_parser *p);
+int			free_all(t_parser *p);
+int			ft_pipetok(char c);
+void		init_pipe_cmd(t_parser *p);
+int			cmd(t_parser *p, t_exe *curr);
+int			pipe_exec(t_parser *p, t_exe *curr);
+void		piping_main(t_parser *p);
+char		*get_pos_path(t_parser *p, char *cmd);
+void		free_exe_list(t_exe *list);
 
 //redirection
-int		redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
-int		output(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
-int 	input(t_parser *p, t_dico *cmd_d, t_exe *curr);
-int		append(t_parser *p, t_dico *cmd_d, t_exe *curr);
-void	own_heredocs_to_long(char *delimiter, char *line, int *fd, t_exe *curr);
-int		own_heredocs(t_parser *p, t_dico *cmd_d, t_exe *curr);
+int			redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
+int			output(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
+int			input(t_parser *p, t_dico *cmd_d, t_exe *curr);
+int			append(t_parser *p, t_dico *cmd_d, t_exe *curr);
+void		own_heredocs_to_long(char *delimiter, char *line, int *fd, t_exe *curr);
+int			own_heredocs(t_parser *p, t_dico *cmd_d, t_exe *curr);
 
 //signal
-void	handle_sigint(int sig);
-void	handle_signal(struct termios *saved);
-void	hide_key(struct termios *saved);
-void	handle_sigquit(int sig);
-void	handle_sigquit(int signum);
+void		handle_sigint(int sig);
+void		handle_signal(struct termios *saved);
+void		hide_key(struct termios *saved);
+void		handle_sigquit(int sig);
+void		handle_sigquit(int signum);
 
 //builtin
-int		bultin_search(t_parser *p, t_exe *curr);
-int		is_builtin(char **str);
-int		bultin_echo(int i, t_exe *curr);
-int		bultin_echo_n(t_exe *curr);
-int		bultin_cd(t_exe *curr);
+int			bultin_search(t_parser *p, t_exe *curr);
+int			is_builtin(char **str);
+int			bultin_echo(int i, t_exe *curr);
+int			bultin_echo_n(t_exe *curr);
+int			bultin_cd(t_exe *curr);
 
-void	print_banner(void);
+void		print_banner(void);
 
 #endif

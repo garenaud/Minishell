@@ -75,33 +75,6 @@ int	remove_pos_c(t_list **top, size_t pos)
 	}
 }
 
-/*
-int	remove_position(t_list **top, size_t pos)
-{
-	t_list	*tmp;
-	char	*n;
-
-	tmp = NULL;
-	if (pos >= size_stack(*top))
-		return (-1);
-	else
-	{
-		while (pos > 0)
-		{
-			n = pop(top);
-			push(&tmp, n);
-			pos--;
-		}
-		n = pop(top);
-		while (tmp != NULL)
-		{
-			n = pop(&tmp);
-			push(top, n);
-		}
-		return (0);
-	}
-}
-*/
 char	*getitem(t_list *top, size_t pos)
 {
 	if (pos >= size_stack(top))

@@ -35,14 +35,6 @@ void	trim_list(t_list **str)
 		remove_pos_c(str, size_stack(*str) - 1);
 }
 
-void	trim_list_c(t_list **str, char *s)
-{
-	while (size_stack(*str) && ft_strncmp(getitem_c(*str, 0), s, 1) == 0)
-		remove_pos_c(str, 0);
-	while (size_stack(*str) && ft_strncmp(getitem_c(*str, size_stack(*str) - 1), s, 1) == 0)
-		remove_pos_c(str, size_stack(*str) - 1);
-}
-
 char	*delimitateur(t_list **raw)
 {
 	if (ft_strncmp(getitem(*raw, 0), "\"", 1) == 0)
@@ -50,17 +42,11 @@ char	*delimitateur(t_list **raw)
 		remove_pos_c(raw, 0);
 		return ("\"");
 	}
-	else
-	if (ft_strncmp(getitem(*raw, 0),"\'",1) == 0)
-		{
-			remove_pos_c(raw, 0);
-			return ("\'");
-		}
-/* 	if (ft_strncmp(getitem(*raw, 0),":",1) == 0)
+	else if (ft_strncmp(getitem(*raw, 0), "\'", 1) == 0)
 	{
 		remove_pos_c(raw, 0);
-		return (":");
-	} */
+		return ("\'");
+	}
 	else
 	{
 		return (" ");

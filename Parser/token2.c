@@ -21,18 +21,14 @@ void	transfer_normal_char1(t_parser *p)
 	{
 		if (ft_strncmp(getitem_c(p->util.raw, 0), "$", 1) == 0)
 		{
-			// faut enlever le $
-			remove_pos_c(&p->util.raw, 0);//
+			remove_pos_c(&p->util.raw, 0);
 			while (size_stack(p->util.raw) && ft_isalnum(getitem_c(p->util.raw, 0)[0]))
 			{
 				transfer_c(&p->util.raw, &p->util.key_l);
 			}
 			p->util.code_nb = 0;
-			// chercher valeur
-			// transerer la valeur dans tmp
 			expand_to_value(p);
 			continue ;
-			// continue...?
 		}
 		transfer_c(&p->util.raw, &p->util.raw_tmp);
 		push_int(&p->util.code, 0);
@@ -48,27 +44,23 @@ void	transfer_normal_char11(t_parser **p)
 	{
 		if (ft_strncmp(getitem_c((*p)->util.raw, 0), "$", 1) == 0)
 		{
-			// faut enlever le $
-			remove_pos_c(&(*p)->util.raw, 0);//
+			remove_pos_c(&(*p)->util.raw, 0);
 			while (size_stack((*p)->util.raw) && ft_isalnum(getitem_c((*p)->util.raw, 0)[0]))
 			{
 				transfer_c(&(*p)->util.raw, &(*p)->util.key_l);
 			}
-		// transerer la valeur dans tmp??
 			expand_to_value((*p));
 			continue ;
-			// continue...?
 		}
 		transfer_c(&(*p)->util.raw, &(*p)->util.raw_tmp);
 		push_int(&(*p)->util.code, 0);
 	}
 }
+
 void	get_inside_squote2(t_parser *p)
 {
-//	char	*c;
-
 	remove_pos_c(&p->util.raw, 0);
-//	c = getitem_c(p->util.raw, 0);
+
 	while (size_stack(p->util.raw) && ft_strncmp(getitem_c(p->util.raw, 0), "'\'", 1) != 0)
 	{
 		transfer_c(&p->util.raw, &p->util.raw_tmp);

@@ -15,7 +15,6 @@
 void	init_pgrm(t_parser *p, char *env[])
 {
 	p->env = env;
-	//p->line = NULL;
 	p->tmp = NULL;
 	init_pgrm_list_c(p);
 	init_pgrm_file(p);
@@ -42,40 +41,4 @@ void	delete_parsing_list_c(t_parser *p)
 	delete_int(&p->pipe_i);
 	delete_int(&p->to_out_i);
 	delete_int(&p->to_in_i);
-}
-
-void	add_space(t_parser *p)
-{
-	t_list	*tmp;
-
-	tmp = NULL;
-	while (size_stack(p->raw))
-	{
-		if ((ft_strncmp(getitem(p->raw, 0), "|", 1) == 0)
-			&& ft_strncmp(getitem(p->raw, 1), "|", 1) == 0)
-		{
-			push(&tmp, " ");
-			transfer_c(&p->raw, &tmp);
-			transfer_c(&p->raw, &tmp);
-			push(&tmp, " ");
-		}
-		else if ((ft_strncmp(getitem(p->raw, 0), "|", 1) == 0)
-			&& ft_strncmp(getitem(p->raw, 1), "|", 1) != 0)
-		{
-			push(&tmp, " ");
-			transfer_c(&p->raw, &tmp);
-			push(&tmp, " ");
-		}
-		else
-		{
-			transfer_c(&p->raw, &tmp);
-		}
-	}
-	while (size_stack(tmp))
-	{
-		transfer_c(&tmp, &p->raw);
-	}
-	printf(YEL);
-	printll(p->raw);
-	printf(ENDC);
 }

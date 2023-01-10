@@ -63,10 +63,6 @@ char	*ft_strdup(char *src)
 	if (dst == NULL)
 		return (NULL);
 	ft_strcpy(dst, src);
-/* 	if (free_it)
-		free(src);  */
-//	free((char *)src);
-//	printf("<%p> strdup\n", dst);
 	return (dst);
 }
 
@@ -82,10 +78,3 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return ((unsigned char)*s1 -(unsigned char)*s2);
 }
-
-/* int main()
-{
-	printf("taille = %d\n",ft_strncmp("HOMEBREW", "HOME", ft_strlen("HOMEBREW")));
-	printf("taille = %d\n",ft_strncmp("HOME", "HOMEBREW", ft_strlen("HOME")));
-	return (0);
-} */

@@ -29,7 +29,6 @@ void	clean_memory_parsing(t_parser *p)
 	delete(&p->raw);
 	delete_int(&p->dquote);
 	delete_int(&p->squote);
-//	delete_int(&p->dollars);
 	free(p->line);
 	delete_dico(&p->check);
 	delete(&p->struct_path.split_path);

@@ -23,7 +23,6 @@ void	init_pgrm_list_i(t_parser *p)
 	p->heredoc_i = NULL;
 	p->word_len = NULL;
 	p->flag = NULL;
-//	p->dollars = NULL;
 }
 
 void	init_pgrm_list_c(t_parser *p)

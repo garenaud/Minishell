@@ -36,6 +36,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/list_utils_int2.c \
 			Parser/list_utils1.c \
 			Parser/list_utils2.c \
+			Parser/list_utils3.c \
 			Parser/utils.c \
 			Parser/utils1.c \
 			Parser/parser.c \
@@ -75,7 +76,7 @@ OBJECTS = 	$(CFILES:.c=.o)
 
 LIBFT = libft/
 
-$(NAME): 	start $(OBJECTS)                                      
+$(NAME): 	start $(OBJECTS)
 			@echo $(BOLD) "SUCCESSFUL COMPILATION" $(X)
 			@$(CC) $(FLAGS) $(OBJECTS) $(LDFLAGS) -o $(NAME)
 			@tput setaf 3; cat includes/art; tput setaf default
@@ -83,14 +84,14 @@ $(NAME): 	start $(OBJECTS)
 
 all: 		$(NAME)
 
-start:		
+start:
 			@tput setaf 2; cat includes/artCompiling; tput setaf default
 
 danger:		$(OBJECTS)
 			@echo $(Y)"\n Compiling minishell with -fsanitize=address \n" $(X)
 			@$(CC) $(FLAGS) $(DANGER) $(OBJECTS) $(LDFLAGS) -o minishellSanit
 			@tput setaf 3; cat includes/danger; tput setaf default
-			
+
 libft:
 			@ $(MAKE) bonus -C $(LIBFT)
 

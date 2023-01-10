@@ -37,6 +37,5 @@ void	tester(t_parser *p)
 	p->util.code = reverse_int(&p->util.code);
 	printf(YEL"\n test token raw_tmp\n");
 	print_ic(p->util.code, p->util.raw_tmp);
-//	printll(p->util.raw_tmp);
 	printf(ENDC"\n");
 }

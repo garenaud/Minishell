@@ -49,7 +49,6 @@ void	init_parsing_list(t_parser *p)
 	create_quote_list(&p->word, &p->heredoc_i, "<<");
 	create_quote_list(&p->raw, &p->dquote, "\"");
 	create_quote_list(&p->raw, &p->squote, "\'");
-//	create_quote_list(&p->raw, &p->dollars, "$");
 }
 
 void	init_parsing_list_c(t_parser *p)
