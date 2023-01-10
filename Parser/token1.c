@@ -33,6 +33,27 @@ int	get_code_c(t_parser *p, char c)
 	return (0);
 }
 
+int	get_code_c1(t_parser *p, char *c)
+{
+	if (getpos_c(p->util.delim, c) == -1)
+		return (0);
+	if (ft_strncmp(c, "\'", 1) == 0)
+		return (1);
+	if (ft_strncmp(c, "\"", 1) == 0)
+		return (2);
+	if (ft_strncmp(c, ">", 1) == 0)
+		return (3);
+	if (ft_strncmp(c, "<", 1) == 0)
+		return (4);
+	if (ft_strncmp(c, "|", 1) == 0)
+		return (5);
+	if (ft_strncmp(c, " ", 1) == 0)
+		return (32);
+	if (ft_strncmp(c, "$", 1) == 0)
+		return (36);
+	return (0);
+}
+
 int	get_code_s(char *s)
 {
 	if (ft_strncmp(s, "<<", 2) == 0)

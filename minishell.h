@@ -323,6 +323,7 @@ void		check_for_envvar(t_parser *p);
 // token a verifier
 int			get_code_c(t_parser *p, char c);
 int			get_code_s(char *s);
+int			get_code_c1(t_parser *p, char *c);
 void		transfer_2c_space(t_parser *p, char *s);
 int			transfer_normal_char(t_parser *p);
 void		transfer_normal_char1(t_parser *p);

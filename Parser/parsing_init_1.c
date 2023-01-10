@@ -67,7 +67,7 @@ void	init_parsing_list_c(t_parser *p)
 void	create_delim(t_parser *p)
 {
 	p->util.delim = NULL;
-	push(&p->util.delim, " ");
+	push(&p->util.delim, " ");//
 	push(&p->util.delim, "'");
 	push(&p->util.delim, "\"");
 //	push(&p->util.delim, "$");
