@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/09 17:00:37 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/11 16:35:01 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,7 @@ void		ft_putnbr_fd(int n, int fd);
 void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
 void		ft_putendl_fd(char *s, int fd);
+char		*ft_itoa(int nb);
 
 // integer stack
 
@@ -285,6 +286,8 @@ t_dico		*getitem_dico(t_dico *top, size_t pos);
 void		create_dico_list(t_dico **dico, char *env[]);
 void		printll_dico(t_dico *dico);
 void		check_quote(t_parser *p);
+void		swap_dico(t_dico **dico, size_t pos1, size_t pos2);
+size_t		find_min_key(t_dico *dico);
 
 void		create_path_access(t_parser *p);
 void		init_parsing_list_c(t_parser *p);

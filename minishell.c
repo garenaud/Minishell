@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/09 15:47:57 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/11 16:35:30 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,22 @@ int	main(int argc, char *argv[], char *env[])
 		if (readline_manager(&p) == 1)
 			break ;
 		create_raw_list(&p.raw, p.line);
-		p.raw = reverse(&p.raw);
+	//	p.raw = reverse(&p.raw);
 		create_dico_list(&p.envvar, env);
+		{// test swap
+			printf(PURP);
+			printll_dico(p.envvar);
+			//swap_dico(&p.envvar, 2, 1);
+			printf(RED);
+			find_min_key(p.envvar);
+			printf(ENDC);
+		}
 		create_delim(&p);
 		tester(&p);
-		trim_list(&p.raw);
+	//	trim_list(&p.raw);
 	//	check_for_envvar(&p);
-		delete_int(&p.dquote);
-		delete_int(&p.squote);
+	//	delete_int(&p.dquote);// utile ?
+	//	delete_int(&p.squote);//
 	//	check_quote_3(&p);
 		{
 			delete(&p.raw);

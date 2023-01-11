@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:55:24 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/05 15:08:13 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/11 14:47:09 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,73 +41,6 @@ void	create_env_list(t_list **env_list, char *env[])
 	*env_list = reverse(env_list);
 }
 
-void	printll_dico(t_dico *dico)
-{
-	printf("start dico");
-	while (dico)
-	{
-		printf("-->[%s][%s]\n", (dico->key), (dico->value));
-		dico = dico->next;
-	}
-	printf("-->[end]\n");
-}
-
-char	*put_key(int *i, int *j, char *env[])
-{
-	t_list	*tmp;
-	char	*key;
-
-	tmp = NULL;
-	while (env[*i][*j] != '=')
-	{
-		push(&tmp, &env[*i][*j]);
-		(*j)++;
-	}
-	tmp = reverse(&tmp);
-	key = getword1(&tmp, " ");
-	delete(&tmp);
-	return (key);
-}
-
-char	*put_value(int *i, int *j, char *env[])
-{
-	t_list	*tmp;
-	char	*value;
-
-	tmp = NULL;
-	(*j)++;
-	while (env[*i][*j] != '\0')
-	{
-		push(&tmp, &env[*i][*j]);
-		(*j)++;
-	}
-	tmp = reverse(&tmp);
-	value = getword1(&tmp, " ");
-	delete(&tmp);
-	return (value);
-}
-
-void	create_dico_list(t_dico **dico, char *env[])
-{
-	int		i;
-	int		j;
-	t_list	*tmp;
-	char	*s1;
-	char	*s2;
-
-	tmp = NULL;
-	i = 0;
-	while (*(env + i) != NULL)
-	{
-		j = 0;
-		s1 = put_key(&i, &j, env);
-		s2 = put_value(&i, &j, env);
-		push_dico(dico, s1, s2);
-		free(s1);
-		free(s2);
-		i++;
-	}
-}
 
 void	get_inside_dquote1(t_parser **p)
 {
@@ -162,7 +95,7 @@ void	get_inside_squote1(t_parser **p)
 	}
 }
 
-void	clean_dico_32(t_parser **p, t_list **raw_tmp, t_list_i **flag_tmp)
+/*void	clean_dico_32(t_parser **p, t_list **raw_tmp, t_list_i **flag_tmp)
 {
 	char	*tmp;
 	int		flag;
@@ -177,8 +110,8 @@ void	clean_dico_32(t_parser **p, t_list **raw_tmp, t_list_i **flag_tmp)
 		remove_position_int(&(*p)->flag, 0);
 		remove_pos_c(&(*p)->raw, 0);
 	}
-}
-
+}*/
+/*
 void	clean_dico_helper(t_parser **p, t_list **raw_tmp, t_list_i **flag_tmp)
 {
 	char	*tmp;
@@ -211,7 +144,7 @@ void	clean_dico(t_parser *p)
 	}
 	p->raw = reverse(&raw_tmp);
 	p->flag = reverse_int(&flag_tmp);
-}
+}*/
 
 void	check_for_dollar(t_parser *p)
 {
@@ -372,7 +305,7 @@ void	check_for_envvar(t_parser *p)
 }
 
 // les flag space etaient a 0 puis -1 -><- getitem
-void	add_space_pipe(t_parser *p)
+/*void	add_space_pipe(t_parser *p)
 {
 	push(&p->util.tmp, " ");
 	push_int(&p->flag, 32);
@@ -381,9 +314,9 @@ void	add_space_pipe(t_parser *p)
 	push(&p->util.tmp, " ");
 	push_int(&p->flag, 32);
 	free(p->util.c_tmp);
-}
+}*/
 
-void	add_space_flag(t_parser *p, int flag)
+/*void	add_space_flag(t_parser *p, int flag)
 {
 	push(&p->util.tmp, " ");
 	push_int(&p->flag, 32);
@@ -393,9 +326,9 @@ void	add_space_flag(t_parser *p, int flag)
 	push_int(&p->flag, 32);
 	free(p->util.c_tmp);
 	//p->util.c_tmp = NULL;//
-}
+}*/
 
-void	add_2space_flag(t_parser *p, int flag)
+/*void	add_2space_flag(t_parser *p, int flag)
 {// 6 << 7 >>
 	p->util.c_tmp1 = pop(&p->raw);
 	push(&p->util.tmp, " ");
@@ -408,9 +341,7 @@ void	add_2space_flag(t_parser *p, int flag)
 	push_int(&p->flag, 32);
 	free(p->util.c_tmp);
 	free(p->util.c_tmp1);
-}
-
-
+}*/
 
 void	test_env_list(t_parser p, char **env)
 {
@@ -439,8 +370,6 @@ void	get_path(t_parser *p, char **env)
 	}
 	p->struct_path.split_path = reverse(&p->struct_path.split_path);
 }
-
-
 
 static void cpd1_key(t_parser *p)
 {

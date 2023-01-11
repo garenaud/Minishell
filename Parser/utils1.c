@@ -6,9 +6,11 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 15:54:03 by jsollett          #+#    #+#             */
-/*   Updated: 2022/12/28 16:03:29 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/11 13:59:58 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../minishell.h"
 
 int	ft_isalnum(int c)
 {
@@ -24,5 +26,64 @@ int	ft_isalnum(int c)
 	{
 		return (1);
 	}
+	if (c == '?')
+		return (63);
 	return (0);
+}
+
+static	size_t	ft_intlen(int n)
+{
+	int		result;
+	size_t	count;
+
+	result = n;
+	count = 0;
+	if (n <= 0)
+		count++;
+	while (result != 0)
+	{
+		result = result / 10;
+		count++;
+	}
+	return (count);
+}
+
+static	int	power_10(int expo)
+{
+	int	result;
+
+	result = 1;
+	while (expo != 0)
+	{
+		result *= 10;
+		expo--;
+	}
+	return (result);
+}
+
+char	*ft_itoa(int nb)
+{
+	char	*ia;
+	int		i;
+	int		j;
+
+	i = ft_intlen(nb);
+	ia = (char *)malloc((i + 1) * sizeof(char));
+	if (ia == NULL)
+		return (NULL);
+	if (nb < 0)
+	{
+		(*ia++) = (char)('-');
+		i--;
+	}
+	while (i)
+	{
+		j = (nb / power_10(i - 1)) % 10;
+		if (j < 0)
+			j = -j;
+		*(ia++) = (char)(j + '0');
+		i--;
+	}
+	*ia = '\0';
+	return (ia - ft_intlen(nb));
 }

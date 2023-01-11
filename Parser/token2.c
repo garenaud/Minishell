@@ -1,4 +1,4 @@
-/*  ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   token2.c                                           :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:04:18 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/06 15:25:29 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/11 14:10:43 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,32 @@ void	get_inside_squote2(t_parser *p)
 	{
 		transfer_c(&p->util.raw, &p->util.raw_tmp);
 		push_int(&p->util.code, 1);
+	}
+	remove_pos_c(&p->util.raw, 0);
+}
+
+void	get_inside_dquote2(t_parser *p)
+{
+	char	c;
+
+	remove_pos_c(&p->util.raw, 0);
+	c = *getitem_c(p->util.raw, 0);
+	while (ft_strncmp(getitem_c(p->util.raw, 0), "\"", 1) != 0)
+	{
+		if (ft_strncmp(getitem_c(p->util.raw, 0), "$", 1) == 0)
+		{
+			// mettre cas $?
+			remove_pos_c(&p->util.raw, 0);
+			while (ft_isalnum(getitem_c(p->util.raw, 0)[0]))
+			{
+				transfer_c(&p->util.raw, &p->util.key_l);
+			}
+			p->util.code_nb = 2;
+			expand_to_value(p);
+			continue ;
+		}
+		transfer_c(&p->util.raw, &p->util.raw_tmp);
+		push_int(&p->util.code, 2);
 	}
 	remove_pos_c(&p->util.raw, 0);
 }

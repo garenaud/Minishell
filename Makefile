@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/09 11:36:12 by grenaud-         ###   ########.fr        #
+#    Updated: 2023/01/11 14:45:41 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/dico.c \
 			Parser/dico_1.c \
 			Parser/dico_2.c \
+			Parser/dico_3.c \
 			Parser/path.c \
 			Parser/parser_util.c \
 			Parser/memory_cleaning.c \
