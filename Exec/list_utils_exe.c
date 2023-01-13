@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:45:54 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/30 14:53:47 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/13 14:07:50 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 t_exe	*init_exe_list(int size)
 {
 	t_exe	*new;
-	
+
 	new = (t_exe *)malloc(sizeof(t_exe));
 	if (!new)
-		return(NULL);
+		return (NULL);
 	new->pid = 0;
+	new->redir = 0;
+	new->path = NULL;
 	new->cmd_tab = calloc(size + 2, sizeof(char *));
 	new->fd_in = 0;
 	new->fd_out = 0;
@@ -34,6 +36,7 @@ void	printll_exe(t_exe *exec)
 	i = 0;
 	while (exec != NULL)
 	{
+		printf("-->Le path[%s} redir[%d]\n", exec->path, exec->redir);
 		printf("-->fd_in[%d] fd_out[%d] pid[%d]\n", exec->fd_in, exec->fd_out, exec->pid);
 		while (exec->cmd_tab[i])
 		{
@@ -71,9 +74,11 @@ void delete_exeline(t_exe **top)
     while (*top != NULL)
     {
         tmp = *top;
+		free(tmp->path);
+        if (tmp->cmd_tab != NULL)
+			free_tab(tmp->cmd_tab);
+        free(tmp);
         *top = (*top)->next;
-        //free_tab(tmp->cmd_tab);
-        //free(tmp);
     }
 }
 /* 

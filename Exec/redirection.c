@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:53:46 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/09 11:41:58 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/13 16:55:32 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,43 +22,53 @@ int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i)
 	else if (ft_strcmp(cmd_d->key, "4") == 0)
 	{
 		input(p, cmd_d, curr);
-		//printf("finis input \n");
-		//i++;
-	}
+		i += 2;
+	}	
 	else if (ft_strcmp(cmd_d->key, "7") == 0)
 	{
 		append(p, cmd_d, curr);
 		i++;
 	}
-	return (i);	
+	else if (ft_strcmp(cmd_d->key, "6") == 0)
+	{
+		own_heredocs(p, cmd_d, curr);
+		i += 2;
+	}
+	return (i);
 }
 
-int output(t_parser *p, t_dico *cmd_d, t_exe *curr, int i) 
+int	output(t_parser *p, t_dico *cmd_d, t_exe *curr, int i)
 {
-	if (cmd_d == NULL || curr == NULL) 
-		return -1;
-	int fd = open(cmd_d->next->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd == -1) 
+	int	fd;
+
+	fd = 0;
+	curr->redir = 1;
+	if (cmd_d == NULL || curr == NULL)
+		return (-1);
+	fd = open(cmd_d->next->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == -1)
 	{
-		perror("open: ");
-		return -1;
+		ft_putstr_fd("minishell: ", 2);
+		perror(cmd_d->next->value);
+		return (1);
 	}
 	if (curr->fd_out > 2)
 		close(curr->fd_out);
-	dup2(fd, 1);
-	close(fd);
 	curr->fd_out = fd;
-	//printf("cmd_d depuis input = %s et la valeur de i = %d\n", cmd_d->value, i);
 	remove_pos_dico(&p->cmd_d, i);
 	remove_pos_dico(&p->cmd_d, i + 1);
-	return 0;
+	return (0);
 }
 
 int input(t_parser *p, t_dico *cmd_d, t_exe *curr) 
 {
+	int	fd;
+	
+	fd = 0;
+	curr->redir = 2;
 	if (cmd_d == NULL || curr == NULL)
 		return -1;
-	int fd = open(cmd_d->next->value, O_RDONLY, 0644);
+	fd = open(cmd_d->next->value, O_RDONLY);
 	if (fd == -1) 
 	{
 		perror("open: ");
@@ -66,12 +76,9 @@ int input(t_parser *p, t_dico *cmd_d, t_exe *curr)
 	}
 	if (curr->fd_in > 2)
     	close(curr->fd_in);
-	dup2(fd, 0);
-	close(fd);
 	curr->fd_in = fd;
-	//printf("cmd_d depuis input = %s et la valeur de i = %d\n", cmd_d->value, i);
 	remove_pos_dico(&p->cmd_d, 0);
-	//i++;
+	remove_pos_dico(&p->cmd_d, 0);
 	return 0;
 }
 
@@ -80,8 +87,8 @@ int	append(t_parser *p, t_dico *cmd_d, t_exe *curr)
 	int	fd;
 
 	fd = 0;
+	curr->redir = 3;
 	fd = open(cmd_d->next->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	//printf("je passe par append cmd->next->value = %s\n", cmd_d->next->value);
 	if (fd == -1)
 	{
 		perror("open: ");
@@ -89,26 +96,45 @@ int	append(t_parser *p, t_dico *cmd_d, t_exe *curr)
 	}
 	if (curr->fd_out > 2)
 		close(curr->fd_out);
-	dup2(fd, 1);
-	close(fd);
 	curr->fd_out = fd;
 	remove_pos_dico(&p->cmd_d, 0);
-	//remove_pos_dico(&p->cmd_d, 0);
-	//printf("\nAPPEND FINI\n");
 	return (0);
 }
-/* int append(t_parser *p, t_dico *cmd_d, t_exe *curr) {
-  int fd;
 
-  fd = open(cmd_d->next->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
-  if (fd == -1) {
-    perror("open: ");
-    return -1;
-  }
-  if (curr->fd_out > 2) {
-    close(curr->fd_out);
-  }
-  curr->fd_out = fd;
-  return 0;
+int	own_heredocs(t_parser *p, t_dico *cmd_d, t_exe *curr)
+{
+	int		fd[2];
+	char	*delimiter;
+
+	curr->redir = 4;
+	delimiter = cmd_d->next->value;
+	pipe(fd);
+	if (delimiter == NULL)
+		return (0);
+	own_heredocs_to_long(delimiter, NULL, fd, curr);
+	remove_pos_dico(&p->cmd_d, 0);
+	remove_pos_dico(&p->cmd_d, 0);
+	return (0);
 }
- */
+
+void	own_heredocs_to_long(char *delimiter, char *line, int *fd, t_exe *curr)
+{
+	while (1)
+	{
+		line = readline("heredoc> ");
+		if (!line)
+			break ;
+		if (ft_strncmp(line, delimiter, ft_strlen(line)) != 0 || line[0] == 0)
+		{
+			ft_putendl_fd(line, fd[1]);
+			free(line);
+		}
+		else
+			break ;
+	}
+	free(line);
+	if (curr->fd_in > 2)
+		close (curr->fd_in);
+	close(fd[1]);
+	curr->fd_in = fd[0];
+}

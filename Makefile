@@ -6,7 +6,7 @@
 #    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/09 11:36:12 by grenaud-         ###   ########.fr        #
+#    Updated: 2023/01/12 16:04:25 by grenaud-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ NAME =		minishell
 HEADER = 	minishell.h
 
 CC = 		gcc
-FLAGS = 	-g -O1 -ggdb3 -Wall -Wextra -Werror
+FLAGS = 	-g -Wall -Wextra -Werror
+TESTFLAGS = -O1 -ggdb3
 LDFLAGS=	 -L /Users/$(USER)/.brew/opt/readline/lib -lreadline
 CPPFLAGS=	 -I /Users/$(USER)/.brew/opt/readline/include
 DANGER = 	 -fsanitize=address -fno-omit-frame-pointer
@@ -61,6 +62,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Exec/check_pipe_utils.c \
 			Exec/list_utils_exe.c \
 			Exec/utils_2.c \
+			Exec/pipe.c \
 			Exec/redirection.c \
 			Builtin/built_utils.c \
 			Builtin/builtins.c \

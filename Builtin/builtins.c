@@ -6,21 +6,21 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 18:09:44 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/06 14:02:58 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/12 17:58:21 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		is_builtin(char **str)
+int	is_builtin(char **str)
 {
 	if (str[0] == 0)
 		return (0);
 	if (!ft_strcmp(str[0], "echo") || !ft_strcmp(str[0], "pwd")
-		|| !ft_strncmp(str[0], ".", 1) || !ft_strcmp(str[0], "env")
+		/* || !ft_strncmp(str[0], ".", 1) */ || !ft_strcmp(str[0], "env")
 		|| !ft_strcmp(str[0], "exit") || !ft_strcmp(str[0], "cd")
 		|| !ft_strcmp(str[0], "export") || !ft_strcmp(str[0], "unset")
-		|| !ft_strncmp(str[0], "/", 1))
+		/* || !ft_strncmp(str[0], "/", 1) */)
 	{
 		return (1);
 	}
@@ -29,10 +29,10 @@ int		is_builtin(char **str)
 
 int	bultin_search(t_parser *p, t_exe *curr)
 {
-	if (ft_strcmp(curr->cmd_tab[0], "echo") == 0 || ft_strcmp(curr->cmd_tab[0], "ECHO") == 0){
-		printf("Echo p->line = %s\n", p->line);
+	(void) p;
+	if (ft_strcmp(curr->cmd_tab[0], "echo") == 0 
+		|| ft_strcmp(curr->cmd_tab[0], "ECHO") == 0)
 		return (bultin_echo_n(curr));
-		}
 	else if (ft_strcmp(curr->cmd_tab[0], "cd") == 0)
 		return(bultin_cd(curr));
 	else if (ft_strcmp(curr->cmd_tab[0], "pwd") == 0
@@ -51,5 +51,6 @@ int	bultin_search(t_parser *p, t_exe *curr)
 		printf("encore a faire\n");
 	else if (ft_strcmp(curr->cmd_tab[0], "exit") == 0)
 		printf("encore a faire\n");
+	printf("bultin_search n'a rien donne\n");
 	return (-1);
 }

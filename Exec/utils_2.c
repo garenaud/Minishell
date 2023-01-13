@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 18:39:54 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/03 17:32:16 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/09 16:32:11 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,19 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	while (src[i])
 		i++;
 	return (i);
+}
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+	write(fd, "\n", 1);
 }

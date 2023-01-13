@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:11:07 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/03 16:32:15 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/10 12:35:53 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	create_path_access(t_parser *p)
 				tmp1 = getall(&path_tmp);
 			if (!access(tmp1, X_OK))
 			{
-				printf(RED"\n %s \n"ENDC, tmp1);
+				//printf(RED"\n %s \n"ENDC, tmp1);
 				push(&p->struct_cmd.cmd, tmp1);
 			}
 			free(tmp1);

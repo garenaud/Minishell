@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:55:24 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/05 15:08:13 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/10 12:34:06 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -555,9 +555,9 @@ void	check_quote_3(t_parser *p)
 	}
 	p->raw = reverse(&p->util.tmp);
 	p->flag = reverse_int(&p->flag);
-	printf(YEL);
-	print_ic(p->flag, p->raw);
-	printf(ENDC"\n");
+	//printf(YEL);
+	//print_ic(p->flag, p->raw);
+	//printf(ENDC"\n");
 	delete(&p->util.tmp);
 	clean_dico(p);
 }
@@ -672,9 +672,9 @@ void	cpd1(t_parser *p)
 		delete(&p->util.tmp);
 	}
 	p->cmd_d = reverse_dico(&p->cmd_d);
-	printf(RED);
-	printll_dico(p->cmd_d);
-	printf(ENDC);
+	//printf(RED);
+	//printll_dico(p->cmd_d);
+	//printf(ENDC);
 }
 
 void	create_parsing_dico(t_parser *p)

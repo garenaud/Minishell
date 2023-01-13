@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/06 17:03:20 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/13 16:58:17 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -23,6 +22,10 @@
 # define BLUE		"\033[1;34m"
 # define PIPE 124
 # define TOK_DELIM "|"
+# define OUTPUT ">"
+# define INPUT "<"
+# define APPEND ">>"
+# define HEREDOC "<<"
 # define WAITING 1
 # define PARSING 2
 # define WORKING 3
@@ -83,6 +86,8 @@ typedef struct s_util
 typedef struct s_exe
 {
 	char	**cmd_tab;
+	char	*path;
+	int		redir;
 	int		fd_in;
 	int		fd_out;
 	pid_t	pid;
@@ -174,6 +179,7 @@ typedef struct s_parser
 	char			**env;
 	t_env			*env_l;
 	int				piped;
+	int				redir;
 	int				return_val;
 	t_path			struct_path;
 	t_cmd			struct_cmd;
@@ -194,6 +200,8 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 void		ft_putnbr_fd(int n, int fd);
 void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
+void		ft_putendl_fd(char *s, int fd);
+
 
 // integer stack
 
@@ -341,22 +349,26 @@ void	printll_exe(t_exe *exec);
 int		checknb_arg(t_dico *top);
 int		checknb_pipe(t_dico *top);
 size_t	size_stack_exe(t_exe *top);
-void	do_waits(t_parser *p);
 int		free_all(t_parser *p);
-int		ft_pipetok(char c);
-void	init_pipe_cmd(t_parser *p);
-int		cmd(t_parser *p, t_exe *curr);
-int		pipe_exec(t_parser *p, t_exe *curr);
-void	piping_main(t_parser *p);
 char	*get_pos_path(t_parser *p, char *cmd);
 void 	free_exe_list(t_exe *list);
-
+void	fill_exec(t_parser *p, t_exe *curr, int size);
+int		is_function(char *path, char **str, t_parser *p);
+int		inpt_checker(char *path, char **str, t_parser *p);
+void	close_pipes(t_exe *curr);
+int		child_pro(t_parser *p, t_exe *curr);
+int		pipe_loop(t_parser *p, t_exe *curr);
+int		run_shell(t_parser *p);
+void	waits(t_parser *p);
+void	free_cmds(t_parser	*p);
+void	do_wait(t_parser *p);
 //redirection
 int		redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
 int		output(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
 int 	input(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int		append(t_parser *p, t_dico *cmd_d, t_exe *curr);
-
+void	own_heredocs_to_long(char *delimiter, char *line, int *fd, t_exe *curr);
+int		own_heredocs(t_parser *p, t_dico *cmd_d, t_exe *curr);
 
 //signal
 void	handle_sigint(int sig);
