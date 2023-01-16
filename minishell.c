@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 17:25:27 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/16 18:07:16 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@ int	main(int argc, char *argv[], char *env[])
 		if (readline_manager(&p) == 1)
 			break ;
 		create_raw_list(&p.raw, p.line);
-		printll_dico(p.envvar);
+	//	printll_dico(p.envvar);
 	//	p.raw = reverse(&p.raw);
 //		create_dico_list(&p.envvar, env); // recree le dico pas une bonne idee
 		{// test swap
-			printf(PURP);
-			printll_dico(p.envvar);
+			//printf(PURP);
+			//printll_dico(p.envvar);
 			//swap_dico(&p.envvar, 2, 1);
-			printf(RED);
+			//printf(RED);
 			find_min_key(p.envvar);
 		//	find_max_key(p.envvar);
-			printf(ENDC);
+			//printf(ENDC);
 		}
 //		create_delim(&p);
 		tester(&p);
@@ -67,10 +67,10 @@ int	main(int argc, char *argv[], char *env[])
 			p.flag = reverse_int(&p.flag);
 		}
 		cpd1(&p);
-		printf(RED);
-		printf("dico p.cmd_d\n");
-		printll_dico(p.cmd_d);
-		printf(ENDC);
+	//	printf(RED);
+	//	printf("dico p.cmd_d\n");
+	//	printll_dico(p.cmd_d);
+	//	printf(ENDC);
 	//	duplicate(p.cmd_d, p.cmd_copy);
 		duplicate_1(&p.cmd_d, &p.cmd_copy);
 		if (p.cmd_d)
@@ -78,12 +78,13 @@ int	main(int argc, char *argv[], char *env[])
 			create_path_access(&p);
 			//printll(p.struct_cmd.cmd);
 		}
-		printf(GREEN);
-		printll(p.word);
-		printf(ENDC);
+	//	printf(GREEN);
+	//	printll(p.word);
+	//	printf(ENDC);
 	//	piping_main(&p);
-		init_exe(&p);
-		bultin_search(&p, p.cmd_exe);
+	//	init_exe(&p);
+	//	bultin_search(&p.cmd_exe);
+		run_shell(&p);
 		clean_memory_parsing(&p);
 	}
 	clean_memory_end(&p);

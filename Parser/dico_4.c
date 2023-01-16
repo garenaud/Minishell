@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dico_4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 10:35:18 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/16 11:50:18 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/16 18:08:36 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ void	duplicate_1(t_dico **orig, t_dico **copy)
 		index++;
 	}
 	*copy = reverse_dico(copy);
-	printf(PURP);
-	printll_dico(*orig);
-	printf(RED);
-	printll_dico(*copy);
-	printf(ENDC);
+	//printf(PURP);
+	//printll_dico(*orig);
+	//printf(RED);
+	//printll_dico(*copy);
+	//printf(ENDC);
 
 }
