@@ -6,33 +6,35 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:44:55 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/13 16:16:18 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/16 16:51:46 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		checknb_arg(t_dico *top)
+int	checknb_arg(t_dico *top)
 {
 	int	i;
+
 	i = 0;
 	while (top != NULL)
 	{
-		if (ft_strncmp(top->value,"|",1) == 0)
+		if (ft_strncmp(top->value, "|", 1) == 0)
 			return (i);
 		top = top->next;
 		i++;
 	}
-	return (i);	
+	return (i);
 }
 
-int		checknb_pipe(t_dico *top)
+int	checknb_pipe(t_dico *top)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (top != NULL)
 	{
-		if (ft_strncmp(top->value,"|",1) == 0)
+		if (ft_strncmp(top->value, "|", 1) == 0)
 			i++;
 		top = top->next;
 	}
@@ -58,20 +60,20 @@ char	*get_pos_path(t_parser *p, char *cmd)
 {
 	int		i;
 	char	*path;
-	char	*path_search;
-	
+	char	*ps;
+
 	i = 0;
 	while (i < (int)size_stack(p->struct_cmd.cmd))
 	{
 		path = getitem(p->struct_cmd.cmd, i);
-		path_search = ft_substr(path, ft_strlen(path) - ft_strlen(cmd), ft_strlen(cmd));
-		if (ft_strcmp(path_search, cmd) == 0)
+		ps = ft_substr(path, ft_strlen(path) - ft_strlen(cmd), ft_strlen(cmd));
+		if (ft_strcmp(ps, cmd) == 0)
 		{
-			free(path_search);
-			break;
+			free(ps);
+			break ;
 		}
 		i++;
-		free(path_search);
+		free(ps);
 	}
-	return(path);
+	return (path);
 }

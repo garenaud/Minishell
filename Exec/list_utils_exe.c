@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:45:54 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/13 14:07:50 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/16 16:55:57 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,19 @@ t_exe	*init_exe_list(int size)
 
 void	printll_exe(t_exe *exec)
 {
-	printf(GREEN "start exe");
 	int	i;
+
+	printf(GREEN "start exe");
 	i = 0;
 	while (exec != NULL)
 	{
 		printf("-->Le path[%s} redir[%d]\n", exec->path, exec->redir);
-		printf("-->fd_in[%d] fd_out[%d] pid[%d]\n", exec->fd_in, exec->fd_out, exec->pid);
+		printf("-->fd_in[%d] fd_out[%d] pid[%d]\n", exec->fd_in,
+			exec->fd_out, exec->pid);
 		while (exec->cmd_tab[i])
 		{
-			printf("cmd_tab[%i]=[%s] [%p}-->", i, exec->cmd_tab[i], exec->cmd_tab[i]);
+			printf("cmd_tab[%i]=[%s] [%p}-->", i, exec->cmd_tab[i],
+				exec->cmd_tab[i]);
 			i++;
 		}
 		printf("cmd_tab[%i]=[%s]-->", i, exec->cmd_tab[i]);
@@ -65,68 +68,34 @@ size_t	size_stack_exe(t_exe *top)
 	return (size);
 }
 
-void delete_exeline(t_exe **top)
+void	delete_exeline(t_exe **top)
 {
-    t_exe *tmp;
+	t_exe	*tmp;
 
-    if (*top == NULL)
-        return;
-    while (*top != NULL)
-    {
-        tmp = *top;
+	if (*top == NULL)
+		return ;
+	while (*top != NULL)
+	{
+		tmp = *top;
 		free(tmp->path);
-        if (tmp->cmd_tab != NULL)
+		if (tmp->cmd_tab != NULL)
 			free_tab(tmp->cmd_tab);
-        free(tmp);
-        *top = (*top)->next;
-    }
+		free(tmp);
+		*top = (*top)->next;
+	}
 }
-/* 
-void delete_exeline(t_exe *top)
-{
-	t_exe	*curr;
 
-	curr = top;
-	printf("top = %p, curr = %p\n", top, curr);
-    while (curr != NULL)
-    {
-        printf("curr->cmd_tab = %p\n", curr->cmd_tab);
-		free_tab(curr->cmd_tab);
-		//free(curr);
-        //free(curr->cmd_tab);
-        curr = curr->next;
-    }
-    //free(top);
-	//free(curr);
-    top = NULL;
-} */
-
-void free_tab(char **tab)
+void	free_tab(char **tab)
 {
-    int i;
+	int	i;
 
 	i = 0;
-    if (tab == NULL)
-        return;
-    while (tab[i] != NULL)
-    {
-        free(&tab[i]);
+	if (tab == NULL)
+		return ;
+	while (tab[i] != NULL)
+	{
+		free(&tab[i]);
 		i++;
-    }
-    free(tab);
+	}
+	free(tab);
 }
-
-
-/* void empty_table(TABLE *table) {
-    LIST *cur = table->top;
-    LIST *tmp;
-
-    while (cur != NULL) {
-       tmp = cur;
-       cur = cur->next;
-       free(tmp);
-    }
-
-    table->top = NULL;
-    table->size = 0;
-} */

@@ -6,7 +6,7 @@
 #    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/12 16:04:25 by grenaud-         ###   ########.fr        #
+#    Updated: 2023/01/16 15:50:42 by grenaud-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/token1.c \
 			Parser/token2.c \
 			Parser/token_test.c \
+			Exec/redir_utils.c \
 			Exec/init.c \
 			Exec/exe.c \
 			Exec/check_pipe_utils.c \

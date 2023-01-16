@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/13 16:32:01 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:11:03 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,9 @@ void	fill_exec(t_parser *p, t_exe *curr, int size)
 	i = -1;
 	while (++i < size)
 	{
-		if (!ft_strcmp(p->cmd_d->key, "3") || !ft_strcmp(p->cmd_d->key, "4")
-			|| !ft_strcmp(p->cmd_d->key, "6") || !ft_strcmp(p->cmd_d->key, "7"))
+		if (is_redir(p->cmd_d->key) == 1)
 			i = redir(p, p->cmd_d, curr, i);
-		if (size_stack_dico(p->cmd_d) != 0)
+		if (size_stack_dico(p->cmd_d) != 0 && is_redir(p->cmd_d->key) != 1)
 		{
 			curr->cmd_tab[i] = ft_strdup(p->cmd_d->value);
 			remove_pos_dico(&p->cmd_d, 0);

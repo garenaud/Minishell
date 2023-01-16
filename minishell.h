@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/13 16:58:17 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:08:12 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ void		ft_putnbr_fd(int n, int fd);
 void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
 void		ft_putendl_fd(char *s, int fd);
+void		ft_strtolower(char *str);
 
 
 // integer stack
@@ -362,9 +363,13 @@ int		run_shell(t_parser *p);
 void	waits(t_parser *p);
 void	free_cmds(t_parser	*p);
 void	do_wait(t_parser *p);
+void	init_pipes(t_exe *curr);
+
+
 //redirection
+int		is_redir(char *key);
 int		redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
-int		output(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
+int		output(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int 	input(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int		append(t_parser *p, t_dico *cmd_d, t_exe *curr);
 void	own_heredocs_to_long(char *delimiter, char *line, int *fd, t_exe *curr);
@@ -378,7 +383,7 @@ void	handle_sigquit(int sig);
 void	handle_sigquit(int signum);
 
 //builtin
-int		bultin_search(t_parser *p, t_exe *curr);
+int		bultin_search(t_exe *curr);
 int		is_builtin(char **str);
 int		bultin_echo(int i, t_exe *curr);
 int		bultin_echo_n(t_exe *curr);
