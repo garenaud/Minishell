@@ -6,7 +6,7 @@
 #    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/11 14:45:41 by jsollett         ###   ########.fr        #
+#    Updated: 2023/01/16 15:11:47 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/dico_1.c \
 			Parser/dico_2.c \
 			Parser/dico_3.c \
+			Parser/dico_4.c \
 			Parser/path.c \
 			Parser/parser_util.c \
 			Parser/memory_cleaning.c \
@@ -68,6 +69,9 @@ CFILES = 	Parser/list_utils_int.c \
 			Builtin/builtins.c \
 			Builtin/echo.c \
 			Builtin/cd.c \
+			Builtin/export.c \
+			Builtin/env.c \
+			Builtin/unset.c \
 			signal.c \
 			start_banner.c \
 			minishell.c

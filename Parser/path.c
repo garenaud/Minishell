@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:11:07 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/11 13:24:07 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:24:58 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*create_candidate(t_parser *p, int index, int index_cmd)
 		tmp1 = getword1(&path_tmp, " ");
 	else
 		tmp1 = getall(&path_tmp);
-	printf("%p\t%p\n", path_tmp, d_tmp);
+//	printf("%p\t%p\n", path_tmp, d_tmp);
 //	delete(&path_tmp);
 	delete_dico(&d_tmp);
 	return (tmp1);

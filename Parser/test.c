@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 11:55:24 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/11 14:47:09 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/12 12:21:31 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,6 +391,8 @@ static void cpd1_key(t_parser *p)
 		p->util.key = "7";
 	if (p->util.i1 == 8)
 		p->util.key = "8";
+	if (p->util.i1 == 61)
+		p->util.key = "61";
 }
 
 void	cpd1(t_parser *p)

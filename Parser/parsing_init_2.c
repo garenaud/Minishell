@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:26:45 by jsollett          #+#    #+#             */
-/*   Updated: 2022/12/23 14:34:04 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/16 10:32:28 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	init_pgrm_dico(t_parser *p)
 	p->cmd_d_tmp = NULL;
 	p->dico = NULL;
 	p->dico_tmp = NULL;
-	p->envvar = NULL;
+	p->cmd_copy = NULL;
+//	p->envvar = NULL;
 }
 
 void	init_pgrm_file(t_parser *p)

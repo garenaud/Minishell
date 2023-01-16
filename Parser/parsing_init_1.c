@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:18:38 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/06 09:47:23 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:04:20 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,5 @@ void	create_delim(t_parser *p)
 	push(&p->util.delim, ">>");
 	push(&p->util.delim, "<");
 	push(&p->util.delim, "<<");
+	push(&p->util.delim, "=");
 }

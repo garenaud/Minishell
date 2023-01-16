@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 09:24:29 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/11 16:43:37 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/16 11:18:03 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,39 @@ size_t	find_min_key(t_dico *dico)
 			s = ft_strdup(tmp->key);
 			min = index;
 		}
+		delete_dico(&tmp);
 		index++;
 	}
 	free(s);
-	tmp = getitem_dico(dico, min);
-	printf("minimum at %zu, is %s\n", min, tmp->key);
+//	tmp = getitem_dico(dico, min);
+//	printf("minimum at %zu, is %s\n", min, tmp->key);
+	return (min);
+}
+
+size_t	find_max_key(t_dico *dico)
+{
+	size_t	min;
+	size_t	index;
+	t_dico	*tmp;
+	char	*s;
+
+	index = 0;
+	min = 0;
+	s = ft_strdup("");
+	while (index < size_stack_dico(dico))
+	{
+		tmp = getitem_dico(dico, index);
+		if (ft_strcmp(s, tmp->key) < 0)
+		{
+			free(s);
+			s = ft_strdup(tmp->key);
+			min = index;
+		}
+		delete_dico(&tmp);
+		index++;
+	}
+	free(s);
+//	tmp = getitem_dico(dico, min);
+//	printf("maximum at %zu, is %s\n", min, tmp->key);
 	return (min);
 }

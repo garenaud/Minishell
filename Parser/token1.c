@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:34:55 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/11 14:11:02 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:07:17 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	get_code_c1(t_parser *p, char *c)
 		return (32);
 	if (ft_strncmp(c, "$", 1) == 0)
 		return (36);
+	if (ft_strncmp(c, "=", 1) == 0)
+		return (61);
 	return (0);
 }
 

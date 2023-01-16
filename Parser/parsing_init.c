@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 11:38:04 by jsollett          #+#    #+#             */
-/*   Updated: 2022/12/21 13:28:57 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/13 13:36:42 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,15 @@ void	init_pgrm(t_parser *p, char *env[])
 	init_pgrm_list_i(p);
 	init_util(p);
 	init_struct_path(p);
+	init_built(p);
+}
+
+void	init_built(t_parser *p)
+{
+	p->built.arg = NULL;
+	p->built.key_l = NULL;
+	p->built.value_l = NULL;
+	p->built.tmp = NULL;
 }
 
 void	free_parsing(t_parser *p)

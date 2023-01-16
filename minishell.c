@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/11 16:35:30 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/16 11:52:10 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@ int	main(int argc, char *argv[], char *env[])
 	(void)argc;
 	(void)argv;
 	p.line = NULL;
+	p.envvar = NULL;//
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 //	rl_catch_signals = 0;
 	init_pgrm(&p, env);
+		create_dico_list(&p.envvar, env);// ***
+	create_delim(&p);
 	while ((p.line =readline("mini-->")))
 	{
 		init_pgrm(&p, env);
@@ -30,17 +33,19 @@ int	main(int argc, char *argv[], char *env[])
 		if (readline_manager(&p) == 1)
 			break ;
 		create_raw_list(&p.raw, p.line);
+		printll_dico(p.envvar);
 	//	p.raw = reverse(&p.raw);
-		create_dico_list(&p.envvar, env);
+//		create_dico_list(&p.envvar, env); // recree le dico pas une bonne idee
 		{// test swap
 			printf(PURP);
 			printll_dico(p.envvar);
 			//swap_dico(&p.envvar, 2, 1);
 			printf(RED);
 			find_min_key(p.envvar);
+		//	find_max_key(p.envvar);
 			printf(ENDC);
 		}
-		create_delim(&p);
+//		create_delim(&p);
 		tester(&p);
 	//	trim_list(&p.raw);
 	//	check_for_envvar(&p);
@@ -66,6 +71,8 @@ int	main(int argc, char *argv[], char *env[])
 		printf("dico p.cmd_d\n");
 		printll_dico(p.cmd_d);
 		printf(ENDC);
+	//	duplicate(p.cmd_d, p.cmd_copy);
+		duplicate_1(&p.cmd_d, &p.cmd_copy);
 		if (p.cmd_d)
 		{
 			create_path_access(&p);
@@ -74,7 +81,9 @@ int	main(int argc, char *argv[], char *env[])
 		printf(GREEN);
 		printll(p.word);
 		printf(ENDC);
-		piping_main(&p);
+	//	piping_main(&p);
+		init_exe(&p);
+		bultin_search(&p, p.cmd_exe);
 		clean_memory_parsing(&p);
 	}
 	clean_memory_end(&p);

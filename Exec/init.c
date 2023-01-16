@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/06 16:47:40 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/13 10:21:52 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	piping_main(t_parser *p)
 {
 	int pfd[2];
 	pid_t	pid;
-	
+
 	pipe(pfd);
 	pid = fork();
 	if (pid == 0)
@@ -54,7 +54,7 @@ int	cmd(t_parser *p, t_exe *curr)
 	if (is_builtin(curr->cmd_tab) != -1 && curr->next == NULL)
 		bultin_search(p, curr);
 	else
-	{	
+	{
 		if(pipe_exec(p, curr) != 1)
 			printf("\n\nben ca a merde kkk");
 	}
@@ -66,7 +66,7 @@ void	init_exe(t_parser *p)
 {
 	int	i;
 	int	j;
-	
+
 	j = -1;
 	int size;
 	t_exe	*curr;
@@ -80,7 +80,7 @@ void	init_exe(t_parser *p)
 		i = 0;
 		while (i < size)
 		{
- 			if(ft_strcmp(p->cmd_d->key, "3") == 0 || ft_strcmp(p->cmd_d->key, "4") == 0 
+ 			if(ft_strcmp(p->cmd_d->key, "3") == 0 || ft_strcmp(p->cmd_d->key, "4") == 0
 				|| ft_strcmp(p->cmd_d->key, "6") == 0 || ft_strcmp(p->cmd_d->key, "7") == 0)
 			{
 				i = redir(p, p->cmd_d, curr, i);
@@ -94,10 +94,10 @@ void	init_exe(t_parser *p)
 				break;
 		}
 		curr->cmd_tab[i] = NULL;
-		
+
 		//printf("apres le nul p->cmd_tab = %s et i = %d", curr->cmd_tab[i - 1], i);
 		if (p->cmd_d != NULL)
-			remove_pos_dico(&p->cmd_d, 0);	
+			remove_pos_dico(&p->cmd_d, 0);
 		if (j != p->piped && p->piped != 0)
 		{
 			curr->next = init_exe_list(size);

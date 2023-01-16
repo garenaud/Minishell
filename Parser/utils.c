@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 18:02:50 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/28 15:52:36 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/13 11:31:39 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	if (n == 0)
 		return (0);
+	if (s1 == NULL)
+		return (-(unsigned char)*s2);
 	while (((n -1) > 0) && (*s1 != '\0') && (*s2 != '\0') && (*s1 == *s2))
 	{
 		s1++;

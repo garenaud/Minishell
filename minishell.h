@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/11 16:35:01 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:12:11 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,13 @@ typedef struct s_list_i
 	struct s_list_i	*next;
 }	t_list_i;
 
+typedef struct s_dico
+{
+	char			*key;
+	char			*value;
+	struct s_dico	*next;
+}	t_dico;
+
 // structure "dico"
 // version stack
 typedef struct s_util
@@ -79,6 +86,17 @@ typedef struct s_util
 	t_list_i	*code;
 }	t_util;
 
+typedef struct s_built
+{
+	int		i;
+	char	*key;
+	char	*value;
+	t_dico	*tmp;
+	t_list	*key_l;
+	t_list	*value_l;
+	t_list	*arg;
+}	t_built;
+
 //struct list pour execve
 typedef struct s_exe
 {
@@ -101,12 +119,7 @@ typedef struct s_env {
 
 // structure "dico"
 // version stack
-typedef struct s_dico
-{
-	char			*key;
-	char			*value;
-	struct s_dico	*next;
-}	t_dico;
+
 
 typedef struct s_path
 {
@@ -118,10 +131,10 @@ typedef struct s_path
 
 typedef struct s_cmd
 {
-	t_list		*cmd;
-	t_list		*option;
-	t_list		*arg;
-	char		**tab_cmd;
+	t_list			*cmd;
+	t_list			*option;
+	t_list			*arg;
+	char			**tab_cmd;
 	struct s_path	*path;
 }	t_cmd;
 
@@ -149,12 +162,13 @@ typedef struct s_parser
 {
 	t_list_i		*word_len;
 	t_list_i		*flag;
-
+	t_built			built;
 	t_dico			*dico;
 	t_dico			*dico_tmp;
 	t_dico			*check;
 	t_dico			*cmd_d_tmp;
 	t_dico			*cmd_d;
+	t_dico			*cmd_copy;
 	t_dico			*envvar;
 	t_util			util;
 	t_list			*raw;
@@ -288,6 +302,10 @@ void		printll_dico(t_dico *dico);
 void		check_quote(t_parser *p);
 void		swap_dico(t_dico **dico, size_t pos1, size_t pos2);
 size_t		find_min_key(t_dico *dico);
+size_t		find_max_key(t_dico *dico);
+void		tri_export(t_parser *p);
+void		duplicate(t_dico *orig, t_dico *copy);
+void		duplicate_1(t_dico **orig, t_dico **copy);
 
 void		create_path_access(t_parser *p);
 void		init_parsing_list_c(t_parser *p);
@@ -372,11 +390,16 @@ void		handle_sigquit(int sig);
 void		handle_sigquit(int signum);
 
 //builtin
+void		init_built(t_parser *p);
 int			bultin_search(t_parser *p, t_exe *curr);
 int			is_builtin(char **str);
 int			bultin_echo(int i, t_exe *curr);
 int			bultin_echo_n(t_exe *curr);
 int			bultin_cd(t_exe *curr);
+int			bultin_env(t_exe *curr, t_parser *p);
+int			bultin_unset(t_exe *curr, t_parser *p);
+
+int			bultin_export(t_exe *curr, t_parser *p);
 
 void		print_banner(void);
 

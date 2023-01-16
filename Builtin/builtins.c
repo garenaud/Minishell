@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 18:09:44 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/06 14:02:58 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:13:06 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,20 @@ int	bultin_search(t_parser *p, t_exe *curr)
 	else if (ft_strcmp(curr->cmd_tab[0], "pwd") == 0
 		|| ft_strcmp(curr->cmd_tab[0], "PWD") == 0)
 		printf("encore a faire\n");
-	if (ft_strcmp(curr->cmd_tab[0], "export") == 0)
+	if (ft_strcmp(curr->cmd_tab[0], "EXPORT") == 0)
 		printf("encore a faire\n");
-	else if (ft_strcmp(curr->cmd_tab[0], "EXPORT") == 0)
-		printf("encore a faire\n");
+	else if (ft_strcmp(curr->cmd_tab[0], "export") == 0)
+		return (bultin_export(curr, p));
+		//printf("encore a faire\n");
 	if (ft_strcmp(curr->cmd_tab[0], "unset") == 0)
-		printf("encore a faire\n");
+		return (bultin_unset(curr, p));
+		//printf("encore a faire\n");
 	else if (ft_strcmp(curr->cmd_tab[0], "UNSET") == 0)
 		printf("encore a faire\n");
 	else if (ft_strcmp(curr->cmd_tab[0], "env") == 0
 		|| ft_strcmp(curr->cmd_tab[0], "ENV") == 0)
-		printf("encore a faire\n");
+		return (bultin_env(curr, p));
+	//	printf("encore a faire\n");
 	else if (ft_strcmp(curr->cmd_tab[0], "exit") == 0)
 		printf("encore a faire\n");
 	return (-1);

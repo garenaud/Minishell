@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 09:33:02 by jsollett          #+#    #+#             */
-/*   Updated: 2022/12/27 09:38:26 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/11 14:11:38 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -461,4 +461,106 @@ void	check_for_dollar(t_parser *p)
 	consecutive_dollar = count_successive_c(p, "$");
 	if (ft_strncmp(getitem_c(p->raw, pos_dollar + consecutive_dollar), " ", 1))
 		check_for_envvar(p);
+}
+
+void	create_path_access(t_parser *p)
+{// version 1: tient compte des "" et '' (a verifier)
+	char	*tmp1;
+	int		index;
+	int		index_cmd;
+	t_list	*path_tmp;
+	t_dico	*d_tmp;
+
+	d_tmp = NULL;
+	path_tmp = NULL;
+	d_tmp = getitem_dico(p->cmd_d, 0);
+	index = 0;
+	index_cmd = 0;
+	if (!access(d_tmp->value, F_OK | X_OK))
+	printf("cmd line [%s] valid \n", d_tmp->value);// mettre en boucle...
+
+	delete_dico(&d_tmp);
+	d_tmp = NULL;
+	while (index_cmd < (int)size_stack_dico(p->cmd_d))
+	{
+		index = 0;
+		while (index < (int)size_stack(p->struct_path.split_path))
+		{
+			tmp1 = NULL;
+			//tmp1 = create_candidate(p, index, index_cmd);
+			printf("\n%s has adress %p \n", tmp1, tmp1);//
+			create_raw_list(&path_tmp, getitem_c(p->struct_path.split_path, index));
+			create_raw_list(&path_tmp, "/");
+			d_tmp = getitem_dico(p->cmd_d, index_cmd);
+			if (ft_strncmp(d_tmp->value, "", 1) == 0)
+			{
+				printf("\nCREATE PATH IF\n");
+				delete(&path_tmp);
+				delete_dico(&d_tmp);
+				break ;
+			}
+			create_raw_list(&path_tmp, d_tmp->value);
+			path_tmp = reverse(&path_tmp);
+
+			if (ft_strncmp(d_tmp->key, " ", 1) == 0)
+				tmp1 = getword1(&path_tmp, " ");
+			else
+				tmp1 = getall(&path_tmp);
+
+			if (!access(tmp1, X_OK))
+				push(&p->struct_cmd.cmd, tmp1);
+			free(tmp1);
+			delete(&path_tmp);
+			delete_dico(&d_tmp);
+			index++;
+		}
+		index_cmd++;
+	}
+}
+
+int	get_code_c(t_parser *p, char c)
+{
+	if (getpos_c(p->util.delim, &c) == -1)
+		return (0);
+	if (c == '\'')
+		return (1);
+	if (c == '\"')
+		return (2);
+	if (c == '>')
+		return (3);
+	if (c == '<')
+		return (4);
+	if (c == '|')
+		return (5);
+	if (c == ' ')
+		return (32);
+	if (c == '$')
+		return (36);
+	return (0);
+}
+
+void	get_inside_dquote2(t_parser *p)
+{// backup
+	char	c;
+
+	remove_pos_c(&p->util.raw, 0);
+	c = *getitem_c(p->util.raw, 0);
+	while (ft_strncmp(getitem_c(p->util.raw, 0), "\"", 1) != 0)
+	{
+		if (ft_strncmp(getitem_c(p->util.raw, 0), "$", 1) == 0)
+		{
+			// mettre cas $?
+			remove_pos_c(&p->util.raw, 0);
+			while (ft_isalnum(getitem_c(p->util.raw, 0)[0]))
+			{
+				transfer_c(&p->util.raw, &p->util.key_l);
+			}
+			p->util.code_nb = 2;
+			expand_to_value(p);
+			continue ;
+		}
+		transfer_c(&p->util.raw, &p->util.raw_tmp);
+		push_int(&p->util.code, 2);
+	}
+	remove_pos_c(&p->util.raw, 0);
 }

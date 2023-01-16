@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Memory_cleaning.c                                  :+:      :+:    :+:   */
+/*   memory_cleaning.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:45:58 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/04 14:47:37 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/16 11:18:36 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	clean_memory_end(t_parser *p)
 	free(p->cmd_d);
 	delete_int(&p->flag);
 	delete(&p->util.delim);
+	delete_dico(&p->envvar);//avant dans clean parsing
 }
 
 void	clean_memory_parsing(t_parser *p)
@@ -35,7 +36,8 @@ void	clean_memory_parsing(t_parser *p)
 	delete(&p->struct_path.path_raw);
 	delete(&p->struct_cmd.cmd);
 	delete_dico(&p->cmd_d);
+	delete_dico(&p->cmd_copy);//
 	free(p->cmd_d);
 	delete_int(&p->flag);
-	delete_dico(&p->envvar);
+//	delete_dico(&p->envvar);
 }

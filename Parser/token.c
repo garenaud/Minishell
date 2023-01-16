@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:05:08 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/06 11:04:51 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/12 13:58:58 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	count_successive_c(t_parser *p, char *c)
 	}
 	return (count);
 }
-
+// count successive char ?
 int	c_s_c(t_parser *p, char *c)
 {
 	int	count;
@@ -71,7 +71,8 @@ void	transfer_char_space(t_parser *p)
 	if (ft_strncmp(getitem_c(p->util.raw, 0), "\"", 1) == 0
 		|| ft_strncmp(getitem_c(p->util.raw, 0), "\'", 1) == 0)
 		return ;
-	if (ft_strncmp(getitem_c(p->util.raw_tmp, 0), " ", 1))
+	if (ft_strncmp(getitem_c(p->util.raw_tmp, 0), " ", 1)
+		&& ft_strncmp(getitem_c(p->util.raw, 0), "=", 1))
 	{
 		push_int(&p->util.code, 32);
 		push(&p->util.raw_tmp, " ");
@@ -86,14 +87,15 @@ void	transfer_char_space(t_parser *p)
 		transfer_c(&p->util.raw, &p->util.raw_tmp);
 		transfer_c(&p->util.raw, &p->util.raw_tmp);
 	}
-	else if (c_s_c(p, "|") == 1 || c_s_c(p, "<") == 1 || c_s_c(p, ">") == 1)
+	else if (c_s_c(p, "|") == 1 || c_s_c(p, "<") == 1 || c_s_c(p, ">") == 1 || c_s_c(p, "=") == 1)
 	{
 		push_int(&p->util.code, get_code_c1(p, getitem_c(p->util.raw, 0)));
 		transfer_c(&p->util.raw, &p->util.raw_tmp);
 	}
 	else
 		perror("syntax erreur\n");
-	if (ft_strncmp(getitem_c(p->util.raw, 0), " ", 1))
+	if (ft_strncmp(getitem_c(p->util.raw, 0), " ", 1)
+		&& ft_strncmp(getitem_c(p->util.raw_tmp, 0), "=", 1))
 	{
 		push(&p->util.raw_tmp, " ");
 		push_int(&p->util.code, 32);
