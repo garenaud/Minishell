@@ -6,7 +6,7 @@
 #    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/16 15:50:42 by grenaud-         ###   ########.fr        #
+#    Updated: 2023/01/16 17:24:10 by grenaud-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/list_utils_int2.c \
 			Parser/list_utils1.c \
 			Parser/list_utils2.c \
+			Parser/list_utils3.c \
 			Parser/utils.c \
 			Parser/utils1.c \
 			Parser/parser.c \
@@ -50,6 +51,8 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/dico.c \
 			Parser/dico_1.c \
 			Parser/dico_2.c \
+			Parser/dico_3.c \
+			Parser/dico_4.c \
 			Parser/path.c \
 			Parser/parser_util.c \
 			Parser/memory_cleaning.c \
@@ -69,6 +72,9 @@ CFILES = 	Parser/list_utils_int.c \
 			Builtin/builtins.c \
 			Builtin/echo.c \
 			Builtin/cd.c \
+			Builtin/export.c \
+			Builtin/env.c \
+			Builtin/unset.c \
 			signal.c \
 			start_banner.c \
 			minishell.c
@@ -78,7 +84,7 @@ OBJECTS = 	$(CFILES:.c=.o)
 
 LIBFT = libft/
 
-$(NAME): 	start $(OBJECTS)                                      
+$(NAME): 	start $(OBJECTS)
 			@echo $(BOLD) "SUCCESSFUL COMPILATION" $(X)
 			@$(CC) $(FLAGS) $(OBJECTS) $(LDFLAGS) -o $(NAME)
 			@tput setaf 3; cat includes/art; tput setaf default
@@ -86,14 +92,14 @@ $(NAME): 	start $(OBJECTS)
 
 all: 		$(NAME)
 
-start:		
+start:
 			@tput setaf 2; cat includes/artCompiling; tput setaf default
 
 danger:		$(OBJECTS)
 			@echo $(Y)"\n Compiling minishell with -fsanitize=address \n" $(X)
 			@$(CC) $(FLAGS) $(DANGER) $(OBJECTS) $(LDFLAGS) -o minishellSanit
 			@tput setaf 3; cat includes/danger; tput setaf default
-			
+
 libft:
 			@ $(MAKE) bonus -C $(LIBFT)
 

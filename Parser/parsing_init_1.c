@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:18:38 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/06 09:47:23 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/12 11:04:20 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	init_parsing_list(t_parser *p)
 	create_quote_list(&p->word, &p->heredoc_i, "<<");
 	create_quote_list(&p->raw, &p->dquote, "\"");
 	create_quote_list(&p->raw, &p->squote, "\'");
-//	create_quote_list(&p->raw, &p->dollars, "$");
 }
 
 void	init_parsing_list_c(t_parser *p)
@@ -67,7 +66,7 @@ void	init_parsing_list_c(t_parser *p)
 void	create_delim(t_parser *p)
 {
 	p->util.delim = NULL;
-	push(&p->util.delim, " ");
+	push(&p->util.delim, " ");//
 	push(&p->util.delim, "'");
 	push(&p->util.delim, "\"");
 //	push(&p->util.delim, "$");
@@ -76,4 +75,5 @@ void	create_delim(t_parser *p)
 	push(&p->util.delim, ">>");
 	push(&p->util.delim, "<");
 	push(&p->util.delim, "<<");
+	push(&p->util.delim, "=");
 }

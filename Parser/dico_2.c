@@ -12,46 +12,70 @@
 
 #include "../minishell.h"
 
-void	check_quote(t_parser *p)
+void	printll_dico(t_dico *dico)
+{
+	printf("start dico");
+	while (dico)
+	{
+		printf("-->[%s][%s]\n", (dico->key), (dico->value));
+		dico = dico->next;
+	}
+	printf("-->[end]\n");
+}
+
+char	*put_key(int *i, int *j, char *env[])
+{
+	t_list	*tmp;
+	char	*key;
+
+	tmp = NULL;
+	while (env[*i][*j] != '=')
+	{
+		push(&tmp, &env[*i][*j]);
+		(*j)++;
+	}
+	tmp = reverse(&tmp);
+	key = getword1(&tmp, " ");
+	delete(&tmp);
+	return (key);
+}
+
+char	*put_value(int *i, int *j, char *env[])
+{
+	t_list	*tmp;
+	char	*value;
+
+	tmp = NULL;
+	(*j)++;
+	while (env[*i][*j] != '\0')
+	{
+		push(&tmp, &env[*i][*j]);
+		(*j)++;
+	}
+	tmp = reverse(&tmp);
+	value = getword1(&tmp, " ");
+	delete(&tmp);
+	return (value);
+}
+
+void	create_dico_list(t_dico **dico, char *env[])
 {
 	int		i;
-	int		flag;
-	char	*c_tmp;
-	char	*key;
-	int		taille;
+	int		j;
+	t_list	*tmp;
+	char	*s1;
+	char	*s2;
 
-	taille = size_stack_int(p->dquote);
-	c_tmp = NULL;
+	tmp = NULL;
 	i = 0;
-	flag = 0;
-	key = "0";
-	if (size_stack_int(p->dquote) % 2 == 0)
+	while (*(env + i) != NULL)
 	{
-		while (i < (int)size_stack(p->raw))
-		{
-			c_tmp = getitem_c(p->raw, i);
-			if (flag == 0 && taille > 0 && ft_strncmp(c_tmp, "\"", 1) == 0)
-			{
-				push_dico(&p->check, "2", c_tmp);
-				c_tmp = getitem_c(p->raw, i + 1);
-				while (ft_strncmp(c_tmp, "\"", 1) != 0)
-				{
-					c_tmp = getitem_c(p->raw, i + 1);
-					push_dico(&p->check, "2", c_tmp);
-					i++;
-				}
-			}
-			else
-				push_dico(&p->check, key, c_tmp);
-			i++;
-		}
+		j = 0;
+		s1 = put_key(&i, &j, env);
+		s2 = put_value(&i, &j, env);
+		push_dico(dico, s1, s2);
+		free(s1);
+		free(s2);
+		i++;
 	}
-	else
-		printf("error (impair quote)\n");
-	p->check = reverse_dico(&p->check);
-	printf(PURP);
-	printll_dico(p->check);
-	printf(ENDC);
-	printf("size raw = %zu, size dico = %zu\n", size_stack(p->raw), size_stack_dico(p->check));
-	//free(c_tmp);
 }

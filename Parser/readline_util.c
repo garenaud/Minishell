@@ -13,7 +13,7 @@
 #include "../minishell.h"
 
 void	sig_handler(int signum)
-{//https://stackoverflow.com/questions/16828378/readline-get-a-new-prompt-on-sigint
+{
 	if (signum == SIGINT)
 	{
 		printf("\n");

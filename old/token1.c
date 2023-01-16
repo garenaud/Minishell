@@ -6,32 +6,30 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:34:55 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/12 11:07:17 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/06 15:40:06 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	get_code_c1(t_parser *p, char *c)
+int	get_code_c(t_parser *p, char c)
 {
-	if (getpos_c(p->util.delim, c) == -1)
+	if (getpos_c(p->util.delim, &c) == -1)
 		return (0);
-	if (ft_strncmp(c, "\'", 1) == 0)
+	if (c == '\'')
 		return (1);
-	if (ft_strncmp(c, "\"", 1) == 0)
+	if (c == '\"')
 		return (2);
-	if (ft_strncmp(c, ">", 1) == 0)
+	if (c == '>')
 		return (3);
-	if (ft_strncmp(c, "<", 1) == 0)
+	if (c == '<')
 		return (4);
-	if (ft_strncmp(c, "|", 1) == 0)
+	if (c == '|')
 		return (5);
-	if (ft_strncmp(c, " ", 1) == 0)
+	if (c == ' ')
 		return (32);
-	if (ft_strncmp(c, "$", 1) == 0)
+	if (c == '$')
 		return (36);
-	if (ft_strncmp(c, "=", 1) == 0)
-		return (61);
 	return (0);
 }
 
@@ -65,16 +63,6 @@ void	transfer_2c_space(t_parser *p, char *s)
 	}
 }
 
-void	expand_interrogation(t_parser *p)
-{
-	int	i;
-
-	i = 0;
-	create_raw_list(&p->util.raw_tmp, ft_itoa(g_status));
-	while (i++ < (int)ft_strlen(ft_itoa(g_status)))
-		push_int(&p->util.code, p->util.code_nb);
-}
-
 void	expand_to_value(t_parser *p)
 {
 	char	*tmp;
@@ -85,22 +73,49 @@ void	expand_to_value(t_parser *p)
 	env = NULL;
 	tmp = getall(&p->util.key_l);
 	i = 0;
-	if (ft_strncmp(tmp, "?", 1) == 0)
-		expand_interrogation(p);
-	else if (get_key(p->envvar, tmp) != -1)
+	if (get_key(p->envvar, tmp )!= -1) //expand...
 	{
 		env = getitem_dico(p->envvar, get_key(p->envvar, tmp));
 		free(tmp);
 		tmp = ft_strdup(env->value);
 		while (i++ < (int)ft_strlen(tmp))
-			push_int(&p->util.code, p->util.code_nb);//2 ou 0 faux depend d'ou appele
-		create_raw_list(&p->util.raw_tmp, tmp);
+		{
+			push_int(&p->util.code, 2);// ou 0 faux depend d'ou appele
+			//i++;
+		}
+		create_raw_list(&p->util.raw, tmp);
 		free (tmp);
 	}
 	else
 	{
-		delete(&p->util.key_l);
+		delete(&p->util.key_l); // destroy...
 		free (tmp);
 	}
 }
 
+// a verifier ????
+void	get_inside_dquote2(t_parser *p)
+{
+	char	c;
+
+//	transfer_c(&p->util.raw, &p->util.raw_tmp);
+	c = *getitem_c(p->util.raw, 0);
+//	push_int(&p->util.code, 2);
+	while (c != '\"')
+	{
+		if (ft_strncmp(getitem_c(p->util.raw, 0), "$", 1) == 0)
+		{
+			while (ft_isalnum(getitem_c(p->util.raw, 0)[0]))
+			{
+				transfer_c(&p->util.raw, &p->util.key_l);
+			}
+			// chercher valeur
+			// transerer la valeur dans tmp
+			expand_to_value(p);
+			continue ;
+			// continue...?
+		}
+		transfer_c(&p->util.raw, &p->util.raw_tmp);
+		push_int(&p->util.code, 2);
+	}
+}

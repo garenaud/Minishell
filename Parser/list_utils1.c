@@ -32,7 +32,6 @@ char	*pop(t_list **top)
 	if (*top == NULL)
 	{
 		printf("Stack empty\n");
-		//return (NULL);
 		exit (0);
 	}
 	tmp = *top;
@@ -71,29 +70,6 @@ t_list	*reverse(t_list **top)
 		free(c_tmp);
 	}
 	return (tmp);
-}
-
-void	printll(t_list *lst)
-{
-	printf("start");
-	while (lst)
-	{
-		printf("-->[%s]\n", (lst->data));
-		lst = lst->next;
-	}
-	printf("-->[end]\n");
-}
-
-void	print_ic(t_list_i *lst_i, t_list *lst)
-{
-	printf("start\n");
-	while (lst && lst_i)
-	{
-		printf("[%d]-->[%s]\n",(lst_i->data), (lst->data));
-		lst = lst->next;
-        lst_i = lst_i->next;
-	}
-	printf("-->[end]\n");
 }
 
 int	getpos_c(t_list *top, char *item)

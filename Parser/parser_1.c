@@ -12,9 +12,10 @@
 
 #include "../minishell.h"
 
+/*
 t_dico	*getword_2(t_list **raw, char *search)
 {
-	int 	i;
+	int		i;
 	int		pos;
 	char	*str;
 	char	*c_tmp;
@@ -42,7 +43,7 @@ t_dico	*getword_2(t_list **raw, char *search)
 	word->key = ft_strdup(search);
 	return (word);
 }
-
+*/
 char	*getword1(t_list **raw, char *search)
 {
 	int		i;
@@ -123,24 +124,4 @@ void	create_quote_list(t_list **str, t_list_i **pos, char *search)
 		i++;
 	}
 	*pos = reverse_int(pos);
-}
-
-void	inclusion(t_list_i **sq, t_list_i **dq, int s_index, int d_index)
-{// essai, pour trouver la plage entre ' ' et entre " " a tster
-	if ((s_index <= (int)size_stack_int(*sq) / 2) && (d_index <= (int)size_stack_int(*dq) / 2))
-	{
-		if (getitem_int(*sq, 2*(s_index-1)) < (getitem_int(*dq, 2*(d_index-1))))
-		{
-			if (getitem_int(*sq, 2*(s_index-1) + 1) > (getitem_int(*dq, 2*(d_index-1) +1)))
-				printf("type 1: \' \" \" \'\n");
-		}
-/* 		else
-			printf("type 2: \" \' \" \'\n"); */
-		else
-		if (getitem_int(*dq, 2*(d_index-1)) < (getitem_int(*sq, 2*(s_index - 1))))
-			{
-				if (getitem_int(*dq, 2 * (d_index - 1) + 1) > (getitem_int(*sq, 2 * (s_index - 1) + 1)))
-					printf("type 3: \" \' \' \"\n");
-			}
-	}
 }

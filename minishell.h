@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 17:08:12 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:27:14 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ typedef struct s_list_i
 	struct s_list_i	*next;
 }	t_list_i;
 
+typedef struct s_dico
+{
+	char			*key;
+	char			*value;
+	struct s_dico	*next;
+}	t_dico;
+
 // structure "dico"
 // version stack
 typedef struct s_util
@@ -70,6 +77,7 @@ typedef struct s_util
 	char		*c_tmp;
 	char		*c_tmp1;
 	char		*key;
+	int			code_nb;
 	t_list		*tmp;
 	t_list		*delim;
 	t_list		*raw;
@@ -81,6 +89,17 @@ typedef struct s_util
 	t_list		*del;
 	t_list_i	*code;
 }	t_util;
+
+typedef struct s_built
+{
+	int		i;
+	char	*key;
+	char	*value;
+	t_dico	*tmp;
+	t_list	*key_l;
+	t_list	*value_l;
+	t_list	*arg;
+}	t_built;
 
 //struct list pour execve
 typedef struct s_exe
@@ -106,12 +125,7 @@ typedef struct s_env {
 
 // structure "dico"
 // version stack
-typedef struct s_dico
-{
-	char			*key;
-	char			*value;
-	struct s_dico	*next;
-}	t_dico;
+
 
 typedef struct s_path
 {
@@ -123,10 +137,10 @@ typedef struct s_path
 
 typedef struct s_cmd
 {
-	t_list		*cmd;
-	t_list		*option;
-	t_list		*arg;
-	char		**tab_cmd;
+	t_list			*cmd;
+	t_list			*option;
+	t_list			*arg;
+	char			**tab_cmd;
 	struct s_path	*path;
 }	t_cmd;
 
@@ -152,14 +166,15 @@ typedef struct s_file
 */
 typedef struct s_parser
 {
-	t_list_i	*word_len;
-	t_list_i	*flag;
-
+	t_list_i		*word_len;
+	t_list_i		*flag;
+	t_built			built;
 	t_dico			*dico;
 	t_dico			*dico_tmp;
 	t_dico			*check;
 	t_dico			*cmd_d_tmp;
 	t_dico			*cmd_d;
+	t_dico			*cmd_copy;
 	t_dico			*envvar;
 	t_util			util;
 	t_list			*raw;
@@ -174,7 +189,7 @@ typedef struct s_parser
 	t_list_i		*heredoc_i;
 	t_dico			*cmd_line;
 	char			*display_path;
-	char   			*line;
+	char			*line;
 	char			*tmp;
 	char			**env;
 	t_env			*env_l;
@@ -203,6 +218,7 @@ void		ft_putstr_fd(char *s, int fd);
 void		ft_putendl_fd(char *s, int fd);
 void		ft_strtolower(char *str);
 
+char		*ft_itoa(int nb);
 
 // integer stack
 
@@ -230,7 +246,7 @@ int			transfer_c(t_list **start, t_list **end);
 char		*getitem_c(t_list *top, size_t pos);
 char		*getitem(t_list *top, size_t pos); // doublon
 int			remove_pos_c(t_list **top, size_t pos);
-int			remove_position(t_list **top, size_t pos);
+//int			remove_position(t_list **top, size_t pos);
 int			getpos_c(t_list *top, char *item);
 int			getposition(t_list *top, char *item);
 void		print_adr(t_list *lst);
@@ -293,12 +309,18 @@ t_dico		*getitem_dico(t_dico *top, size_t pos);
 void		create_dico_list(t_dico **dico, char *env[]);
 void		printll_dico(t_dico *dico);
 void		check_quote(t_parser *p);
+void		swap_dico(t_dico **dico, size_t pos1, size_t pos2);
+size_t		find_min_key(t_dico *dico);
+size_t		find_max_key(t_dico *dico);
+void		tri_export(t_parser *p);
+void		duplicate(t_dico *orig, t_dico *copy);
+void		duplicate_1(t_dico **orig, t_dico **copy);
 
 void		create_path_access(t_parser *p);
 void		init_parsing_list_c(t_parser *p);
-void    	add_space(t_parser *p);
+void		add_space(t_parser *p);
 void		check_quote_1(t_parser *p);
-void    	delete_parsing_list_c(t_parser *p);
+void		delete_parsing_list_c(t_parser *p);
 t_dico		*getword_2(t_list **raw, char *search);
 
 // env + path
@@ -310,7 +332,6 @@ void		create_path_access(t_parser *p);
 void		get_path(t_parser *p, char **env);
 
 // test
-void		add_space(t_parser *p);
 void		check_quote_1(t_parser *p);
 void		check_quote_3(t_parser *p);
 void		remove_successive_key(t_parser *p);
@@ -329,6 +350,7 @@ void		check_for_envvar(t_parser *p);
 // token a verifier
 int			get_code_c(t_parser *p, char c);
 int			get_code_s(char *s);
+int			get_code_c1(t_parser *p, char *c);
 void		transfer_2c_space(t_parser *p, char *s);
 int			transfer_normal_char(t_parser *p);
 void		transfer_normal_char1(t_parser *p);
@@ -337,6 +359,7 @@ void		transfer_char_space(t_parser *p);
 void		expand_to_value(t_parser *p);
 void		get_inside_dquote2(t_parser *p);
 void		get_inside_squote2(t_parser *p);
+void		get_inside_space1(t_parser *p);
 void		transfer_normal_char11(t_parser **p);
 void		tester(t_parser *p);
 void		tester1(t_parser **p);
@@ -376,19 +399,25 @@ void	own_heredocs_to_long(char *delimiter, char *line, int *fd, t_exe *curr);
 int		own_heredocs(t_parser *p, t_dico *cmd_d, t_exe *curr);
 
 //signal
-void	handle_sigint(int sig);
-void	handle_signal(struct termios *saved);
-void	hide_key(struct termios *saved);
-void	handle_sigquit(int sig);
-void	handle_sigquit(int signum);
+void		handle_sigint(int sig);
+void		handle_signal(struct termios *saved);
+void		hide_key(struct termios *saved);
+void		handle_sigquit(int sig);
+void		handle_sigquit(int signum);
 
 //builtin
-int		bultin_search(t_exe *curr);
-int		is_builtin(char **str);
-int		bultin_echo(int i, t_exe *curr);
-int		bultin_echo_n(t_exe *curr);
-int		bultin_cd(t_exe *curr);
+void		print_banner(void);
+void		init_built(t_parser *p);
+int			bultin_search(t_exe *curr);
+int			is_builtin(char **str);
+int			bultin_echo(int i, t_exe *curr);
+int			bultin_echo_n(t_exe *curr);
+int			bultin_cd(t_exe *curr);
+int			bultin_env(t_exe *curr, t_parser *p);
+int			bultin_unset(t_exe *curr, t_parser *p);
 
-void	print_banner(void);
+int			bultin_export(t_exe *curr, t_parser *p);
+
+void		print_banner(void);
 
 #endif
