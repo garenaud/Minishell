@@ -6,44 +6,12 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 10:36:55 by jsollett          #+#    #+#             */
-/*   Updated: 2022/12/21 10:47:11 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/17 15:49:43 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*
-t_dico	*getword_2(t_list **raw, char *search)
-{
-	int		i;
-	int		pos;
-	char	*str;
-	char	*c_tmp;
-	t_dico	*word;
-
-	i = 0;
-	search = delimitateur(raw);
-	pos = getpos_c(*raw, search);
-	if (pos == -1)
-		pos = size_stack(*raw);
-	str = malloc((pos + 1) * sizeof(char));
-	word = malloc(sizeof(t_dico));
-	while (i < pos)
-	{
-		c_tmp = pop(raw);
-		str[i] = *c_tmp;
-		free(c_tmp);
-		i++;
-	}
-	if (size_stack(*raw) != 0)
-		remove_pos_c(raw, 0);
-	str[i] = '\0';
-	word->next = NULL;
-	word->value = str;
-	word->key = ft_strdup(search);
-	return (word);
-}
-*/
 char	*getword1(t_list **raw, char *search)
 {
 	int		i;

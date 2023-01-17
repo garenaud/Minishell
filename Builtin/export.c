@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:22:20 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/16 14:12:10 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/17 15:11:34 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	parsing_export(t_parser *p)
 {
 	p->built.arg = reverse(&p->built.arg);
-	while (ft_strncmp(getitem_c(p->built.arg, 0), "=", 1))
+	while (size_stack(p->built.arg) && ft_strncmp(getitem_c(p->built.arg, 0), "=", 1))
 		transfer_c(&p->built.arg, &p->built.key_l);
 	remove_pos_c(&p->built.arg, 0);
 	while (size_stack(p->built.arg))
@@ -55,7 +55,7 @@ void	tri_export(t_parser *p)
 int	bultin_export(t_exe *curr, t_parser *p)
 {
 	p->built.i = 1;
-	printll_dico(p->cmd_copy);
+//	printll_dico(p->cmd_copy);
 	if (curr->cmd_tab[p->built.i] == NULL)
 		tri_export(p);
 	else

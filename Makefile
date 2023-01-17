@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/16 17:24:10 by grenaud-         ###   ########.fr        #
+#    Updated: 2023/01/17 16:30:51 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,6 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/utils1.c \
 			Parser/parser.c \
 			Parser/parser_1.c \
-			Parser/parser_2.c \
 			Parser/readline_util.c \
 			Parser/parsing_init.c \
 			Parser/parsing_init_1.c \
@@ -54,12 +53,14 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/dico_3.c \
 			Parser/dico_4.c \
 			Parser/path.c \
+			Parser/path_1.c \
 			Parser/parser_util.c \
 			Parser/memory_cleaning.c \
 			Parser/token.c \
 			Parser/token1.c \
 			Parser/token2.c \
 			Parser/token_test.c \
+			Parser/minishell_helper.c \
 			Exec/redir_utils.c \
 			Exec/init.c \
 			Exec/exe.c \

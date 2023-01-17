@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:57:35 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/21 10:29:21 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/17 15:57:47 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,32 +64,4 @@ int	getitem_int(t_list_i *top, size_t pos)
 		}
 		return (top->data);
 	}
-}
-
-int	getposition_int(t_list_i *top, int item)
-{
-	int	i;
-
-	i = 0;
-	while (top != NULL)
-	{
-		if (top->data == item)
-			return (i);
-		i++;
-		top = top->next;
-	}
-	return (-1);
-}
-
-int	transfer_int(t_list_i **start, t_list_i **end)
-{
-	int	tmp;
-
-	if (size_stack_int(*start) >= 1)
-	{
-		tmp = pop_int(start);
-		push_int(end, tmp);
-		return (1);
-	}
-	return (0);
 }

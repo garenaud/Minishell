@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 17:27:14 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/17 17:13:40 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ typedef struct s_env {
 // structure "dico"
 // version stack
 
-
 typedef struct s_path
 {
 	char	*path;
@@ -230,9 +229,6 @@ size_t		size_stack_int(t_list_i *top);
 void		printll_int(t_list_i *lst);
 int			remove_position_int(t_list_i **top, size_t pos);
 int			getitem_int(t_list_i *top, size_t pos);
-int			getposition_int(t_list_i *top, int item);
-//
-int			transfer_int(t_list_i **start, t_list_i **end);
 // string stack (basic)
 void		push(t_list **top, char *item);
 char		*pop(t_list **top);
@@ -248,8 +244,6 @@ char		*getitem(t_list *top, size_t pos); // doublon
 int			remove_pos_c(t_list **top, size_t pos);
 //int			remove_position(t_list **top, size_t pos);
 int			getpos_c(t_list *top, char *item);
-int			getposition(t_list *top, char *item);
-void		print_adr(t_list *lst);
 
 // parsing
 void		trim_list(t_list **str);
@@ -272,6 +266,9 @@ void		init_parsing_list(t_parser *p);
 void		init_parsing_list_c(t_parser *p);
 void		delete_parsing_list_c(t_parser *p);
 void		create_delim(t_parser *p);
+void		init_mini(t_parser *p, char **env);
+void		reload(t_parser *p, char **env);
+void		parse_it(t_parser *p);
 // memory cleaning
 void		clean_memory_end(t_parser *p);
 void		clean_memory_parsing(t_parser *p);
@@ -313,15 +310,13 @@ void		swap_dico(t_dico **dico, size_t pos1, size_t pos2);
 size_t		find_min_key(t_dico *dico);
 size_t		find_max_key(t_dico *dico);
 void		tri_export(t_parser *p);
-void		duplicate(t_dico *orig, t_dico *copy);
-void		duplicate_1(t_dico **orig, t_dico **copy);
+void		duplicate(t_dico **orig, t_dico **copy);
 
 void		create_path_access(t_parser *p);
 void		init_parsing_list_c(t_parser *p);
 void		add_space(t_parser *p);
 void		check_quote_1(t_parser *p);
 void		delete_parsing_list_c(t_parser *p);
-t_dico		*getword_2(t_list **raw, char *search);
 
 // env + path
 void		check_quote(t_parser *p);
@@ -330,22 +325,23 @@ void		create_env_list(t_list **env_list, char *env[]);
 void		create_path_access(t_parser *p);
 //void		create_path_access1(t_parser *p);
 void		get_path(t_parser *p, char **env);
+void		cpd1_key(t_parser *p);
 
 // test
 void		check_quote_1(t_parser *p);
 void		check_quote_3(t_parser *p);
 void		remove_successive_key(t_parser *p);
 void		print_ic(t_list_i *lst_i, t_list *lst);
-void		get_inside_dquote1(t_parser **p);
-void		get_inside_squote1(t_parser **p);
+//void		get_inside_dquote1(t_parser **p);
+//void		get_inside_squote1(t_parser **p);
 /*void		get_inside_dquote(t_parser *p);
 void		get_inside_squote(t_parser *p);*/
 void		get_inside_space(t_parser *p);
-void		create_parsing_dico(t_parser *p);
+//void		create_parsing_dico(t_parser *p);
 void		clean_dico(t_parser *p);
 void		cpd1(t_parser *p);
+void		create_parsing_dict(t_parser *p);
 int			count_successive_c(t_parser *p, char *c);
-void		check_for_envvar(t_parser *p);
 
 // token a verifier
 int			get_code_c(t_parser *p, char c);
@@ -365,38 +361,39 @@ void		tester(t_parser *p);
 void		tester1(t_parser **p);
 
 //execution
-void	init_exe(t_parser *p);
-t_exe	*init_exe_list(int size);
-void	delete_exeline(t_exe **top);
-void	free_tab(char **tab);
-void	printll_exe(t_exe *exec);
-int		checknb_arg(t_dico *top);
-int		checknb_pipe(t_dico *top);
-size_t	size_stack_exe(t_exe *top);
-int		free_all(t_parser *p);
-char	*get_pos_path(t_parser *p, char *cmd);
-void 	free_exe_list(t_exe *list);
-void	fill_exec(t_parser *p, t_exe *curr, int size);
-int		is_function(char *path, char **str, t_parser *p);
-int		inpt_checker(char *path, char **str, t_parser *p);
-void	close_pipes(t_exe *curr);
-int		child_pro(t_parser *p, t_exe *curr);
-int		pipe_loop(t_parser *p, t_exe *curr);
-int		run_shell(t_parser *p);
-void	waits(t_parser *p);
-void	free_cmds(t_parser	*p);
-void	do_wait(t_parser *p);
-void	init_pipes(t_exe *curr);
+void		init_exe(t_parser *p);
+t_exe		*init_exe_list(int size);
+void		delete_exeline(t_exe **top);
+void		free_tab(char **tab);
+void		printll_exe(t_exe *exec);
+int			checknb_arg(t_dico *top);
+int			checknb_pipe(t_dico *top);
+size_t		size_stack_exe(t_exe *top);
+int			free_all(t_parser *p);
+char		*get_pos_path(t_parser *p, char *cmd);
+void		free_exe_list(t_exe *list);
+void		fill_exec(t_parser *p, t_exe *curr, int size);
+int			is_function(char *path, char **str, t_parser *p);
+int			inpt_checker(char *path, char **str, t_parser *p);
+void		close_pipes(t_exe *curr);
+int			child_pro(t_parser *p, t_exe *curr);
+int			pipe_loop(t_parser *p, t_exe *curr);
+int			run_shell(t_parser *p);
+void		waits(t_parser *p);
+void		free_cmds(t_parser	*p);
+void		do_wait(t_parser *p);
+void		init_pipes(t_exe *curr);
+int			execute(char **str, t_parser *p);
 
 
 //redirection
-int		is_redir(char *key);
-int		redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
-int		output(t_parser *p, t_dico *cmd_d, t_exe *curr);
-int 	input(t_parser *p, t_dico *cmd_d, t_exe *curr);
-int		append(t_parser *p, t_dico *cmd_d, t_exe *curr);
-void	own_heredocs_to_long(char *delimiter, char *line, int *fd, t_exe *curr);
-int		own_heredocs(t_parser *p, t_dico *cmd_d, t_exe *curr);
+int			is_redir(char *key);
+int			redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
+int			output(t_parser *p, t_dico *cmd_d, t_exe *curr);
+int			input(t_parser *p, t_dico *cmd_d, t_exe *curr);
+int			append(t_parser *p, t_dico *cmd_d, t_exe *curr);
+void		own_heredocs_to_long(char *delimiter, char *line, int *fd, t_exe *curr);
+int			own_heredocs(t_parser *p, t_dico *cmd_d, t_exe *curr);
 
 //signal
 void		handle_sigint(int sig);
@@ -408,7 +405,7 @@ void		handle_sigquit(int signum);
 //builtin
 void		print_banner(void);
 void		init_built(t_parser *p);
-int			bultin_search(t_exe *curr);
+int			bultin_search(t_exe *curr, t_parser *p);
 int			is_builtin(char **str);
 int			bultin_echo(int i, t_exe *curr);
 int			bultin_echo_n(t_exe *curr);

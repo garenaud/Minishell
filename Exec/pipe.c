@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 16:00:33 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 17:09:25 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/17 11:39:03 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	inpt_checker(char *path, char **str, t_parser *p)
 		return (0);
 	if (is_builtin(str) == 1)
 	{
-		if (bultin_search(p->cmd_exe) < 0)
+		if (bultin_search(p->cmd_exe, p) < 0)
 			return (1);
 	}
 	else

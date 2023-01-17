@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dico_4.c                                           :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 10:35:18 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/17 15:44:15 by jsollett         ###   ########.fr       */
+/*   Created: 2023/01/17 09:25:42 by jsollett          #+#    #+#             */
+/*   Updated: 2023/01/17 09:51:07 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	duplicate(t_dico **orig, t_dico **copy)
+int	bultin_pwd_old(t_exe *curr, t_parser *p)
 {
-	int		index;
 	t_dico	*tmp;
+	int		pos;
 
-	index = 0;
-	while (index < (int)size_stack_dico(*orig))
+	pos = get_key(p->envvar, "PWD");
+	tmp = getitem_dico(p->envvar, pos);
+	printf("%s\n",tmp->value);
+	delete_dico(tmp);
+	g_status = 0;
+	return (0);
+}
+
+int	bultin_pwd(t_exe *curr, t_parser *p)
+{
+	char	cwd[PATH_MAX];
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		tmp = NULL;
-		tmp = getitem_dico(*orig, index);
-		push_dico(copy, tmp->key, tmp->value);
-		delete_dico(&tmp);
-		index++;
+		printf()
 	}
-	*copy = reverse_dico(copy);
+	g_status = 0;
+	return (0);
 }

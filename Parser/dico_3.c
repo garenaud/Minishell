@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 09:24:29 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/16 11:18:03 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/17 15:42:39 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ size_t	find_min_key(t_dico *dico)
 		index++;
 	}
 	free(s);
-//	tmp = getitem_dico(dico, min);
-//	printf("minimum at %zu, is %s\n", min, tmp->key);
 	return (min);
 }
 
@@ -114,7 +112,5 @@ size_t	find_max_key(t_dico *dico)
 		index++;
 	}
 	free(s);
-//	tmp = getitem_dico(dico, min);
-//	printf("maximum at %zu, is %s\n", min, tmp->key);
 	return (min);
 }

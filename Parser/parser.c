@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:29:00 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/13 11:23:10 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/17 16:41:00 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	trim_list(t_list **str)
 {
 	while (size_stack(*str) && ft_strncmp(getitem_c(*str, 0), " ", 1) == 0)
 		remove_pos_c(str, 0);
-	while (size_stack(*str) && ft_strncmp(getitem_c(*str, size_stack(*str) - 1), " ", 1) == 0)
+	while (size_stack(*str)
+		&& ft_strncmp(getitem_c(*str, size_stack(*str) - 1), " ", 1) == 0)
 		remove_pos_c(str, size_stack(*str) - 1);
 }
 
@@ -76,4 +77,31 @@ char	*getpath(t_list **raw)
 		remove_pos_c(raw, 0);
 	str[i] = '\0';
 	return (str);
+}
+
+void	create_parsing_dict(t_parser *p)
+{
+	while (size_stack(p->util.raw_tmp) && size_stack_int(p->util.code))
+	{
+		p->util.i1 = getitem_int(p->util.code, 0);
+		p->util.i2 = p->util.i1;
+		while (size_stack(p->util.raw_tmp) && p->util.i2 != 32)
+		{
+			p->util.c_tmp = pop(&p->util.raw_tmp);
+			push(&p->util.tmp, p->util.c_tmp);
+			free(p->util.c_tmp);
+			p->util.i2 = pop_int(&p->util.code);
+			p->util.i2 = getitem_int(p->util.code, 0);
+		}
+		p->util.tmp = reverse(&p->util.tmp);
+		p->util.c_tmp = getall(&p->util.tmp);
+		cpd1_key(p);
+		if (ft_strlen(p->util.c_tmp))
+			push_dico(&p->cmd_d, p->util.key, p->util.c_tmp);
+		free(p->util.c_tmp);
+		remove_position_int(&p->util.code, 0);
+		remove_pos_c(&p->util.raw_tmp, 0);
+		delete(&p->util.tmp);
+	}
+	p->cmd_d = reverse_dico(&p->cmd_d);
 }

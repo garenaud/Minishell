@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_test.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:16:04 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/16 18:04:41 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/17 11:20:23 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	tester(t_parser *p)
 /*		if (size_stack(p->util.raw) && ft_strncmp(getitem_c(p->util.raw, 0), " ", 1) == 0)
 			get_inside_space1(p);*/
 	}
-	//printf(GREEN"\n test token raw_tmp\n");
-	//printll(p->util.raw_tmp);
 	p->util.raw_tmp = reverse(&p->util.raw_tmp);
 	p->util.code = reverse_int(&p->util.code);
 	//printf(YEL"\n test token raw_tmp\n");

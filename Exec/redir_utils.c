@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:28:41 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 15:36:56 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/17 14:31:48 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i)
 	{
 		input(p, cmd_d, curr);
 		i += 2;
-	}	
+	}
 	else if (ft_strcmp(cmd_d->key, "7") == 0)
 	{
 		append(p, cmd_d, curr);
