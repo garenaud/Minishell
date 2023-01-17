@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 18:09:44 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 17:08:49 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/16 23:23:45 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@ void	ft_strtolower(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	if (str != NULL)
 	{
-		if (str[i] >= 'A' && str[i] <= 'Z')
-			str[i] += 32;
-		i++;
+		while (str[i])
+		{
+			if (str[i] >= 'A' && str[i] <= 'Z')
+				str[i] += 32;
+			i++;
+		}
 	}
 }
 
@@ -45,14 +48,17 @@ int	is_builtin(char **str)
 	return (-1);
 }
 
-int	bultin_search(t_exe *curr)
+int	bultin_search(t_exe *curr, t_parser *p)
 {
 	ft_strtolower(curr->cmd_tab[0]);
 	if (ft_strcmp(curr->cmd_tab[0], "echo") == 0)
 		return (bultin_echo_n(curr));
-	else if (ft_strcmp(curr->cmd_tab[0], "cd") == 0)
+	if (ft_strcmp(curr->cmd_tab[0], "cd") == 0)
 		return (bultin_cd(curr));
-	else if (ft_strcmp(curr->cmd_tab[0], "pwd") == 0)
+	if (!ft_strncmp(curr->cmd_tab[0], "./", 1))
+		if (execute(&curr->cmd_tab[0], p))
+			return (1);
+	if (ft_strcmp(curr->cmd_tab[0], "pwd") == 0)
 		printf("encore a faire\n");
 	if (ft_strcmp(curr->cmd_tab[0], "export") == 0)
 		printf("encore a faire\n");
