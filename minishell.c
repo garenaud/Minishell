@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/17 15:38:32 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:11:30 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 int	main(int argc, char *argv[], char *env[])
 {
-	t_parser	p;
+	t_parser		p;
+	struct termios	saved;
 
 	(void)argc;
 	(void)argv;
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 	init_mini(&p, env);
-	while ((p.line =readline("mini-->")))
+	while ((p.line = readline("mini-->")))
 	{
+		handle_signal(&saved);
 		reload(&p, env);
 		if (readline_manager(&p) == 1)
 			break ;

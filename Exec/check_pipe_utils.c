@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:44:55 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 16:51:46 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/18 13:57:18 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,30 @@ char	*get_pos_path(t_parser *p, char *cmd)
 {
 	int		i;
 	char	*path;
-	char	*ps;
+	char	*ps; //path_search
 
-	i = 0;
-	while (i < (int)size_stack(p->struct_cmd.cmd))
+	i = -1;
+	printf("\ncmd = %s et sizestack = %d\n\n", cmd, (int)size_stack(p->struct_cmd.cmd));
+	if (cmd == NULL)
+		return (0);
+	while (++i < (int)size_stack(p->struct_cmd.cmd))
 	{
 		path = getitem(p->struct_cmd.cmd, i);
+		printf("cmd = %s, path = %s\n\n", cmd, path);
 		ps = ft_substr(path, ft_strlen(path) - ft_strlen(cmd), ft_strlen(cmd));
-		if (ft_strcmp(ps, cmd) == 0)
+ 		if (ft_strncmp(ps, cmd, ft_strlen(cmd)) == 0)
 		{
 			free(ps);
+			i = -1;
 			break ;
 		}
-		i++;
 		free(ps);
 	}
-	return (path);
+	if (i < 0)
+		return (path);
+	else
+	{
+		printf ("Minishell: %s: %s\n", cmd, strerror(22));
+		return (NULL);
+	}
 }

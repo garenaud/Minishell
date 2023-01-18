@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 18:09:44 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/17 11:38:16 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:13:08 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ int	bultin_search(t_exe *curr, t_parser *p)
 	if (!ft_strncmp(curr->cmd_tab[0], "./", 1))
 		if (execute(&curr->cmd_tab[0], p))
 			return (1);
+	if (!ft_strncmp(curr->cmd_tab[0], "/", 1))
+		if (execute(&curr->cmd_tab[0], p))
+			return (1);
 	if (ft_strcmp(curr->cmd_tab[0], "pwd") == 0)
 		printf("encore a faire\n");
 	if (ft_strcmp(curr->cmd_tab[0], "export") == 0)
@@ -68,6 +71,5 @@ int	bultin_search(t_exe *curr, t_parser *p)
 		return (bultin_env(curr, p));
 	if (ft_strcmp(curr->cmd_tab[0], "exit") == 0)
 		printf("encore a faire\n");
-	printf("bultin_search n'a rien donne\n");
 	return (0);
 }
