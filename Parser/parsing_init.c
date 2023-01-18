@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 11:38:04 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/13 13:36:42 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:02:23 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	init_built(t_parser *p)
 	p->built.key_l = NULL;
 	p->built.value_l = NULL;
 	p->built.tmp = NULL;
+	//p->built.exception = 0;
 }
 
 void	free_parsing(t_parser *p)

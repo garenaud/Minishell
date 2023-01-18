@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:16:24 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/17 15:44:24 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:12:08 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	init_mini(t_parser *p, char **env)
 void	reload(t_parser *p, char **env)
 {
 	init_pgrm(p, env);
-	get_path(p, env);
+	get_path(p);
 }
 
 void	parse_it(t_parser *p)

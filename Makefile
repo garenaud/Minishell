@@ -6,7 +6,7 @@
 #    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/17 16:30:51 by jsollett         ###   ########.fr        #
+#    Updated: 2023/01/18 10:06:21 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,6 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/parsing_init.c \
 			Parser/parsing_init_1.c \
 			Parser/parsing_init_2.c \
-			Parser/test.c \
 			Parser/dico.c \
 			Parser/dico_1.c \
 			Parser/dico_2.c \
@@ -59,6 +58,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/token.c \
 			Parser/token1.c \
 			Parser/token2.c \
+			Parser/token3.c \
 			Parser/token_test.c \
 			Parser/minishell_helper.c \
 			Exec/redir_utils.c \
@@ -76,6 +76,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Builtin/export.c \
 			Builtin/env.c \
 			Builtin/unset.c \
+			Builtin/pwd.c \
 			signal.c \
 			start_banner.c \
 			minishell.c

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/17 17:13:40 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:08:28 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,14 @@ typedef struct s_util
 
 typedef struct s_built
 {
-	int		i;
-	char	*key;
-	char	*value;
-	t_dico	*tmp;
-	t_list	*key_l;
-	t_list	*value_l;
-	t_list	*arg;
+	int			i;
+	int			exception;
+	char		*key;
+	char		*value;
+	t_dico		*tmp;
+	t_list		*key_l;
+	t_list		*value_l;
+	t_list		*arg;
 }	t_built;
 
 //struct list pour execve
@@ -154,15 +155,6 @@ typedef struct s_file
 	t_cmd			*cmd;
 }	t_file;
 
-/*typedef struct s_stream
-{
-	t_list		*pipe;
-	t_list		*to_out; // >
-	t_list		*to_in; //<
-	t_list		*append;  // >>
-	t_list		*here_doc; // <<
-}	t_stream;
-*/
 typedef struct s_parser
 {
 	t_list_i		*word_len;
@@ -216,7 +208,6 @@ void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
 void		ft_putendl_fd(char *s, int fd);
 void		ft_strtolower(char *str);
-
 char		*ft_itoa(int nb);
 
 // integer stack
@@ -242,14 +233,11 @@ int			transfer_c(t_list **start, t_list **end);
 char		*getitem_c(t_list *top, size_t pos);
 char		*getitem(t_list *top, size_t pos); // doublon
 int			remove_pos_c(t_list **top, size_t pos);
-//int			remove_position(t_list **top, size_t pos);
 int			getpos_c(t_list *top, char *item);
 
 // parsing
 void		trim_list(t_list **str);
-//char		*trim(char *line);
 char		*delimitateur(t_list **raw);
-//char		*getword(t_list **raw, char *search);
 char		*getword1(t_list **raw, char *search);
 char		*getall(t_list **raw);
 void		create_raw_list(t_list **str, char *line);
@@ -272,8 +260,6 @@ void		parse_it(t_parser *p);
 // memory cleaning
 void		clean_memory_end(t_parser *p);
 void		clean_memory_parsing(t_parser *p);
-// ajout
-void		trim_list_c(t_list **str, char *s);
 
 // signal
 void		sig_handler(int signum);
@@ -288,7 +274,6 @@ void		init_pgrm_file(t_parser *p);
 void		init_pgrm_cmd(t_parser *p);
 void		free_parsing(t_parser *p);
 void		init_util(t_parser *p);
-void		init_only_util(t_util *p);
 void		init_struct_path(t_parser *p);
 
 // dico
@@ -305,8 +290,6 @@ t_dico		*reverse_dico(t_dico **top);
 t_dico		*getitem_dico(t_dico *top, size_t pos);
 void		create_dico_list(t_dico **dico, char *env[]);
 void		printll_dico(t_dico *dico);
-void		check_quote(t_parser *p);
-void		swap_dico(t_dico **dico, size_t pos1, size_t pos2);
 size_t		find_min_key(t_dico *dico);
 size_t		find_max_key(t_dico *dico);
 void		tri_export(t_parser *p);
@@ -314,34 +297,22 @@ void		duplicate(t_dico **orig, t_dico **copy);
 
 void		create_path_access(t_parser *p);
 void		init_parsing_list_c(t_parser *p);
-void		add_space(t_parser *p);
 void		check_quote_1(t_parser *p);
 void		delete_parsing_list_c(t_parser *p);
 
 // env + path
-void		check_quote(t_parser *p);
 char		*path_list(char *env[]);
-void		create_env_list(t_list **env_list, char *env[]);
 void		create_path_access(t_parser *p);
-//void		create_path_access1(t_parser *p);
-void		get_path(t_parser *p, char **env);
+void		get_path(t_parser *p);
 void		cpd1_key(t_parser *p);
 
 // test
 void		check_quote_1(t_parser *p);
 void		check_quote_3(t_parser *p);
-void		remove_successive_key(t_parser *p);
 void		print_ic(t_list_i *lst_i, t_list *lst);
-//void		get_inside_dquote1(t_parser **p);
-//void		get_inside_squote1(t_parser **p);
-/*void		get_inside_dquote(t_parser *p);
-void		get_inside_squote(t_parser *p);*/
 void		get_inside_space(t_parser *p);
-//void		create_parsing_dico(t_parser *p);
 void		clean_dico(t_parser *p);
-void		cpd1(t_parser *p);
 void		create_parsing_dict(t_parser *p);
-int			count_successive_c(t_parser *p, char *c);
 
 // token a verifier
 int			get_code_c(t_parser *p, char c);
@@ -358,7 +329,6 @@ void		get_inside_squote2(t_parser *p);
 void		get_inside_space1(t_parser *p);
 void		transfer_normal_char11(t_parser **p);
 void		tester(t_parser *p);
-void		tester1(t_parser **p);
 
 //execution
 void		init_exe(t_parser *p);
@@ -384,7 +354,6 @@ void		free_cmds(t_parser	*p);
 void		do_wait(t_parser *p);
 void		init_pipes(t_exe *curr);
 int			execute(char **str, t_parser *p);
-
 
 //redirection
 int			is_redir(char *key);
@@ -412,7 +381,7 @@ int			bultin_echo_n(t_exe *curr);
 int			bultin_cd(t_exe *curr);
 int			bultin_env(t_exe *curr, t_parser *p);
 int			bultin_unset(t_exe *curr, t_parser *p);
-
+int			bultin_pwd(void);
 int			bultin_export(t_exe *curr, t_parser *p);
 
 void		print_banner(void);

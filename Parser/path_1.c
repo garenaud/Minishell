@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 16:29:42 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/17 16:36:49 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:37:10 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,29 @@ char	*path_list(char *env[])
 	return (NULL);
 }
 
-void	get_path(t_parser *p, char **env)
+static void	get_path_helper(t_parser *p)
+{
+	t_dico	*path;
+	int		pos;
+
+	path = NULL;
+	pos = get_key(p->envvar, "PATH");
+	if (pos >= 0)
+	{
+		path = getitem_dico(p->envvar, get_key(p->envvar, "PATH"));
+		p->struct_path.path = ft_strdup(path->value);
+	}
+	else
+	p->struct_path.path = ft_strdup("");
+	delete_dico(&path);
+}
+//modifie a tester
+
+void	get_path(t_parser *p)
 {
 	char	*tmp;
 
-	p->struct_path.path = path_list(env);
+	get_path_helper(p);
 	create_raw_list(&p->struct_path.path_raw, p->struct_path.path);
 	p->struct_path.path_raw = reverse(&p->struct_path.path_raw);
 	while (size_stack(p->struct_path.path_raw))

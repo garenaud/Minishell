@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 18:09:44 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/17 11:38:16 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 09:50:45 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	bultin_search(t_exe *curr, t_parser *p)
 		if (execute(&curr->cmd_tab[0], p))
 			return (1);
 	if (ft_strcmp(curr->cmd_tab[0], "pwd") == 0)
-		printf("encore a faire\n");
+		return (bultin_pwd());
 	if (ft_strcmp(curr->cmd_tab[0], "export") == 0)
 		return (bultin_export(curr, p));
 	if (ft_strcmp(curr->cmd_tab[0], "unset") == 0)

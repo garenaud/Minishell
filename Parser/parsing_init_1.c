@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:18:38 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/17 16:12:43 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 09:52:40 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,16 @@ void	init_parsing_list_c(t_parser *p)
 	create_quote_list(&p->raw, &p->pipe_i, "|");
 	create_quote_list(&p->raw, &p->to_out_i, ">");
 	create_quote_list(&p->raw, &p->to_in_i, "<");
-	//create_quote_list(&p->raw, &p->append_i, ">>");
-	//create_quote_list(&p->raw, &p->heredoc_i, "<<");
 	create_quote_list(&p->raw, &p->dquote, "\"");
 	create_quote_list(&p->raw, &p->squote, "\'");
 }
 
-// a tester
 void	create_delim(t_parser *p)
 {
 	p->util.delim = NULL;
-	push(&p->util.delim, " ");//
+	push(&p->util.delim, " ");
 	push(&p->util.delim, "'");
 	push(&p->util.delim, "\"");
-//	push(&p->util.delim, "$");
 	push(&p->util.delim, "|");
 	push(&p->util.delim, ">");
 	push(&p->util.delim, ">>");

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 09:33:02 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/11 14:11:38 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:36:16 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -563,4 +563,262 @@ void	get_inside_dquote2(t_parser *p)
 		push_int(&p->util.code, 2);
 	}
 	remove_pos_c(&p->util.raw, 0);
+}
+
+/*
+t_dico	*getword_2(t_list **raw, char *search)
+{
+	int		i;
+	int		pos;
+	char	*str;
+	char	*c_tmp;
+	t_dico	*word;
+
+	i = 0;
+	search = delimitateur(raw);
+	pos = getpos_c(*raw, search);
+	if (pos == -1)
+		pos = size_stack(*raw);
+	str = malloc((pos + 1) * sizeof(char));
+	word = malloc(sizeof(t_dico));
+	while (i < pos)
+	{
+		c_tmp = pop(raw);
+		str[i] = *c_tmp;
+		free(c_tmp);
+		i++;
+	}
+	if (size_stack(*raw) != 0)
+		remove_pos_c(raw, 0);
+	str[i] = '\0';
+	word->next = NULL;
+	word->value = str;
+	word->key = ft_strdup(search);
+	return (word);
+}
+*/
+
+int	transfer_int(t_list_i **start, t_list_i **end)
+{
+	int	tmp;
+
+	if (size_stack_int(*start) >= 1)
+	{
+		tmp = pop_int(start);
+		push_int(end, tmp);
+		return (1);
+	}
+	return (0);
+}
+
+
+int	getposition_int(t_list_i *top, int item)
+{
+	int	i;
+
+	i = 0;
+	while (top != NULL)
+	{
+		if (top->data == item)
+			return (i);
+		i++;
+		top = top->next;
+	}
+	return (-1);
+}
+
+int	getposition(t_list *top, char *item)
+{
+	int	i;
+	int	len;
+
+	len = ft_strlen(item);
+	i = 0;
+	while (top != NULL)
+	{
+		if (ft_strncmp(top->data, item, len) == 0)
+			return (i);
+		i++;
+		top = top->next;
+	}
+	return (-1);
+}
+
+/*void	add_space_2gt(t_parser *p)
+{
+	p->util.c_tmp1 = pop(&p->raw);
+	push(&p->util.tmp, " ");
+	push_int(&p->flag, 32);
+	push(&p->util.tmp, p->util.c_tmp);
+	push_int(&p->flag, 0);
+	push(&p->util.tmp, p->util.c_tmp1);
+	push_int(&p->flag, 0);
+	push(&p->util.tmp, " ");
+	push_int(&p->flag, 32);
+	free(p->util.c_tmp);
+	free(p->util.c_tmp1);
+}*/
+
+/*void	test_env_list(t_parser p, char **env)
+{
+	create_env_list(&p.struct_path.env_list, env);
+	delete(&p.struct_path.env_list);
+}*/
+
+/*void	get_path(t_parser *p, char **env)
+{
+	char	*tmp;
+
+	p->struct_path.path = path_list(env);
+	create_raw_list(&p->struct_path.path_raw, p->struct_path.path);
+	p->struct_path.path_raw = reverse(&p->struct_path.path_raw);
+	while (size_stack(p->struct_path.path_raw))
+	{
+		trim_list(&p->struct_path.path_raw);
+		tmp = getpath(&p->struct_path.path_raw);
+		if (ft_strncmp(tmp, "", 1))
+		{
+			push(&p->struct_path.split_path, tmp);
+			free(tmp);
+		}
+		else
+			free(tmp);
+	}
+	p->struct_path.split_path = reverse(&p->struct_path.split_path);
+}
+*/
+/*void	get_word_list(t_parser p)
+{
+	while (size_stack(p.raw))
+	{
+		trim_list(&p.raw);
+		p.tmp = getword1(&p.raw, " ");
+		if (ft_strncmp(p.tmp, "", 1))
+		{
+			push(&p.word, p.tmp);
+			free(p.tmp);
+		}
+		else
+		{
+			printf("tmp vide= [%s]\n", p.tmp);
+			free(p.tmp);
+		}
+	}
+	p.word = reverse(&p.word);
+}*/
+
+void	cpd1(t_parser *p)
+{
+	while (size_stack(p->raw) && size_stack_int(p->flag))
+	{
+		p->util.i1 = getitem_int(p->flag, 0);
+		p->util.i2 = p->util.i1;
+		while (size_stack(p->raw) && p->util.i2 != 32)
+		{
+			p->util.c_tmp = pop(&p->raw);
+			push(&p->util.tmp, p->util.c_tmp);
+			free(p->util.c_tmp);
+			p->util.i2 = pop_int(&p->flag);
+			p->util.i2 = getitem_int(p->flag, 0);
+		}
+		p->util.tmp = reverse(&p->util.tmp);
+		p->util.c_tmp = getall(&p->util.tmp);
+		cpd1_key(p);
+		if (ft_strlen(p->util.c_tmp))
+			push_dico(&p->cmd_d, p->util.key, p->util.c_tmp);
+		free(p->util.c_tmp);
+		remove_position_int(&p->flag, 0);
+		remove_pos_c(&p->raw, 0);
+		delete(&p->util.tmp);
+	}
+	p->cmd_d = reverse_dico(&p->cmd_d);
+}
+
+void	cpd1_key(t_parser *p)
+{
+	if (p->util.i1 == 0)
+		p->util.key = "0";
+	if (p->util.i1 == 1)
+		p->util.key = "1";
+	if (p->util.i1 == 2)
+		p->util.key = "2";
+	if (p->util.i1 == 3)
+		p->util.key = "3";
+	if (p->util.i1 == 4)
+		p->util.key = "4";
+	if (p->util.i1 == 5)
+		p->util.key = "5";
+	if (p->util.i1 == 6)
+		p->util.key = "6";
+	if (p->util.i1 == 7)
+		p->util.key = "7";
+	if (p->util.i1 == 8)
+		p->util.key = "8";
+}
+
+/*int	count_successive_c(t_parser *p, char *c)
+{
+	int	count;
+	int	index;
+
+	count = 1;
+	index = 0;
+	while (index < (int)size_stack(p->raw) && ft_strncmp(getitem_c(p->raw, index), c, 1) == 0)
+	{
+		count++;
+		index++;
+	}
+	return (count);
+}*/
+
+
+static void	get_path_helper(t_parser *p)
+{
+	t_dico	*path;
+	int	pos;
+
+	path = NULL;
+	pos = get_key(p->envvar, "PATH");
+	if (pos >= 0)
+	{
+		path = getitem_dico(p->envvar, get_key(p->envvar, "PATH"));
+		p->struct_path.path = ft_strdup(path->value);
+	}
+	else
+	p->struct_path.path = ft_strdup("");
+	delete_dico(&path);
+}
+
+void	get_path(t_parser *p)
+{//modifie
+	char	*tmp;
+
+	get_path_helper(p);
+//	{
+/*	path = NULL;
+	pos = get_key(p->envvar, "PATH");
+	if (pos >= 0)
+	{
+		path = getitem_dico(p->envvar, get_key(p->envvar, "PATH"));
+		p->struct_path.path = ft_strdup(path->value);
+	}
+	else
+	p->struct_path.path = ft_strdup("");
+	delete_dico(&path);*/
+//	}//p->struct_path.path = path_list(env);
+	create_raw_list(&p->struct_path.path_raw, p->struct_path.path);
+	p->struct_path.path_raw = reverse(&p->struct_path.path_raw);
+	while (size_stack(p->struct_path.path_raw))
+	{
+		trim_list(&p->struct_path.path_raw);
+		tmp = getpath(&p->struct_path.path_raw);
+		if (ft_strncmp(tmp, "", 1))
+		{
+			push(&p->struct_path.split_path, tmp);
+			free(tmp);
+		}
+		else
+			free(tmp);
+	}
+	p->struct_path.split_path = reverse(&p->struct_path.split_path);
 }

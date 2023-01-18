@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 14:46:05 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/16 15:13:55 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 11:24:03 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	bultin_unset(t_exe *curr, t_parser *p)
 {
-	//t_dico	*tmp;
 	int		pos;
 
 	p->built.i = 1;
@@ -27,12 +26,9 @@ int	bultin_unset(t_exe *curr, t_parser *p)
 			{
 				remove_pos_dico(&p->envvar, pos);
 			}
-		//	free(p->built.key);
-		//	free(p->built.value);
 			p->built.i++;
 		}
 	}
-
 	g_status = 0;
 	return (0);
 }

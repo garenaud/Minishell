@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/17 15:38:32 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 09:25:44 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	main(int argc, char *argv[], char *env[])
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 	init_mini(&p, env);
-	while ((p.line =readline("mini-->")))
+	p.line = readline("mini-->");
+	while (p.line)
 	{
 		reload(&p, env);
 		if (readline_manager(&p) == 1)
@@ -29,6 +30,7 @@ int	main(int argc, char *argv[], char *env[])
 		parse_it(&p);
 		run_shell(&p);
 		clean_memory_parsing(&p);
+		p.line = readline("mini-->");
 	}
 	clean_memory_end(&p);
 	return (0);

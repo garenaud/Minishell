@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 10:36:55 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/17 15:49:43 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 09:57:53 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,26 @@ void	create_quote_list(t_list **str, t_list_i **pos, char *search)
 		i++;
 	}
 	*pos = reverse_int(pos);
+}
+
+void	cpd1_key(t_parser *p)
+{
+	if (p->util.i1 == 0)
+		p->util.key = "0";
+	if (p->util.i1 == 1)
+		p->util.key = "1";
+	if (p->util.i1 == 2)
+		p->util.key = "2";
+	if (p->util.i1 == 3)
+		p->util.key = "3";
+	if (p->util.i1 == 4)
+		p->util.key = "4";
+	if (p->util.i1 == 5)
+		p->util.key = "5";
+	if (p->util.i1 == 6)
+		p->util.key = "6";
+	if (p->util.i1 == 7)
+		p->util.key = "7";
+	if (p->util.i1 == 8)
+		p->util.key = "8";
 }
