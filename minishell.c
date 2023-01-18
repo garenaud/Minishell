@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 09:25:44 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:13:23 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	main(int argc, char *argv[], char *env[])
 {
-	t_parser	p;
+	t_parser		p;
+	struct termios	saved;
 
 	(void)argc;
 	(void)argv;
@@ -24,6 +25,7 @@ int	main(int argc, char *argv[], char *env[])
 	p.line = readline("mini-->");
 	while (p.line)
 	{
+		handle_signal(&saved);
 		reload(&p, env);
 		if (readline_manager(&p) == 1)
 			break ;

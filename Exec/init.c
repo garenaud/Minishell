@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 17:28:53 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:08:39 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	init_exe(t_parser *p)
 		size = checknb_arg(p->cmd_d);
 		fill_exec(p, curr, size);
 		curr->cmd_tab[size] = NULL;
-		curr->path = get_pos_path(p, curr->cmd_tab[0]);
+		curr->path = init_path(p, curr->cmd_tab);
 		if (p->cmd_d != NULL)
 			remove_pos_dico(&p->cmd_d, 0);
 		if (i != p->piped && p->piped != 0)
@@ -42,16 +42,22 @@ void	init_exe(t_parser *p)
 void	fill_exec(t_parser *p, t_exe *curr, int size)
 {
 	int	i;
+	int	j;
 
 	i = -1;
+	j = 0;
 	while (++i < size)
 	{
+		//printf("size = %d, i = %d, p->cmd_d = %s\n", size, i, p->cmd_d->value);
 		if (is_redir(p->cmd_d->key) == 1)
 			i = redir(p, p->cmd_d, curr, i);
 		if (size_stack_dico(p->cmd_d) != 0 && is_redir(p->cmd_d->key) != 1)
 		{
-			curr->cmd_tab[i] = ft_strdup(p->cmd_d->value);
+			if (ft_strncmp(p->cmd_d->value, "|", 1) == 0)
+				break ;
+			curr->cmd_tab[j] = ft_strdup(p->cmd_d->value);
 			remove_pos_dico(&p->cmd_d, 0);
+			j++;
 		}
 		else if (p->cmd_d == NULL || ft_strncmp(p->cmd_d->value, "|", 1) == 0)
 			break ;

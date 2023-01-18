@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:26:11 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 17:28:04 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:13:23 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	bultin_echo_n(t_exe *curr)
 		write(1, "\n", 1);
 	else
 	{
-		if (ft_strcmp(curr->cmd_tab[1], "-n") == 0)
+		if (curr->cmd_tab[1][0] == '-' && curr->cmd_tab[1][1] == 'n')
 		{
 			i = 2;
 			bultin_echo(i, curr);

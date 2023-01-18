@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 16:00:33 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/17 11:39:03 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:14:14 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ int	run_shell(t_parser *p)
 	init_exe(p);
 	curr = p->cmd_exe;
 	init_pipes(curr);
+	if (curr->cmd_tab[0] == NULL)
+	{
+		delete_exeline(&curr);
+		return (0);
+	}
 	if (p->piped || curr->redir > 0)
 	{
 		if (pipe_loop(p, curr) != 0)

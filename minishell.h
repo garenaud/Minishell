@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 16:08:28 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:14:52 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,7 @@ void		init_pgrm_list_c(t_parser *p);
 void		init_pgrm_dico(t_parser *p);
 void		init_pgrm_file(t_parser *p);
 void		init_pgrm_cmd(t_parser *p);
+void		init_built(t_parser *p);
 void		init_parsing_list(t_parser *p);
 void		init_parsing_list_c(t_parser *p);
 void		delete_parsing_list_c(t_parser *p);
@@ -331,29 +332,33 @@ void		transfer_normal_char11(t_parser **p);
 void		tester(t_parser *p);
 
 //execution
-void		init_exe(t_parser *p);
-t_exe		*init_exe_list(int size);
-void		delete_exeline(t_exe **top);
-void		free_tab(char **tab);
-void		printll_exe(t_exe *exec);
-int			checknb_arg(t_dico *top);
-int			checknb_pipe(t_dico *top);
-size_t		size_stack_exe(t_exe *top);
-int			free_all(t_parser *p);
-char		*get_pos_path(t_parser *p, char *cmd);
-void		free_exe_list(t_exe *list);
-void		fill_exec(t_parser *p, t_exe *curr, int size);
-int			is_function(char *path, char **str, t_parser *p);
-int			inpt_checker(char *path, char **str, t_parser *p);
-void		close_pipes(t_exe *curr);
-int			child_pro(t_parser *p, t_exe *curr);
-int			pipe_loop(t_parser *p, t_exe *curr);
-int			run_shell(t_parser *p);
-void		waits(t_parser *p);
-void		free_cmds(t_parser	*p);
-void		do_wait(t_parser *p);
-void		init_pipes(t_exe *curr);
-int			execute(char **str, t_parser *p);
+void	init_exe(t_parser *p);
+t_exe	*init_exe_list(int size);
+void	delete_exeline(t_exe **top);
+void	free_tab(char **tab);
+void	printll_exe(t_exe *exec);
+int		checknb_arg(t_dico *top);
+int		checknb_pipe(t_dico *top);
+size_t	size_stack_exe(t_exe *top);
+int		free_all(t_parser *p);
+char	*get_pos_path(t_parser *p, char *cmd);
+void 	free_exe_list(t_exe *list);
+void	fill_exec(t_parser *p, t_exe *curr, int size);
+int		is_function(char *path, char **str, t_parser *p);
+int		inpt_checker(char *path, char **str, t_parser *p);
+void	close_pipes(t_exe *curr);
+int		child_pro(t_parser *p, t_exe *curr);
+int		pipe_loop(t_parser *p, t_exe *curr);
+int		run_shell(t_parser *p);
+void	waits(t_parser *p);
+void	free_cmds(t_parser	*p);
+void	do_wait(t_parser *p);
+void	init_pipes(t_exe *curr);
+int		if_path_not_exist(t_exe *curr, char **path_tab, char **env);
+int		execute(char **str, t_parser *p);
+char	*init_path(t_parser *p, char **cmd);
+
+
 
 //redirection
 int			is_redir(char *key);
@@ -372,7 +377,6 @@ void		handle_sigquit(int sig);
 void		handle_sigquit(int signum);
 
 //builtin
-void		print_banner(void);
 void		init_built(t_parser *p);
 int			bultin_search(t_exe *curr, t_parser *p);
 int			is_builtin(char **str);
@@ -384,6 +388,6 @@ int			bultin_unset(t_exe *curr, t_parser *p);
 int			bultin_pwd(void);
 int			bultin_export(t_exe *curr, t_parser *p);
 
-void		print_banner(void);
+void	print_banner(void);
 
 #endif
