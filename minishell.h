@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 14:12:49 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:09:22 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,7 @@ void		init_pgrm_list_c(t_parser *p);
 void		init_pgrm_dico(t_parser *p);
 void		init_pgrm_file(t_parser *p);
 void		init_pgrm_cmd(t_parser *p);
+void		init_built(t_parser *p);
 void		init_parsing_list(t_parser *p);
 void		init_parsing_list_c(t_parser *p);
 void		delete_parsing_list_c(t_parser *p);
@@ -385,6 +386,7 @@ void	do_wait(t_parser *p);
 void	init_pipes(t_exe *curr);
 int		if_path_not_exist(t_exe *curr, char **path_tab, char **env);
 int		execute(char **str, t_parser *p);
+char	*init_path(t_parser *p, char **cmd);
 
 
 
@@ -411,6 +413,9 @@ int		is_builtin(char **str);
 int		bultin_echo(int i, t_exe *curr);
 int		bultin_echo_n(t_exe *curr);
 int		bultin_cd(t_exe *curr);
+int		bultin_export(t_exe *curr, t_parser *p);
+int		bultin_unset(t_exe *curr, t_parser *p);
+int		bultin_env(t_exe *curr, t_parser *p);
 
 void	print_banner(void);
 

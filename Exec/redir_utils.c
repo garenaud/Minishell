@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:28:41 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 14:14:30 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:34:55 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i)
 {
-	printf("je passe par redir, i = %d, cmd_d = %s\n", i, p->cmd_d->value);
+	//printf("je passe par redir, i = %d, cmd_d = %s\n", i, p->cmd_d->value);
 	if (ft_strcmp(cmd_d->key, "3") == 0)
 	{
 		output(p, cmd_d, curr);

@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:44:55 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 13:57:18 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:16:46 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,22 @@ int	if_path_not_exist(t_exe *curr, char **path_tab, char **env)
 	return (0);
 }
 
+char	*init_path(t_parser *p, char **cmd)
+{
+	char	*path;
+
+	if (cmd[0] == NULL)
+		return (NULL);
+	if (access(cmd[0], F_OK | X_OK) != -1 || is_builtin(cmd) == 1)
+	{
+		path = cmd[0];
+		return (path);
+	}
+	else if (access(cmd[0], F_OK | X_OK) == -1 || is_builtin(cmd) != 1)
+		return (get_pos_path(p, cmd[0]));
+	return (0);
+}
+
 char	*get_pos_path(t_parser *p, char *cmd)
 {
 	int		i;
@@ -63,13 +79,9 @@ char	*get_pos_path(t_parser *p, char *cmd)
 	char	*ps; //path_search
 
 	i = -1;
-	printf("\ncmd = %s et sizestack = %d\n\n", cmd, (int)size_stack(p->struct_cmd.cmd));
-	if (cmd == NULL)
-		return (0);
 	while (++i < (int)size_stack(p->struct_cmd.cmd))
 	{
 		path = getitem(p->struct_cmd.cmd, i);
-		printf("cmd = %s, path = %s\n\n", cmd, path);
 		ps = ft_substr(path, ft_strlen(path) - ft_strlen(cmd), ft_strlen(cmd));
  		if (ft_strncmp(ps, cmd, ft_strlen(cmd)) == 0)
 		{
