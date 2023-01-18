@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:53:46 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 15:33:22 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/18 10:08:03 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ int	input(t_parser *p, t_dico *cmd_d, t_exe *curr)
 	fd = open(cmd_d->next->value, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("open: ");
+		printf ("Minishell: %s: %s\n", cmd_d->next->value, strerror(2));
+		remove_pos_dico(&p->cmd_d, 0);
+		remove_pos_dico(&p->cmd_d, 0);
 		return (-1);
 	}
 	if (curr->fd_in > 2)
@@ -66,12 +68,13 @@ int	append(t_parser *p, t_dico *cmd_d, t_exe *curr)
 	fd = open(cmd_d->next->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		perror("open: ");
+		perror("open : ");
 		return (-1);
 	}
 	if (curr->fd_out > 2)
 		close(curr->fd_out);
 	curr->fd_out = fd;
+	remove_pos_dico(&p->cmd_d, 0);
 	remove_pos_dico(&p->cmd_d, 0);
 	return (0);
 }

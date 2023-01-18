@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 22:42:43 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/13 16:44:34 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/18 13:45:12 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,23 @@ int	free_all(t_parser *p)
 		free_tab(p->cmd_exe->cmd_tab);
 		free(p->cmd_exe->cmd_tab);
 	}
+	return (0);
+}
+
+int	execute(char **str, t_parser *p)
+{
+	pid_t	childpid;
+
+	childpid = fork();
+	if (childpid == 0)
+	{
+		if (execve(*str, str, &p->env[0]) == -1)
+			printf ("Error : %s\n", strerror(2));
+		return (1);
+	}
+	else
+		waitpid(childpid, &(p->return_val), 0);
+	if (WIFEXITED(p->return_val))
+		p->return_val = WEXITSTATUS(p->return_val);
 	return (0);
 }

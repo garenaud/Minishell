@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 17:08:12 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/18 10:08:43 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -364,6 +364,10 @@ void	waits(t_parser *p);
 void	free_cmds(t_parser	*p);
 void	do_wait(t_parser *p);
 void	init_pipes(t_exe *curr);
+int		if_path_not_exist(t_exe *curr, char **path_tab, char **env);
+int		execute(char **str, t_parser *p);
+
+
 
 
 //redirection
@@ -383,7 +387,7 @@ void	handle_sigquit(int sig);
 void	handle_sigquit(int signum);
 
 //builtin
-int		bultin_search(t_exe *curr);
+int		bultin_search(t_exe *curr, t_parser *p);
 int		is_builtin(char **str);
 int		bultin_echo(int i, t_exe *curr);
 int		bultin_echo_n(t_exe *curr);

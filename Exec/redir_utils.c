@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:28:41 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 15:36:56 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/18 10:30:04 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i)
 {
+	printf("je passe par redir, i = %d, cmd_d = %s\n", i, p->cmd_d->value);
 	if (ft_strcmp(cmd_d->key, "3") == 0)
 	{
 		output(p, cmd_d, curr);
@@ -22,17 +23,17 @@ int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i)
 	else if (ft_strcmp(cmd_d->key, "4") == 0)
 	{
 		input(p, cmd_d, curr);
-		i += 2;
+		i += 1;
 	}	
 	else if (ft_strcmp(cmd_d->key, "7") == 0)
 	{
 		append(p, cmd_d, curr);
-		i++;
+		i += 2;
 	}
 	else if (ft_strcmp(cmd_d->key, "6") == 0)
 	{
 		own_heredocs(p, cmd_d, curr);
-		i += 2;
+		i += 1;
 	}
 	return (i);
 }

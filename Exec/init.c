@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 15:11:03 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/18 10:13:44 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,22 @@ void	init_exe(t_parser *p)
 void	fill_exec(t_parser *p, t_exe *curr, int size)
 {
 	int	i;
+	int	j;
 
 	i = -1;
+	j = 0;
 	while (++i < size)
 	{
+		printf("size = %d, i = %d, p->cmd_d = %s\n", size, i, p->cmd_d->value);
 		if (is_redir(p->cmd_d->key) == 1)
 			i = redir(p, p->cmd_d, curr, i);
 		if (size_stack_dico(p->cmd_d) != 0 && is_redir(p->cmd_d->key) != 1)
 		{
-			curr->cmd_tab[i] = ft_strdup(p->cmd_d->value);
+			if (ft_strncmp(p->cmd_d->value, "|", 1) == 0)
+				break ;
+			curr->cmd_tab[j] = ft_strdup(p->cmd_d->value);
 			remove_pos_dico(&p->cmd_d, 0);
+			j++;
 		}
 		else if (p->cmd_d == NULL || ft_strncmp(p->cmd_d->value, "|", 1) == 0)
 			break ;
