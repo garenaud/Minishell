@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_helper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:16:24 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/17 15:44:24 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/19 10:35:57 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void	init_mini(t_parser *p, char **env)
 	p->line = NULL;
 	p->envvar = NULL;
 	init_pgrm(p, env);
+	set_signal();
+	p->signal = malloc(sizeof(struct termios));
+	setup_term(p->signal);
 	create_dico_list(&p->envvar, env);
 	create_delim(p);
 }

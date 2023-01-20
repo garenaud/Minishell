@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_cleaning.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:45:58 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/17 15:47:09 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/20 12:13:28 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void	clean_memory_parsing(t_parser *p)
 	delete_dico(&p->cmd_copy);
 	free(p->cmd_d);
 	delete_int(&p->flag);
+//	delete_exeline(&p->cmd_exe);
 //	delete_dico(&p->envvar);
 }

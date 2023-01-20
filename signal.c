@@ -6,49 +6,60 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 14:00:52 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/29 10:26:30 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/19 10:29:43 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_sigint(int signum)
+void	handle_signals(int signo)
 {
-	if (signum == SIGINT)
+	if (signo == SIGINT)
 	{
-		write (1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+		if (g_status != WORKING)
+		{
+			write(1, "\n", 1);
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
+		if (g_status == WORKING)
+		{
+			write(1, "^C\n", 3);
+			g_status = 130;
+		}
+	}
+	if (signo == SIGQUIT)
+	{
+		if (g_status == WORKING)
+		{
+			g_status = 131;
+			printf("^\\Quit: 3\n");
+		}
 	}
 }
 
-void	handle_signal(struct termios *saved)
+int	set_signal(void)
 {
-	hide_key(saved);
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	if (signal(SIGINT, handle_signals) == SIG_ERR)
+	{
+		printf("failed to register signal\n");
+		return (0);
+	}
+	if (signal(SIGQUIT, handle_signals) == SIG_ERR)
+	{
+		printf("failed to register signal\n");
+		return (0);
+	}
+	return (1);
 }
 
-void	hide_key(struct termios *saved)
+void	setup_term(struct termios *show)
 {
 	struct termios	attr;
 
+	tcgetattr(STDIN_FILENO, show);
 	tcgetattr(STDIN_FILENO, &attr);
-	tcgetattr(STDIN_FILENO, saved);
 	attr.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attr);
-}
-
-void	handle_sigquit(int signum)
-{
-	if (signum == SIGINT)
-	{
-		write (1, "\n", 1);
-	}
-	if (signum == SIGQUIT)
-	{
-		printf("Quit: 3\n");
-		rl_on_new_line();
-	}
+	tcsetattr(STDIN_FILENO, TCSANOW, &attr);
 }

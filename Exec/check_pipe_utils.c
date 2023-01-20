@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:44:55 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 16:16:46 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:34:09 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,14 @@ int	checknb_pipe(t_dico *top)
 	return (i);
 }
 
-int	if_path_not_exist(t_exe *curr, char **path_tab, char **env)
+int	ft_pipetok(char c)
+{
+	if (c == '|' || c == '>' || c == '<')
+		return (1);
+	return (0);
+}
+
+/* int	if_path_not_exist(t_exe *curr, char **path_tab, char **env)
 {
 	int	i;
 
@@ -54,7 +61,7 @@ int	if_path_not_exist(t_exe *curr, char **path_tab, char **env)
 		return (-1);
 	}
 	return (0);
-}
+} */
 
 char	*init_path(t_parser *p, char **cmd)
 {
@@ -62,13 +69,19 @@ char	*init_path(t_parser *p, char **cmd)
 
 	if (cmd[0] == NULL)
 		return (NULL);
+	//printf("cmd[0][0] = %c, cmd[1][0] = %c\n", p->cmd_d->value[0], p->cmd_d->next->value[0]);
 	if (access(cmd[0], F_OK | X_OK) != -1 || is_builtin(cmd) == 1)
 	{
 		path = cmd[0];
 		return (path);
 	}
-	else if (access(cmd[0], F_OK | X_OK) == -1 || is_builtin(cmd) != 1)
+	if (access(cmd[0], F_OK | X_OK) == -1 || is_builtin(cmd) != 1)
 		return (get_pos_path(p, cmd[0]));
+/* 	if (ft_pipetok(p->cmd_d->value[0]) || ft_pipetok(p->cmd_d->next->value[0]))
+	{
+		printf("\nredir apres\n");
+		return (0);
+	} */
 	return (0);
 }
 

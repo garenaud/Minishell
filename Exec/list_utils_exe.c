@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:45:54 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/16 16:55:57 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/20 12:10:33 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	printll_exe(t_exe *exec)
 	i = 0;
 	while (exec != NULL)
 	{
-		printf("-->Le path[%s} redir[%d]\n", exec->path, exec->redir);
+		printf("-->Le path[%s][%p] redir[%d]\n", exec->path, exec->path, exec->redir);
 		printf("-->fd_in[%d] fd_out[%d] pid[%d]\n", exec->fd_in,
 			exec->fd_out, exec->pid);
 		while (exec->cmd_tab[i])
@@ -77,7 +77,8 @@ void	delete_exeline(t_exe **top)
 	while (*top != NULL)
 	{
 		tmp = *top;
-		free(tmp->path);
+/* 		if (tmp->path != NULL)
+			free(tmp->path); */
 		if (tmp->cmd_tab != NULL)
 			free_tab(tmp->cmd_tab);
 		free(tmp);
@@ -97,5 +98,5 @@ void	free_tab(char **tab)
 		free(&tab[i]);
 		i++;
 	}
-	free(tab);
+	//free(tab);
 }

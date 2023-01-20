@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 16:08:39 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/20 13:41:53 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,12 @@ void	fill_exec(t_parser *p, t_exe *curr, int size)
 	j = 0;
 	while (++i < size)
 	{
-		//printf("size = %d, i = %d, p->cmd_d = %s\n", size, i, p->cmd_d->value);
+		//printf("p->cmd->value = %s, i=%d, size = %d\n", p->cmd_d->value, i, size);
 		if (is_redir(p->cmd_d->key) == 1)
-			i = redir(p, p->cmd_d, curr, i);
+		{
+			redir(p, p->cmd_d, curr);
+			i += 1;
+		}
 		if (size_stack_dico(p->cmd_d) != 0 && is_redir(p->cmd_d->key) != 1)
 		{
 			if (ft_strncmp(p->cmd_d->value, "|", 1) == 0)

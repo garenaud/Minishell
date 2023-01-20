@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 16:09:22 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/20 11:21:05 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@
 # define BOLDRED	"\033[31m"
 # define BLUE		"\033[1;34m"
 # define PIPE 124
-# define TOK_DELIM "|"
-# define OUTPUT ">"
-# define INPUT "<"
-# define APPEND ">>"
-# define HEREDOC "<<"
 # define WAITING 1
 # define PARSING 2
 # define WORKING 3
@@ -194,6 +189,7 @@ typedef struct s_parser
 	t_env			*env_l;
 	int				piped;
 	int				redir;
+	struct termios	*signal;
 	int				return_val;
 	t_path			struct_path;
 	t_cmd			struct_cmd;
@@ -216,7 +212,7 @@ void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
 void		ft_putendl_fd(char *s, int fd);
 void		ft_strtolower(char *str);
-
+int			ft_isprint(int c);
 char		*ft_itoa(int nb);
 
 // integer stack
@@ -393,7 +389,7 @@ char	*init_path(t_parser *p, char **cmd);
 
 //redirection
 int			is_redir(char *key);
-int			redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
+int			redir(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int			output(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int			input(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int			append(t_parser *p, t_dico *cmd_d, t_exe *curr);
@@ -406,6 +402,15 @@ void		handle_signal(struct termios *saved);
 void		hide_key(struct termios *saved);
 void		handle_sigquit(int sig);
 void		handle_sigquit(int signum);
+
+int			set_signal(void);
+void		setup_term(struct termios *show);
+void		handle_signals(int signo);
+char		*set_and_get(t_parser *p);
+int			exit_checker(char **str, t_parser *p);
+void		exit_free(t_parser *p, char **str);
+void		exit_free_1(t_parser *p, char **str, int exit_code);
+
 
 //builtin
 int		bultin_search(t_exe *curr, t_parser *p);
