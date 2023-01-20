@@ -6,11 +6,60 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:44:55 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 18:34:09 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:37:23 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	checknb_arg_calloc(t_dico *top)
+{
+	int	i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (top != NULL)
+	{
+		if (ft_strncmp(top->value, "|", 1) == 0)
+			return (i);
+		if (is_redir(top->key) == 1)
+		{
+			j++;
+			//printf("redir\n");
+			if (top->next != NULL || ft_strncmp(top->value, "|", 1) != 0)
+				j++;
+				//printf("redir2\n");}
+		}
+		top = top->next;
+		i++;
+	}
+	if (i < j)
+		i = 0;
+	else
+		i = i - j;
+	printf(RED"j = %d, i = %d\n"ENDC, j, i);
+	return (i);
+}
+
+int	checknb_redir(t_dico *top)
+{
+	int	i;
+
+	i = 0;
+	while (top != NULL)
+	{
+		if (ft_strncmp(top->value, "|", 1) == 0)
+			return (i);
+		if (is_redir(top->key) == 1)
+		{
+			i += 2;
+			top = top->next;
+		}
+		top = top->next;
+	}
+	return (i);
+}
 
 int	checknb_arg(t_dico *top)
 {

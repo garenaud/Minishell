@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:45:54 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/20 12:10:33 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:56:46 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_exe	*init_exe_list(int size)
 	t_exe	*new;
 
 	new = (t_exe *)malloc(sizeof(t_exe));
+	printf("init_exe_list size = %d\n", size);
 	if (!new)
 		return (NULL);
 	new->pid = 0;
@@ -95,7 +96,8 @@ void	free_tab(char **tab)
 		return ;
 	while (tab[i] != NULL)
 	{
-		free(&tab[i]);
+		/* if (tab[i] != NULL) */
+			free(tab[i]);
 		i++;
 	}
 	//free(tab);

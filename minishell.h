@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/20 11:21:05 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:37:54 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -395,6 +395,9 @@ int			input(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int			append(t_parser *p, t_dico *cmd_d, t_exe *curr);
 void		own_heredocs_to_long(char *delimiter, char *line, int *fd, t_exe *curr);
 int			own_heredocs(t_parser *p, t_dico *cmd_d, t_exe *curr);
+int			checknb_arg_calloc(t_dico *top);
+int			checknb_redir(t_dico *top);
+
 
 //signal
 void		handle_sigint(int sig);

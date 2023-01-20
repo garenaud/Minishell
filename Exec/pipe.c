@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 16:00:33 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/20 13:40:58 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:58:56 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	run_shell(t_parser *p)
 	init_exe(p);
 	curr = p->cmd_exe;
 	init_pipes(curr);
-	//printll_exe(curr);
+	printll_exe(curr);
 	if (curr->cmd_tab[0] == NULL)
 	{
 		delete_exeline(&curr);

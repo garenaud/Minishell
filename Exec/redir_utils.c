@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:28:41 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/19 14:48:20 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:07:54 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr)
 	if (cmd_d->next == NULL)
 	{
 		printf ("Minishell: syntax error near unexpected token `newline'\n");
-		//p->return_val = 258;
+		p->return_val = 258;
 		return (1);
 	}
 	if (ft_strcmp(cmd_d->key, "3") == 0)
