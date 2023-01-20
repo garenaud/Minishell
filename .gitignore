@@ -1,1 +1,9 @@
 libft
+*.o
+minishell
+minishellSanit
+memcheckignore
+.DS_Store
+launch.json
+settings.json
+info.plist
