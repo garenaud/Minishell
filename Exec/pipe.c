@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 16:00:33 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/20 14:58:56 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/23 21:21:33 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,22 @@ int	run_shell(t_parser *p)
 	t_exe	*curr;
 
 	g_status = WORKING;
-	init_exe(p);
+ 	if (init_exe(p) == 0)
+		return (0);	
 	curr = p->cmd_exe;
+	if (curr == NULL){
+		free(p->cmd_exe);
+		return (0);}
 	init_pipes(curr);
-	printll_exe(curr);
-	if (curr->cmd_tab[0] == NULL)
+	//printll_exe(curr);
+/*  	if (curr->cmd_tab[0] == NULL)
 	{
-		delete_exeline(&curr);
+		printf("rien je return 0 \n");
+		//delete_exeline(&curr);
+		printll_exe(curr);
 		return (0);
-	}
-	else if (p->piped || curr->redir > 0)
+	} */
+	if (p->piped || curr->redir > 0)
 	{
 		if (pipe_loop(p, curr) != 0)
 			return (0);

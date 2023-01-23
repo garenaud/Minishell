@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 17:15:24 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/23 21:56:58 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*set_and_get(t_parser *p)
 	g_status = WAITING;
 	signal(SIGQUIT, SIG_IGN);
 	p->line = readline(BLUE"mini--> "ENDC);
+	if (p->line == NULL)
+		return (0);
 	g_status = PARSING;
 	if (p->line && ft_isprint(p->line[0]))
 		add_history(p->line);
@@ -38,16 +40,24 @@ int	main(int argc, char *argv[], char *env[])
 	while (1)
 	{
 		p.line = set_and_get(&p);
+ 		if (p.line == NULL)
+			break;
 		//printf("return val = %d g_status = %d\n", p.return_val, g_status);
-		if (p.line == NULL)
-			return (0);
 		//handle_signal(&saved);
 		reload(&p, env);
 /* 		if (readline_manager(&p) == 1)
 			break ; */
 		parse_it(&p);
+		//printll(p.struct_cmd.cmd);
 		run_shell(&p);
+		//printf("resultat init_exe = %d", init_exe(&p));
+/* 		printf("\n\naddresse de p->struct_path.path = %p\n", p.struct_path.path);
+		printf("\n\naddresse de p->struct_cmd.cmd = %p\n", p.struct_cmd.cmd);
+		printf("\n\np-> empty = %d addresse de cmd_exe = %p\n\n", p.empty, p.cmd_exe); */
 		clean_memory_parsing(&p);
+/* 		printf("\n\np-> empty = %d addresse de cmd_exe = %p\n\n", p.empty, p.cmd_exe);
+		printf("\n\naddresse de p->struct_cmd.cmd = %p\n", p.struct_cmd.cmd);
+		printf("\n\naddresse de p->struct_path.path = %p\n", p.struct_path.path); */
 	}
 	delete_exeline(&p.cmd_exe);
 	clean_memory_end(&p);
