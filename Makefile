@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
+#    By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/23 10:23:48 by jsollett         ###   ########.fr        #
+#    Updated: 2023/01/23 14:15:36 by grenaud-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,25 +110,22 @@ clean:
 	$(RM) ./Parser/*.o
 	$(RM) ./*.o
 	$(RM) ./*.d
+	$(RM) ./Exec/*.o
+	$(RM) ./a.out.dSYM
+	$(RM) ./Builtin/*.o
 	@echo $(R)Removed [./Parser/*.o]$(X)
 	@echo $(R)Removed [./*.o]$(X)
 	@echo $(R)Removed [REMOVED FINISH]$(X)
 	@echo $(R)Removed [REMOVED FINISH]$(X)
 
-fclean:
+fclean:	clean
 	@tput setaf 3; cat includes/trash; tput setaf default
 	$(RM) ./minishell
 	@echo $(B)Removed [TEMPORARY FILES]$(X)
-	$(RM) ./parser/*.o
 	@echo $(R)Removed [./Parser/*.o]$(X)
-	$(RM) ./Exec/*.o
 	@echo $(R)Removed [./Exec/*.o]$(X)
-	$(RM) ./Builtin/*.o
 	@echo $(R)Removed [./Builtin/*.o]$(X)
-	$(RM) ./a.out.dSYM
-	$(RM) ./*.o
 	$(RM) ./minishellSanit
-	$(RM) ./Exec/*.o
 	@echo $(R)Removed [./Exec/*.o]$(X)
 	@echo $(R)Removed [REMOVED FINISH]$(X)
 	@echo $(R)Removed [REMOVED FINISH]$(X)
