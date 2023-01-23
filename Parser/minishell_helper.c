@@ -6,12 +6,12 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:16:24 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/18 14:12:08 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/23 10:29:37 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-// a verifier
+
 void	init_mini(t_parser *p, char **env)
 {
 	p->line = NULL;
@@ -30,6 +30,8 @@ void	reload(t_parser *p, char **env)
 void	parse_it(t_parser *p)
 {
 	tester(p);
+	print_ic(p->util.code, p->util.raw_tmp);
+	printf("%s\n", p->line);
 	create_parsing_dict(p);
 	duplicate(&p->cmd_d, &p->cmd_copy);
 	if (p->cmd_d)

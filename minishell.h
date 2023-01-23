@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 17:14:52 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/23 10:40:08 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ typedef struct s_util
 {
 	int			flag;
 	int			position;
+	int			pos1;
+	int			pos;
 	int			i1;
 	int			i2;
 	char		*c_tmp;
@@ -105,13 +107,13 @@ typedef struct s_built
 //struct list pour execve
 typedef struct s_exe
 {
-	char	**cmd_tab;
-	char	*path;
-	int		redir;
-	int		fd_in;
-	int		fd_out;
-	pid_t	pid;
-	int		pfd[2];
+	char			**cmd_tab;
+	char			*path;
+	int				redir;
+	int				fd_in;
+	int				fd_out;
+	pid_t			pid;
+	int				pfd[2];
 	struct s_exe	*next;
 }	t_exe;
 
@@ -200,6 +202,7 @@ char		*ft_strdup(char *src);
 char		*ft_strcpy(char *dest, const char *src);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_isalnum(int c);
+int			ft_isnum(char c, int pos);
 int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
@@ -315,21 +318,26 @@ void		get_inside_space(t_parser *p);
 void		clean_dico(t_parser *p);
 void		create_parsing_dict(t_parser *p);
 
-// token a verifier
+// token a verifier tsc transfer successive c
 int			get_code_c(t_parser *p, char c);
 int			get_code_s(char *s);
-int			get_code_c1(t_parser *p, char *c);
+int			code1(t_parser *p, char *c);
 void		transfer_2c_space(t_parser *p, char *s);
 int			transfer_normal_char(t_parser *p);
 void		transfer_normal_char1(t_parser *p);
-int			transfer_successive_c(t_list **start, t_list **end, char c);
+int			tsc(t_list **start, t_list **end, char c);
+int			c_s_c(t_parser *p, char *c);
 void		transfer_char_space(t_parser *p);
 void		expand_to_value(t_parser *p);
 void		get_inside_dquote2(t_parser *p);
 void		get_inside_squote2(t_parser *p);
 void		get_inside_space1(t_parser *p);
-void		transfer_normal_char11(t_parser **p);
+///void		transfer_normal_char11(t_parser **p);
 void		tester(t_parser *p);
+void		init_helper(t_parser *p);
+void		get_inside_dq(t_parser *p, int pos1);
+void		transfer_helper_1(t_parser *p, int code);
+void		transfer_normal_char_helper1(t_parser *p, int code);
 
 //execution
 void	init_exe(t_parser *p);
@@ -382,7 +390,7 @@ int			bultin_search(t_exe *curr, t_parser *p);
 int			is_builtin(char **str);
 int			bultin_echo(int i, t_exe *curr);
 int			bultin_echo_n(t_exe *curr);
-int			bultin_cd(t_exe *curr);
+int			bultin_cd(t_exe *curr, t_parser *p);
 int			bultin_env(t_exe *curr, t_parser *p);
 int			bultin_unset(t_exe *curr, t_parser *p);
 int			bultin_pwd(void);

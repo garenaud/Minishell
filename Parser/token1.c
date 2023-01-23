@@ -6,13 +6,13 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:34:55 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/18 11:10:59 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/19 12:27:50 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	get_code_c1(t_parser *p, char *c)
+int	code1(t_parser *p, char *c)
 {
 	if (getpos_c(p->util.delim, c) == -1)
 		return (0);

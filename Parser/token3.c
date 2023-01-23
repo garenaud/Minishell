@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 10:05:18 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/18 11:10:03 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/23 10:21:18 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ int	transfer_normal_char(t_parser *p)
 	return (count);
 }
 
-int	transfer_successive_c(t_list **start, t_list **end, char c)
+int	tsc(t_list **start, t_list **end, char c)
 {
 	char	*c_tmp;
 	int		count;
 
 	count = 0;
-	while (size_stack(*start) && ft_strncmp(getitem_c(*start, 0), &c, 1) == c)
+	while (size_stack(*start) && (*getitem_c(*start, 0)) == c)
 	{
 		c_tmp = pop(start);
 		push(end, c_tmp);

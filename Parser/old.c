@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 09:33:02 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/18 14:36:16 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/23 10:17:22 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -822,3 +822,77 @@ void	get_path(t_parser *p)
 	}
 	p->struct_path.split_path = reverse(&p->struct_path.split_path);
 }
+
+void	transfer_normal_char1_backup2001(t_parser *p)
+{
+	char	*c_tmp;
+
+	c_tmp = getitem_c(p->util.raw, 0);
+	while (size_stack(p->util.raw)
+		&& getpos_c(p->util.delim, getitem_c(p->util.raw, 0)) == -1)
+	{
+		if (ft_strncmp(getitem_c(p->util.raw, 0), "$", 1) == 0)
+		{
+			remove_pos_c(&p->util.raw, 0);
+			while (size_stack(p->util.raw)
+				&& ft_isalnum(getitem_c(p->util.raw, 0)[0]))
+			{
+				transfer_c(&p->util.raw, &p->util.key_l);
+			}
+			p->util.code_nb = 0;
+			expand_to_value(p);
+			continue ;
+		}
+		transfer_c(&p->util.raw, &p->util.raw_tmp);
+		push_int(&p->util.code, 0);
+	}
+}
+
+void	transfer_normal_char11(t_parser **p)
+{
+	char	*c_tmp;
+
+	c_tmp = getitem_c((*p)->util.raw, 0);
+	while (size_stack((*p)->util.raw)
+		&& getpos_c((*p)->util.delim, c_tmp) == -1)
+	{
+		if (ft_strncmp(getitem_c((*p)->util.raw, 0), "$", 1) == 0)
+		{
+			remove_pos_c(&(*p)->util.raw, 0);
+			while (size_stack((*p)->util.raw)
+				&& ft_isalnum(getitem_c((*p)->util.raw, 0)[0]))
+			{
+				transfer_c(&(*p)->util.raw, &(*p)->util.key_l);
+			}
+			expand_to_value((*p));
+			continue ;
+		}
+		transfer_c(&(*p)->util.raw, &(*p)->util.raw_tmp);
+		push_int(&(*p)->util.code, 0);
+	}
+}
+
+/*void	get_inside_dquote2backup2001(t_parser *p)
+{
+	char	c;
+
+	remove_pos_c(&p->util.raw, 0);
+	c = *getitem_c(p->util.raw, 0);
+	while (ft_strncmp(getitem_c(p->util.raw, 0), "\"", 1) != 0)
+	{
+		if (ft_strncmp(getitem_c(p->util.raw, 0), "$", 1) == 0)
+		{
+			remove_pos_c(&p->util.raw, 0);
+			while (ft_isalnum(getitem_c(p->util.raw, 0)[0]))
+			{
+				transfer_c(&p->util.raw, &p->util.key_l);
+			}
+			p->util.code_nb = 2;
+			expand_to_value(p);
+			continue ;
+		}
+		transfer_c(&p->util.raw, &p->util.raw_tmp);
+		push_int(&p->util.code, 2);
+	}
+	remove_pos_c(&p->util.raw, 0);
+}*/

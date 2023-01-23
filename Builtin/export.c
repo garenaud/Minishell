@@ -6,17 +6,20 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:22:20 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/17 15:11:34 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/19 09:53:20 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static void	parsing_export(t_parser *p)
-{
+{//faux exception
+	//p->built.exception = 0;
 	p->built.arg = reverse(&p->built.arg);
-	while (size_stack(p->built.arg) && ft_strncmp(getitem_c(p->built.arg, 0), "=", 1))
+	while (size_stack(p->built.arg)
+		&& ft_strncmp(getitem_c(p->built.arg, 0), "=", 1))
 		transfer_c(&p->built.arg, &p->built.key_l);
+	//printf("after w1 [%s] ? if = <%d>",getitem_c(p->built.arg, 0),ft_strncmp(getitem_c(p->built.arg, 0), "=", 1));
 	remove_pos_c(&p->built.arg, 0);
 	while (size_stack(p->built.arg))
 		transfer_c(&p->built.arg, &p->built.value_l);
@@ -27,7 +30,7 @@ static void	parsing_export(t_parser *p)
 }
 
 static void	print_env(t_dico *dico)
-{
+{//faux
 	while (dico)
 	{
 		printf("declare -x %s=\"%s\"\n", (dico->key), (dico->value));
@@ -49,13 +52,13 @@ void	tri_export(t_parser *p)
 		remove_pos_dico(&p->envvar, max_pos);
 	}
 	p->envvar = reverse_dico(&p->built.tmp);
+	p->envvar = reverse_dico(&p->envvar);
 	print_env(p->envvar);
 }
 
 int	bultin_export(t_exe *curr, t_parser *p)
 {
 	p->built.i = 1;
-//	printll_dico(p->cmd_copy);
 	if (curr->cmd_tab[p->built.i] == NULL)
 		tri_export(p);
 	else
@@ -64,8 +67,6 @@ int	bultin_export(t_exe *curr, t_parser *p)
 		{
 			create_raw_list(&p->built.arg, curr->cmd_tab[p->built.i]);
 			parsing_export(p);
-		//	printf(RED);
-		//	printf(" [%s]--->[%s]\n", p->built.key, p->built.value);
 			if (get_key(p->envvar, p->built.key) == -1)
 				push_dico(&p->envvar, p->built.key, p->built.value);
 			else
