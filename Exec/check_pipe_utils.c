@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:44:55 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 21:24:55 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/23 22:41:32 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	checknb_arg(t_dico *top, t_parser *p)
 	{
 		printf ("Minishell: syntax error near unexpected token `|'\n");
 		p->return_val = 258;
-		return (0);
+		return (1);
 	}
 	while (top != NULL)
 	{
