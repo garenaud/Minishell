@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 13:57:39 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/23 19:26:10 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ typedef struct s_parser
 	char			*tmp;
 	char			**env;
 	t_env			*env_l;
+	int				empty;
 	int				piped;
 	int				redir;
 	struct termios	*signal;
@@ -337,12 +338,12 @@ void		transfer_helper_1(t_parser *p, int code);
 void		transfer_normal_char_helper1(t_parser *p, int code);
 
 //execution
-void	init_exe(t_parser *p);
+int		init_exe(t_parser *p);
 t_exe	*init_exe_list(int size);
 void	delete_exeline(t_exe **top);
 void	free_tab(char **tab);
 void	printll_exe(t_exe *exec);
-int		checknb_arg(t_dico *top);
+int		checknb_arg(t_dico *top, t_parser *p);
 int		checknb_pipe(t_dico *top);
 size_t	size_stack_exe(t_exe *top);
 int		free_all(t_parser *p);
