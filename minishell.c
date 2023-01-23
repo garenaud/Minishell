@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 13:57:15 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/23 14:03:28 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int argc, char *argv[], char *env[])
 		parse_it(&p);
 		run_shell(&p);
 		clean_memory_parsing(&p);
-		p.line = readline("mini-->");
+		//p.line = readline("mini-->");
 	}
 	delete_exeline(&p.cmd_exe);
 	clean_memory_end(&p);
