@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:34:55 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/19 12:27:50 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/23 13:59:02 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	expand_interrogation(t_parser *p)
 	int	i;
 
 	i = 0;
-	create_raw_list(&p->util.raw_tmp, ft_itoa(g_status));
-	while (i++ < (int)ft_strlen(ft_itoa(g_status)))
+	create_raw_list(&p->util.raw_tmp, ft_itoa(p->return_val));
+	while (i++ < (int)ft_strlen(ft_itoa(p->return_val)))
 		push_int(&p->util.code, p->util.code_nb);
 }
 

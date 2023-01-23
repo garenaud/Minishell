@@ -6,36 +6,29 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:28:41 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 14:34:55 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:07:54 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i)
+int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr)
 {
-	//printf("je passe par redir, i = %d, cmd_d = %s\n", i, p->cmd_d->value);
+	if (cmd_d->next == NULL)
+	{
+		printf ("Minishell: syntax error near unexpected token `newline'\n");
+		p->return_val = 258;
+		return (1);
+	}
 	if (ft_strcmp(cmd_d->key, "3") == 0)
-	{
 		output(p, cmd_d, curr);
-		i += 1;
-	}
 	else if (ft_strcmp(cmd_d->key, "4") == 0)
-	{
 		input(p, cmd_d, curr);
-		i += 1;
-	}	
 	else if (ft_strcmp(cmd_d->key, "7") == 0)
-	{
 		append(p, cmd_d, curr);
-		i += 2;
-	}
 	else if (ft_strcmp(cmd_d->key, "6") == 0)
-	{
 		own_heredocs(p, cmd_d, curr);
-		i += 1;
-	}
-	return (i);
+	return (0);
 }
 
 int	is_redir(char *key)

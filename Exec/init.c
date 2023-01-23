@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 16:08:39 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:40:19 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,29 @@ void	init_exe(t_parser *p)
 {
 	int		i;
 	int		size;
+	int		redir;
 	t_exe	*curr;
 
 	i = -1;
 	size = checknb_arg(p->cmd_d);
+	redir = checknb_redir(p->cmd_d);
 	p->piped = checknb_pipe(p->cmd_d);
-	curr = init_exe_list(size);
+	printf("calloc size = %d\n", size - redir);
+	curr = init_exe_list(size - redir);
 	p->cmd_exe = curr;
 	while (i++ < p->piped)
 	{
 		size = checknb_arg(p->cmd_d);
+		redir = checknb_redir(p->cmd_d);
+		printf("size = %d calloc size = %d\n", size, size - redir);
 		fill_exec(p, curr, size);
-		curr->cmd_tab[size] = NULL;
+		//curr->cmd_tab[size] = NULL;
 		curr->path = init_path(p, curr->cmd_tab);
 		if (p->cmd_d != NULL)
 			remove_pos_dico(&p->cmd_d, 0);
 		if (i != p->piped && p->piped != 0)
 		{
-			curr->next = init_exe_list(size);
+			curr->next = init_exe_list(size - redir);
 			curr = curr->next;
 		}
 	}
@@ -48,9 +53,12 @@ void	fill_exec(t_parser *p, t_exe *curr, int size)
 	j = 0;
 	while (++i < size)
 	{
-		//printf("size = %d, i = %d, p->cmd_d = %s\n", size, i, p->cmd_d->value);
+		printf("p->cmd->value = %s, i=%d, size = %d\n", p->cmd_d->value, i, size);
 		if (is_redir(p->cmd_d->key) == 1)
-			i = redir(p, p->cmd_d, curr, i);
+		{
+			redir(p, p->cmd_d, curr);
+			i += 1;
+		}
 		if (size_stack_dico(p->cmd_d) != 0 && is_redir(p->cmd_d->key) != 1)
 		{
 			if (ft_strncmp(p->cmd_d->value, "|", 1) == 0)

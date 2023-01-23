@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 22:42:43 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 14:13:33 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/19 11:44:52 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	execute(char **str, t_parser *p)
 	{
 		if (execve(*str, str, &p->env[0]) == -1)
 			printf ("Error : %s\n", strerror(2));
-		return (1);
+		exit (127);
 	}
 	else
 		waitpid(childpid, &(p->return_val), 0);

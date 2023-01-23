@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 10:40:08 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/23 13:57:39 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@
 # define BOLDRED	"\033[31m"
 # define BLUE		"\033[1;34m"
 # define PIPE 124
-# define TOK_DELIM "|"
-# define OUTPUT ">"
-# define INPUT "<"
-# define APPEND ">>"
-# define HEREDOC "<<"
 # define WAITING 1
 # define PARSING 2
 # define WORKING 3
@@ -188,6 +183,7 @@ typedef struct s_parser
 	t_env			*env_l;
 	int				piped;
 	int				redir;
+	struct termios	*signal;
 	int				return_val;
 	t_path			struct_path;
 	t_cmd			struct_cmd;
@@ -211,6 +207,7 @@ void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
 void		ft_putendl_fd(char *s, int fd);
 void		ft_strtolower(char *str);
+int			ft_isprint(int c);
 char		*ft_itoa(int nb);
 
 // integer stack
@@ -370,12 +367,15 @@ char	*init_path(t_parser *p, char **cmd);
 
 //redirection
 int			is_redir(char *key);
-int			redir(t_parser *p, t_dico *cmd_d, t_exe *curr, int i);
+int			redir(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int			output(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int			input(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int			append(t_parser *p, t_dico *cmd_d, t_exe *curr);
 void		own_heredocs_to_long(char *delimiter, char *line, int *fd, t_exe *curr);
 int			own_heredocs(t_parser *p, t_dico *cmd_d, t_exe *curr);
+int			checknb_arg_calloc(t_dico *top);
+int			checknb_redir(t_dico *top);
+
 
 //signal
 void		handle_sigint(int sig);
@@ -383,6 +383,15 @@ void		handle_signal(struct termios *saved);
 void		hide_key(struct termios *saved);
 void		handle_sigquit(int sig);
 void		handle_sigquit(int signum);
+
+int			set_signal(void);
+void		setup_term(struct termios *show);
+void		handle_signals(int signo);
+char		*set_and_get(t_parser *p);
+int			exit_checker(char **str, t_parser *p);
+void		exit_free(t_parser *p, char **str);
+void		exit_free_1(t_parser *p, char **str, int exit_code);
+
 
 //builtin
 void		init_built(t_parser *p);
