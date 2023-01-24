@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:34:55 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/23 13:59:02 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:06:11 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,19 @@ void	transfer_2c_space(t_parser *p, char *s)
 	}
 }
 
-void	expand_interrogation(t_parser *p)
+void	expand_interrogation(t_parser *p, char *tmp)
 {
-	int	i;
+	int		i;
+	char	*val;
 
 	i = 0;
-	create_raw_list(&p->util.raw_tmp, ft_itoa(p->return_val));
-	while (i++ < (int)ft_strlen(ft_itoa(p->return_val)))
+	val = ft_itoa(p->return_val);
+	printf("\n val = %s \n", val);
+	create_raw_list(&p->util.raw_tmp, val);
+	while (i++ < (int)ft_strlen(val))
 		push_int(&p->util.code, p->util.code_nb);
+	free(val);
+	free(tmp);
 }
 
 void	expand_to_value(t_parser *p)
@@ -86,16 +91,16 @@ void	expand_to_value(t_parser *p)
 	tmp = getall(&p->util.key_l);
 	i = 0;
 	if (ft_strncmp(tmp, "?", 1) == 0)
-		expand_interrogation(p);
+		expand_interrogation(p, tmp);
 	else if (get_key(p->envvar, tmp) != -1)
 	{
 		env = getitem_dico(p->envvar, get_key(p->envvar, tmp));
 		free(tmp);
 		tmp = ft_strdup(env->value);
+		delete_dico(&env);
 		while (i++ < (int)ft_strlen(tmp))
 			push_int(&p->util.code, p->util.code_nb);
-		create_raw_list(&p->util.raw_tmp, tmp);
-		free (tmp);
+		create_raw_list_and_free(&p->util.raw_tmp, tmp);
 	}
 	else
 	{
