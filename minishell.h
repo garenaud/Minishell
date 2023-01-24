@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 19:26:10 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:47:57 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_exe
 {
 	char			**cmd_tab;
 	char			*path;
+	int				error;
 	int				redir;
 	int				fd_in;
 	int				fd_out;
@@ -376,6 +377,8 @@ void		own_heredocs_to_long(char *delimiter, char *line, int *fd, t_exe *curr);
 int			own_heredocs(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int			checknb_arg_calloc(t_dico *top);
 int			checknb_redir(t_dico *top);
+int			redir_error(t_parser *p, t_dico *cmd_d, t_exe *curr);
+
 
 
 //signal

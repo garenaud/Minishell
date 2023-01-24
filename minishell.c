@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 21:21:20 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/24 14:08:59 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*set_and_get(t_parser *p)
 {
 	p->line = NULL;
 	p->piped = 0;
-	if (g_status > 4)
+ 	if (g_status > 4)
 		p->return_val = g_status;
 	g_status = WAITING;
 	signal(SIGQUIT, SIG_IGN);
@@ -32,7 +32,6 @@ char	*set_and_get(t_parser *p)
 int	main(int argc, char *argv[], char *env[])
 {
 	t_parser		p;
-	//struct termios	saved;
 
 	(void)argc;
 	(void)argv;
@@ -42,22 +41,10 @@ int	main(int argc, char *argv[], char *env[])
 		p.line = set_and_get(&p);
  		if (p.line == NULL)
 			break;
-		//printf("return val = %d g_status = %d\n", p.return_val, g_status);
-		//handle_signal(&saved);
 		reload(&p, env);
-/* 		if (readline_manager(&p) == 1)
-			break ; */
 		parse_it(&p);
-		//printll(p.struct_cmd.cmd);
 		run_shell(&p);
-		//printf("resultat init_exe = %d", init_exe(&p));
-/* 		printf("\n\naddresse de p->struct_path.path = %p\n", p.struct_path.path);
-		printf("\n\naddresse de p->struct_cmd.cmd = %p\n", p.struct_cmd.cmd);
-		printf("\n\np-> empty = %d addresse de cmd_exe = %p\n\n", p.empty, p.cmd_exe); */
 		clean_memory_parsing(&p);
-/* 		printf("\n\np-> empty = %d addresse de cmd_exe = %p\n\n", p.empty, p.cmd_exe);
-		printf("\n\naddresse de p->struct_cmd.cmd = %p\n", p.struct_cmd.cmd);
-		printf("\n\naddresse de p->struct_path.path = %p\n", p.struct_path.path); */
 	}
 	delete_exeline(&p.cmd_exe);
 	clean_memory_end(&p);
