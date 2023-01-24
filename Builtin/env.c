@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:50:13 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/16 14:25:17 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 14:37:26 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ int	bultin_env(t_exe *curr, t_parser *p)
 			index++;
 		}
 	}
-	g_status = 0;
+	p->return_val = 0;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 13:54:56 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 14:51:36 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	main(int argc, char *argv[], char *env[])
 	while (1)
 	{
 		p.line = set_and_get(&p);
-		printf(RED"\n p.line = %s\n"ENDC, p.line);
 		if (p.line == NULL)
 			break ;
 		reload(&p, env);

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 15:54:03 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/20 11:21:32 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 15:02:14 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	ft_isalnum(int c)
 	if (c >= 'A' && c <= 'Z')
 		return (1);
 	if (c >= '0' && c <= '9')
+		return (1);
+	if (c == '_')
 		return (1);
 	if (c == '?')
 		return (63);

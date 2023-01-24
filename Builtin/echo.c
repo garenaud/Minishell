@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:26:11 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 16:36:31 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:40:47 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 int	bultin_echo(int i, t_exe *curr)
-{
+{// vieille version
 	while (curr->cmd_tab[i][0] == '-' && curr->cmd_tab[i][1] == 'n')
 		i++;
 	while (curr->cmd_tab[i])

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 11:41:42 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 14:38:33 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -383,7 +383,7 @@ int			bultin_echo_n(t_exe *curr);
 int			bultin_cd(t_exe *curr, t_parser *p);
 int			bultin_env(t_exe *curr, t_parser *p);
 int			bultin_unset(t_exe *curr, t_parser *p);
-int			bultin_pwd(void);
+int			bultin_pwd(t_parser *p);
 int			bultin_export(t_exe *curr, t_parser *p);
 
 void		print_banner(void);
