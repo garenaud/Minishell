@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 19:26:10 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:29:59 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@
 # define WORKING 3
 # define ERROR 4
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <limits.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <signal.h>
-#include <termios.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+# include <limits.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <signal.h>
+# include <termios.h>
 
 int	g_status;
 
@@ -242,6 +242,7 @@ char		*delimitateur(t_list **raw);
 char		*getword1(t_list **raw, char *search);
 char		*getall(t_list **raw);
 void		create_raw_list(t_list **str, char *line);
+void		create_raw_list_and_free(t_list **str, char *line);
 void		create_quote_list(t_list **str, t_list_i **pos, char *search);
 void		inclusion(t_list_i **sq, t_list_i **dq, int s_index, int d_index);
 char		*getpath(t_list **raw);

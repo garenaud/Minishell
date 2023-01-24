@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 22:52:48 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:25:05 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		p.line = set_and_get(&p);
 		if (p.line == NULL)
-			break ;
+			return (0);
 		reload(&p, env);
+//		if (readline_manager(&p) == 1)
+//			break ;
 		parse_it(&p);
 		run_shell(&p);
 		clean_memory_parsing(&p);

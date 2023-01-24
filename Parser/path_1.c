@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 16:29:42 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/23 20:33:23 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:26:26 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	get_path(t_parser *p)
 	char	*tmp;
 
 	get_path_helper(p);
-	create_raw_list(&p->struct_path.path_raw, p->struct_path.path);
+	create_raw_list_and_free(&p->struct_path.path_raw, p->struct_path.path);
 	p->struct_path.path_raw = reverse(&p->struct_path.path_raw);
 	while (size_stack(p->struct_path.path_raw))
 	{
