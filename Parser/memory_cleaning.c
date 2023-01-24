@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   memory_cleaning.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:45:58 by jsollett          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/01/24 14:01:48 by jsollett         ###   ########.fr       */
+=======
+/*   Updated: 2023/01/24 10:47:01 by grenaud-         ###   ########.fr       */
+>>>>>>> 2f33ff7647facb00c835561c0878b54affe7f2ec
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +49,7 @@ void	clean_memory_parsing(t_parser *p)
 	free(p->cmd_d);
 	delete_int(&p->flag);
 	delete_parsing_list_c(p);
+	//free(p->struct_path.path);
 	delete(&p->struct_cmd.cmd);
 	if (p->empty < 1)
 		delete_exeline(&p->cmd_exe);
