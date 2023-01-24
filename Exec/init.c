@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 21:23:27 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:01:40 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	init_pipes(t_exe *curr)
 {
 	int		fd[2];
 
-	while (curr->next)
+	while (curr->next != NULL)
 	{
 		pipe(fd);
 		if (curr->fd_out == 0)
