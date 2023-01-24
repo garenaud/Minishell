@@ -6,20 +6,18 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:22:20 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/19 09:53:20 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:47:37 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static void	parsing_export(t_parser *p)
-{//faux exception
-	//p->built.exception = 0;
+{
 	p->built.arg = reverse(&p->built.arg);
 	while (size_stack(p->built.arg)
 		&& ft_strncmp(getitem_c(p->built.arg, 0), "=", 1))
 		transfer_c(&p->built.arg, &p->built.key_l);
-	//printf("after w1 [%s] ? if = <%d>",getitem_c(p->built.arg, 0),ft_strncmp(getitem_c(p->built.arg, 0), "=", 1));
 	remove_pos_c(&p->built.arg, 0);
 	while (size_stack(p->built.arg))
 		transfer_c(&p->built.arg, &p->built.value_l);
@@ -30,7 +28,7 @@ static void	parsing_export(t_parser *p)
 }
 
 static void	print_env(t_dico *dico)
-{//faux
+{
 	while (dico)
 	{
 		printf("declare -x %s=\"%s\"\n", (dico->key), (dico->value));

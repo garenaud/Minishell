@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:26:45 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/17 16:13:32 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:31:22 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void	init_pgrm_dico(t_parser *p)
 	p->cmd_copy = NULL;
 }
 
-void	init_pgrm_file(t_parser *p)
+/*void	init_pgrm_file(t_parser *p)
 {
 	p->struct_file.file = NULL;
 	p->struct_file.fd = NULL;
 	p->struct_file.rwx = NULL;
-}
+}*/
 
 void	init_pgrm_cmd(t_parser *p)
 {

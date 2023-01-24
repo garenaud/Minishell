@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:05:08 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/23 13:58:53 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:52:52 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static void	transfer_helper(t_parser *p)
 	transfer_c(&p->util.raw, &p->util.raw_tmp);
 	transfer_c(&p->util.raw, &p->util.raw_tmp);
 }
-// transfer avec space le > | <
 
 void	transfer_char_space(t_parser *p)
 {
@@ -72,8 +71,6 @@ void	transfer_char_space(t_parser *p)
 		while (nfold--)
 			push_int(&p->util.code, code1(p, getitem_c(p->util.raw_tmp, 0)));
 	}
-/* 	else
-		perror("syntax erreur\n"); */
 	if (ft_strncmp(getitem_c(p->util.raw, 0), " ", 1)
 		&& ft_strncmp(getitem_c(p->util.raw_tmp, 0), "=", 1))
 		push_2(p, " ", 32);

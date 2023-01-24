@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 10:29:59 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:41:42 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct s_exe
 	struct s_exe	*next;
 }	t_exe;
 
-typedef struct s_env {
+/*typedef struct s_env {
 	char			*str;
 	char			*name;
 	char			*value;
@@ -120,9 +120,7 @@ typedef struct s_env {
 	int				order;
 	struct s_env	*next;
 }				t_env;
-
-// structure "dico"
-// version stack
+*/
 
 typedef struct s_path
 {
@@ -141,7 +139,7 @@ typedef struct s_cmd
 	struct s_path	*path;
 }	t_cmd;
 
-typedef struct s_file
+/*typedef struct s_file
 {
 	t_list			*file;
 	t_list			*fd;
@@ -150,7 +148,7 @@ typedef struct s_file
 	int				redir_status;
 	pid_t			pid;
 	t_cmd			*cmd;
-}	t_file;
+}	t_file;*/
 
 typedef struct s_parser
 {
@@ -176,11 +174,9 @@ typedef struct s_parser
 	t_list_i		*append_i;
 	t_list_i		*heredoc_i;
 	t_dico			*cmd_line;
-	char			*display_path;
 	char			*line;
 	char			*tmp;
 	char			**env;
-	t_env			*env_l;
 	int				empty;
 	int				piped;
 	int				redir;
@@ -188,7 +184,6 @@ typedef struct s_parser
 	int				return_val;
 	t_path			struct_path;
 	t_cmd			struct_cmd;
-	t_file			struct_file;
 	t_exe			struct_exe;
 }	t_parser;
 
@@ -244,13 +239,11 @@ char		*getall(t_list **raw);
 void		create_raw_list(t_list **str, char *line);
 void		create_raw_list_and_free(t_list **str, char *line);
 void		create_quote_list(t_list **str, t_list_i **pos, char *search);
-void		inclusion(t_list_i **sq, t_list_i **dq, int s_index, int d_index);
 char		*getpath(t_list **raw);
 // init parsing
 void		init_pgrm_list_i(t_parser *p);
 void		init_pgrm_list_c(t_parser *p);
 void		init_pgrm_dico(t_parser *p);
-void		init_pgrm_file(t_parser *p);
 void		init_pgrm_cmd(t_parser *p);
 void		init_built(t_parser *p);
 void		init_parsing_list(t_parser *p);
@@ -270,17 +263,11 @@ int			readline_manager(t_parser *p);
 
 // utilitaire
 void		init_pgrm(t_parser *p, char *env[]);
-void		init_pgrm_list_c(t_parser *p);
-void		init_pgrm_list_i(t_parser *p);
-void		init_pgrm_dico(t_parser *p);
-void		init_pgrm_file(t_parser *p);
-void		init_pgrm_cmd(t_parser *p);
 void		free_parsing(t_parser *p);
 void		init_util(t_parser *p);
 void		init_struct_path(t_parser *p);
 
 // dico
-
 void		push_dico(t_dico **top, char *key, char *value);
 t_dico		*pop_dico(t_dico **top);
 void		delete_dico(t_dico **top);
@@ -300,7 +287,6 @@ void		duplicate(t_dico **orig, t_dico **copy);
 
 void		create_path_access(t_parser *p);
 void		init_parsing_list_c(t_parser *p);
-void		check_quote_1(t_parser *p);
 void		delete_parsing_list_c(t_parser *p);
 
 // env + path
@@ -310,8 +296,6 @@ void		get_path(t_parser *p);
 void		cpd1_key(t_parser *p);
 
 // test
-void		check_quote_1(t_parser *p);
-void		check_quote_3(t_parser *p);
 void		print_ic(t_list_i *lst_i, t_list *lst);
 void		get_inside_space(t_parser *p);
 void		clean_dico(t_parser *p);
@@ -365,8 +349,6 @@ int		if_path_not_exist(t_exe *curr, char **path_tab, char **env);
 int		execute(char **str, t_parser *p);
 char	*init_path(t_parser *p, char **cmd);
 
-
-
 //redirection
 int			is_redir(char *key);
 int			redir(t_parser *p, t_dico *cmd_d, t_exe *curr);
@@ -378,14 +360,12 @@ int			own_heredocs(t_parser *p, t_dico *cmd_d, t_exe *curr);
 int			checknb_arg_calloc(t_dico *top);
 int			checknb_redir(t_dico *top);
 
-
 //signal
 void		handle_sigint(int sig);
 void		handle_signal(struct termios *saved);
 void		hide_key(struct termios *saved);
 void		handle_sigquit(int sig);
 void		handle_sigquit(int signum);
-
 int			set_signal(void);
 void		setup_term(struct termios *show);
 void		handle_signals(int signo);
@@ -393,7 +373,6 @@ char		*set_and_get(t_parser *p);
 int			exit_checker(char **str, t_parser *p);
 void		exit_free(t_parser *p, char **str);
 void		exit_free_1(t_parser *p, char **str, int exit_code);
-
 
 //builtin
 void		init_built(t_parser *p);
@@ -407,6 +386,6 @@ int			bultin_unset(t_exe *curr, t_parser *p);
 int			bultin_pwd(void);
 int			bultin_export(t_exe *curr, t_parser *p);
 
-void	print_banner(void);
+void		print_banner(void);
 
 #endif

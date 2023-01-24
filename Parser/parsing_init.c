@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 11:38:04 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/23 10:28:34 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:32:35 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_pgrm(t_parser *p, char *env[])
 	p->env = env;
 	p->tmp = NULL;
 	init_pgrm_list_c(p);
-	init_pgrm_file(p);
+//	init_pgrm_file(p);
 	init_pgrm_cmd(p);
 	init_pgrm_dico(p);
 	init_pgrm_list_i(p);

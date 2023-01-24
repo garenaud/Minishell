@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:34:55 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/24 10:06:11 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:53:17 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	expand_interrogation(t_parser *p, char *tmp)
 
 	i = 0;
 	val = ft_itoa(p->return_val);
-	printf("\n val = %s \n", val);
 	create_raw_list(&p->util.raw_tmp, val);
 	while (i++ < (int)ft_strlen(val))
 		push_int(&p->util.code, p->util.code_nb);
