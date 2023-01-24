@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 13:54:56 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 14:17:32 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*set_and_get(t_parser *p)
 {
 	p->line = NULL;
 	p->piped = 0;
-	if (g_status > 4)
+ 	if (g_status > 4)
 		p->return_val = g_status;
 	g_status = WAITING;
 	signal(SIGQUIT, SIG_IGN);
@@ -39,9 +39,8 @@ int	main(int argc, char *argv[], char *env[])
 	while (1)
 	{
 		p.line = set_and_get(&p);
-		printf(RED"\n p.line = %s\n"ENDC, p.line);
-		if (p.line == NULL)
-			break ;
+ 		if (p.line == NULL)
+			break;
 		reload(&p, env);
 		parse_it(&p);
 		run_shell(&p);

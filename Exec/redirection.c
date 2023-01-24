@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:53:46 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 10:08:03 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:55:00 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	output(t_parser *p, t_dico *cmd_d, t_exe *curr)
 	curr->redir = 1;
 	if (cmd_d == NULL || curr == NULL)
 		return (-1);
+	printf("cmd-d next pour fd = %s", cmd_d->next->value);
 	fd = open(cmd_d->next->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{

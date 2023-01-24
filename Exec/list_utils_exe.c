@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:45:54 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 21:25:19 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/24 11:36:10 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_exe	*init_exe_list(int size)
 	new->pid = 0;
 	new->redir = 0;
 	new->path = NULL;
+	new->error = 0;
 	new->cmd_tab = calloc(size + 2, sizeof(char *));
 //	new->cmd_tab = (char **)malloc((size + 2) * sizeof(char *));
 	new->fd_in = 0;
