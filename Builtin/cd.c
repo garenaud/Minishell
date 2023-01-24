@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:53:17 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 17:38:17 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:56:42 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ int	bultin_cd(t_exe *curr, t_parser *p)
 		perror(curr->cmd_tab[1]);
 		p->return_val = 1;
 	}
+	//g_status = 0;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 17:37:21 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:56:08 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*set_and_get(t_parser *p)
 {
 	p->line = NULL;
 	p->piped = 0;
-	if (g_status > 4)
+ 	if (g_status > 4)
 		p->return_val = g_status;
 	g_status = WAITING;
 	signal(SIGQUIT, SIG_IGN);
