@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 16:29:42 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/24 10:09:40 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:26:26 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	get_path_helper(t_parser *p)
 		p->struct_path.path = ft_strdup(path->value);
 	}
 	else
-	p->struct_path.path = ft_strdup("");
+		p->struct_path.path = ft_strdup("");
 	delete_dico(&path);
 }
 

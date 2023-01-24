@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:26:11 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/18 16:45:15 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/23 16:36:31 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ int	bultin_echo(int i, t_exe *curr)
 		i++;
 	while (curr->cmd_tab[i])
 	{
-		if (ft_strcmp(curr->cmd_tab[i], "$?") == 0){
-			printf("impression $?");
-			ft_putnbr_fd(g_status, 1);}
+		if (ft_strcmp(curr->cmd_tab[i], "$?") == 0)
+			ft_putnbr_fd(g_status, 1);
 		else
 		{
 			ft_putstr_fd(curr->cmd_tab[i], 1);

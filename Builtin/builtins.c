@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 18:09:44 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 13:57:50 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/23 20:15:25 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ void	exit_free(t_parser *p, char **str)
 	}
 	else
 		ft_putstr_fd("exit\n", 2);
-	if (p->cmd_exe != NULL)
-		delete_exeline(&p->cmd_exe);
+/* 	if (p->cmd_exe != NULL)
+		delete_exeline(&p->cmd_exe); */
 	exit (exit_code);
 }
 

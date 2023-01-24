@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:44:55 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/20 16:37:23 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/23 22:41:32 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	checknb_arg_calloc(t_dico *top)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -26,10 +26,8 @@ int	checknb_arg_calloc(t_dico *top)
 		if (is_redir(top->key) == 1)
 		{
 			j++;
-			//printf("redir\n");
-			if (top->next != NULL || ft_strncmp(top->value, "|", 1) != 0)
+			if (top->next != NULL || ft_strncmp(top->next->value, "|", 1) != 0)
 				j++;
-				//printf("redir2\n");}
 		}
 		top = top->next;
 		i++;
@@ -38,7 +36,6 @@ int	checknb_arg_calloc(t_dico *top)
 		i = 0;
 	else
 		i = i - j;
-	printf(RED"j = %d, i = %d\n"ENDC, j, i);
 	return (i);
 }
 
@@ -54,18 +51,27 @@ int	checknb_redir(t_dico *top)
 		if (is_redir(top->key) == 1)
 		{
 			i += 2;
-			top = top->next;
+			if (top->next != NULL)
+				top = top->next;
 		}
 		top = top->next;
 	}
 	return (i);
 }
 
-int	checknb_arg(t_dico *top)
+int	checknb_arg(t_dico *top, t_parser *p)
 {
 	int	i;
 
 	i = 0;
+	if (size_stack_dico(top) == 0)
+		return (0);
+	if (ft_strncmp(top->value, "|", 1) == 0)
+	{
+		printf ("Minishell: syntax error near unexpected token `|'\n");
+		p->return_val = 258;
+		return (1);
+	}
 	while (top != NULL)
 	{
 		if (ft_strncmp(top->value, "|", 1) == 0)

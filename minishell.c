@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/23 17:14:52 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 10:25:05 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*set_and_get(t_parser *p)
 	g_status = WAITING;
 	signal(SIGQUIT, SIG_IGN);
 	p->line = readline(BLUE"mini--> "ENDC);
+	if (p->line == NULL)
+		return (0);
 	g_status = PARSING;
 	if (p->line && ft_isprint(p->line[0]))
 		add_history(p->line);
@@ -30,16 +32,13 @@ char	*set_and_get(t_parser *p)
 int	main(int argc, char *argv[], char *env[])
 {
 	t_parser		p;
-//	struct termios	saved;
 
 	(void)argc;
 	(void)argv;
 	init_mini(&p, env);
-
 	while (1)
 	{
 		p.line = set_and_get(&p);
-		//printf("return val = %d g_status = %d\n", p.return_val, g_status);
 		if (p.line == NULL)
 			return (0);
 		reload(&p, env);

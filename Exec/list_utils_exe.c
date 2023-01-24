@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 16:45:54 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/20 16:56:46 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/23 21:25:19 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ t_exe	*init_exe_list(int size)
 	t_exe	*new;
 
 	new = (t_exe *)malloc(sizeof(t_exe));
-	printf("init_exe_list size = %d\n", size);
 	if (!new)
 		return (NULL);
 	new->pid = 0;
 	new->redir = 0;
 	new->path = NULL;
 	new->cmd_tab = calloc(size + 2, sizeof(char *));
+//	new->cmd_tab = (char **)malloc((size + 2) * sizeof(char *));
 	new->fd_in = 0;
 	new->fd_out = 0;
 	new->next = NULL;
@@ -41,10 +41,9 @@ void	printll_exe(t_exe *exec)
 		printf("-->Le path[%s][%p] redir[%d]\n", exec->path, exec->path, exec->redir);
 		printf("-->fd_in[%d] fd_out[%d] pid[%d]\n", exec->fd_in,
 			exec->fd_out, exec->pid);
-		while (exec->cmd_tab[i])
+		while (exec->cmd_tab[i] != NULL)
 		{
-			printf("cmd_tab[%i]=[%s] [%p}-->", i, exec->cmd_tab[i],
-				exec->cmd_tab[i]);
+			printf("cmd_tab[%i]=[%s] [%p}-->", i, exec->cmd_tab[i], exec->cmd_tab[i]);
 			i++;
 		}
 		printf("cmd_tab[%i]=[%s]-->", i, exec->cmd_tab[i]);
@@ -78,10 +77,11 @@ void	delete_exeline(t_exe **top)
 	while (*top != NULL)
 	{
 		tmp = *top;
-/* 		if (tmp->path != NULL)
+/*  		if (tmp->path != NULL)
 			free(tmp->path); */
 		if (tmp->cmd_tab != NULL)
-			free_tab(tmp->cmd_tab);
+		free_tab(tmp->cmd_tab);
+		free(tmp->cmd_tab);
 		free(tmp);
 		*top = (*top)->next;
 	}
@@ -92,12 +92,9 @@ void	free_tab(char **tab)
 	int	i;
 
 	i = 0;
-	if (tab == NULL)
-		return ;
 	while (tab[i] != NULL)
 	{
-		/* if (tab[i] != NULL) */
-			free(tab[i]);
+		free(tab[i]);
 		i++;
 	}
 	//free(tab);
