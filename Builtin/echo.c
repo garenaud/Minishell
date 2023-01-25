@@ -3,23 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:26:11 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 17:56:50 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:40:13 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	bultin_echo(int i, t_exe *curr)
+int	bultin_echo(int i, t_exe *curr, t_parser *p)
 {
-	while (curr->cmd_tab[i][0] == '-' && curr->cmd_tab[i][1] == 'n')
-		i++;
+	while (curr->cmd_tab[i])
+	{
+		if (curr->cmd_tab[i][0] == '-' && curr->cmd_tab[i][1] == 'n')
+			i++;
+		else
+			break ;
+	}
+	if (curr->cmd_tab[i] == NULL)
+		return (0);
 	while (curr->cmd_tab[i])
 	{
 		if (ft_strcmp(curr->cmd_tab[i], "$?") == 0)
-			ft_putnbr_fd(g_status, 1);
+			ft_putnbr_fd(p->return_val, 1);
 		else
 			ft_putstr_fd(curr->cmd_tab[i], 1);
 		if (curr->cmd_tab[i + 1])
@@ -29,7 +36,7 @@ int	bultin_echo(int i, t_exe *curr)
 	return (0);
 }
 
-int	bultin_echo_n(t_exe *curr)
+int	bultin_echo_n(t_exe *curr, t_parser *p)
 {
 	int	i;
 
@@ -41,11 +48,11 @@ int	bultin_echo_n(t_exe *curr)
 		if (curr->cmd_tab[1][0] == '-' && curr->cmd_tab[1][1] == 'n')
 		{
 			i = 2;
-			bultin_echo(i, curr);
+			bultin_echo(i, curr, p);
 		}
 		else
 		{
-			bultin_echo(i, curr);
+			bultin_echo(i, curr, p);
 			write(1, "\n", 1);
 		}
 	}

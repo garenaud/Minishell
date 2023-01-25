@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:28:41 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 14:18:21 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/25 16:21:05 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr)
 {
-	printf("cmd_d = %s cmd_d->next = %s\n", cmd_d->value, cmd_d->next->value);
+//	printf("cmd_d = %s cmd_d->next = %s\n", cmd_d->value, cmd_d->next->value);
 	if (redir_error(p, cmd_d, curr) == 1)
 	{
 		curr->error = 1;
@@ -41,7 +41,7 @@ int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr)
 int	redir_error(t_parser *p, t_dico *cmd_d, t_exe *curr)
 {
 	(void) curr;
-	if (is_redir(cmd_d->next->key) && cmd_d->next->next != NULL)
+	if (cmd_d->next != NULL && cmd_d->next->next != NULL && is_redir(cmd_d->next->key))//
 	{
 		if (ft_strcmp(cmd_d->key, "4") == 0)
 		{
@@ -54,7 +54,7 @@ int	redir_error(t_parser *p, t_dico *cmd_d, t_exe *curr)
 				if (cmd_d->next != NULL)
 					output(p, cmd_d, curr); */
 				//return (2);
-			}		
+			}
 			else
 			{
 				printf ("Minishell: syntax error near unexpected token `%s'\n", cmd_d->next->value);

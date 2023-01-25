@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 17:56:15 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:40:38 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ typedef struct s_parser
 	int				redir;
 	struct termios	*signal;
 	int				return_val;
+	int				error;
 	t_path			struct_path;
 	t_cmd			struct_cmd;
 	t_exe			struct_exe;
@@ -254,6 +255,7 @@ void		create_delim(t_parser *p);
 void		init_mini(t_parser *p, char **env);
 void		reload(t_parser *p, char **env);
 void		parse_it(t_parser *p);
+int			check_pathos(t_parser *p);
 // memory cleaning
 void		clean_memory_end(t_parser *p);
 void		clean_memory_parsing(t_parser *p);
@@ -381,8 +383,8 @@ void		exit_free_1(t_parser *p, char **str, int exit_code);
 void		init_built(t_parser *p);
 int			bultin_search(t_exe *curr, t_parser *p);
 int			is_builtin(char **str);
-int			bultin_echo(int i, t_exe *curr);
-int			bultin_echo_n(t_exe *curr);
+int			bultin_echo(int i, t_exe *curr, t_parser *p);
+int			bultin_echo_n(t_exe *curr, t_parser *p);
 int			bultin_cd(t_exe *curr, t_parser *p);
 int			bultin_env(t_exe *curr, t_parser *p);
 int			bultin_unset(t_exe *curr, t_parser *p);

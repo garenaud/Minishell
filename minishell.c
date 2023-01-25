@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 17:56:08 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:42:22 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*set_and_get(t_parser *p)
 int	main(int argc, char *argv[], char *env[])
 {
 	t_parser		p;
-
+	int a;
 	(void)argc;
 	(void)argv;
 	init_mini(&p, env);
@@ -43,7 +43,11 @@ int	main(int argc, char *argv[], char *env[])
 			break ;
 		reload(&p, env);
 		parse_it(&p);
-		run_shell(&p);
+		a = check_pathos(&p);
+		if (a > 0)
+		{
+			run_shell(&p);
+		}
 		clean_memory_parsing(&p);
 	}
 	delete_exeline(&p.cmd_exe);
