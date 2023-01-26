@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:43:28 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/25 17:42:22 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 10:48:01 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*set_and_get(t_parser *p)
 {
 	p->line = NULL;
 	p->piped = 0;
- 	if (g_status > 4)
+	if (g_status > 4)
 		p->return_val = g_status;
 	g_status = WAITING;
 	signal(SIGQUIT, SIG_IGN);
@@ -32,7 +32,7 @@ char	*set_and_get(t_parser *p)
 int	main(int argc, char *argv[], char *env[])
 {
 	t_parser		p;
-	int a;
+
 	(void)argc;
 	(void)argv;
 	init_mini(&p, env);
@@ -43,8 +43,7 @@ int	main(int argc, char *argv[], char *env[])
 			break ;
 		reload(&p, env);
 		parse_it(&p);
-		a = check_pathos(&p);
-		if (a > 0)
+		if (check_pathos(&p) > 0)
 		{
 			run_shell(&p);
 		}

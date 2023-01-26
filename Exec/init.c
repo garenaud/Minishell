@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/25 17:42:56 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:02:01 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,22 @@ int	init_exe(t_parser *p)
 	t_exe	*curr;
 
 	i = -1;
-	p->empty = 0;
-	if (size_stack_dico(p->cmd_d) < 1)
+//	p->empty = 0;
+/*	if (size_stack_dico(p->cmd_d) < 1)
 	{
+		printf("\n INITEXE\n");
 		p->empty = 1;
 		return (0);
-	}
+	}*/
 	size = checknb_arg(p->cmd_d, p);
 	redir = checknb_redir(p->cmd_d);
 	p->piped = checknb_pipe(p->cmd_d);
-	//printf("calloc size = %d\n", size - redir);
 	curr = init_exe_list(size - redir);
 	p->cmd_exe = curr;
 	while (i++ < p->piped)
 	{
 		size = checknb_arg(p->cmd_d, p);
 		redir = checknb_redir(p->cmd_d);
-		//printf("size = %d calloc size = %d\n", size, size - redir);
 		fill_exec(p, curr, size);
 		curr->path = init_path(p, curr->cmd_tab);
 		if (p->cmd_d != NULL)

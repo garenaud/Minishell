@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 16:00:33 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 12:00:24 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:03:36 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	run_shell(t_parser *p)
 	t_exe	*curr;
 
 	g_status = WORKING;
- 	if (init_exe(p) == 0)
-		return (0);	
+	if (init_exe(p) == 0)
+		return (0);
 	curr = p->cmd_exe;
 	if (curr == NULL)
 	{

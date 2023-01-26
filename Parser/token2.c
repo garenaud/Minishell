@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:04:18 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/24 14:18:39 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/26 10:37:11 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	transfer_normal_char_helper1(t_parser *p, int code)
 	int	count;
 
 	count = c_s_c(p, "$");
-	//printf("%d\n", count);
 	while (count - 1)
 	{
 		transfer_c(&p->util.raw, &p->util.raw_tmp);

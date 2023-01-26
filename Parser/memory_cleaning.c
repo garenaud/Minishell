@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 13:45:58 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/24 14:04:29 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 10:56:55 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void	clean_memory_parsing(t_parser *p)
 	free(p->cmd_d);
 	delete_int(&p->flag);
 	delete_parsing_list_c(p);
-	//free(p->struct_path.path);
 	delete(&p->struct_cmd.cmd);
-	if (p->empty < 1)
+	//if (p->empty < 1)
 		delete_exeline(&p->cmd_exe);
 }
