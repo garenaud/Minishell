@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 18:09:44 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/25 17:50:12 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:30:05 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,23 +70,27 @@ int	bultin_search(t_exe *curr, t_parser *p)
 	if (ft_strcmp(curr->cmd_tab[0], "env") == 0)
 		return (bultin_env(curr, p));
 	if (ft_strcmp(curr->cmd_tab[0], "exit") == 0)
-		if (exit_checker(curr->cmd_tab, p) == 1)
+		if (exit_checker(curr->cmd_tab) == 1)
 			exit_free(p, curr->cmd_tab);
 	return (0);
 }
 
-int	exit_checker(char **str, t_parser *p)
+int	exit_checker(char **str)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (str[1])
 	{
-		while (str[1][i])
+		while (str[1][++i])
 		{
 			if (!('0' <= str[1][i] && str[1][i] <= '9'))
-				return (255);
-			++i;
+			{
+				ft_putstr_fd("exit\n", 2);
+				printf("Minishell: exit: %s: numeric argument required\n", str[1]);
+				exit (255);
+			}
+			//++i;
 		}
 	}
 	i = 0;
@@ -94,10 +98,10 @@ int	exit_checker(char **str, t_parser *p)
 		++i;
 	if (i > 2)
 	{
-		p->return_val = 1;
 		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		return (0);
+		strerror(1);
+		return (255);
 	}
 	return (1);
 }
@@ -106,10 +110,11 @@ void	exit_free(t_parser *p, char **str)
 {
 	int	exit_code;
 
+	(void)p;
 	exit_code = 0;
 	if (str[1])
 	{
-		exit_code = exit_checker(str, p);
+		exit_code = exit_checker(str);
 		if (exit_code == 1)
 		{
 			ft_putstr_fd("exit\n", 2);

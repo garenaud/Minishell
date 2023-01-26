@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:28:41 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/25 16:21:05 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:45:26 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr)
 	{
 		printf ("Minishell: syntax error near unexpected token `newline'\n");
 		p->return_val = 258;
-		return (1);
+		return (-32);
 	}
 	else if (ft_strcmp(cmd_d->key, "3") == 0)
 		output(p, cmd_d, curr);

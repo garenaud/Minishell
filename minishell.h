@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/26 10:34:49 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 11:29:43 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,7 +357,7 @@ int			set_signal(void);
 void		setup_term(struct termios *show);
 void		handle_signals(int signo);
 char		*set_and_get(t_parser *p);
-int			exit_checker(char **str, t_parser *p);
+int			exit_checker(char **str);
 void		exit_free(t_parser *p, char **str);
 void		exit_free_1(t_parser *p, char **str, int exit_code);
 
