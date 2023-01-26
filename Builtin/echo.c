@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:26:11 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 16:40:13 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:16:44 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ int	bultin_echo_n(t_exe *curr, t_parser *p)
 			write(1, "\n", 1);
 		}
 	}
-	g_status = 0;
+	p->return_val = 0;
 	return (0);
 }

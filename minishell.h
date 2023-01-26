@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/26 16:36:31 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:43:02 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define PARSING 2
 # define WORKING 3
 # define ERROR 4
+# define NUMERR		"Mini: exit: %s: numeric argument required\n"
+# define SYNERR		"Minishell: syntax error near unexpected token `%s'\n"
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -152,6 +154,7 @@ typedef struct s_parser
 	char			*tmp;
 	char			**env;
 	int				empty;
+	int				size;
 	int				piped;
 	int				redir;
 	struct termios	*signal;
@@ -180,6 +183,11 @@ void		ft_putendl_fd(char *s, int fd);
 void		ft_strtolower(char *str);
 int			ft_isprint(int c);
 char		*ft_itoa(int nb);
+void		*ft_calloc(size_t count, size_t size);
+void		ft_bzero(void *s, size_t n);
+int			ft_isspace(int c);
+int			ft_isdigit(int c);
+int			ft_atoi(const char *str);
 
 // integer stack
 
@@ -306,7 +314,7 @@ void		delete_exeline(t_exe **top);
 void		free_tab(char **tab);
 void		printll_exe(t_exe *exec);
 int			checknb_arg(t_dico *top, t_parser *p);
-int			checknb_pipe(t_dico *top);
+int			checknb_pipe(t_dico *top, t_parser *p);
 size_t		size_stack_exe(t_exe *top);
 int			free_all(t_parser *p);
 char		*get_pos_path(t_parser *p, char *cmd);
@@ -351,7 +359,6 @@ void		handle_signals(int signo);
 char		*set_and_get(t_parser *p);
 int			exit_checker(char **str);
 void		exit_free(t_parser *p, char **str);
-void		exit_free_1(t_parser *p, char **str, int exit_code);
 
 //builtin
 void		init_built(t_parser *p);

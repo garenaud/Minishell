@@ -6,7 +6,7 @@
 /*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:28:41 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/25 18:45:26 by grenaud-         ###   ########.fr       */
+/*   Updated: 2023/01/26 15:40:25 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr)
 {
-//	printf("cmd_d = %s cmd_d->next = %s\n", cmd_d->value, cmd_d->next->value);
 	if (redir_error(p, cmd_d, curr) == 1)
 	{
 		curr->error = 1;
 		return (0);
 	}
-	//printf("cmd_d = %s cmd_d->next = %s\n", cmd_d->value, cmd_d->next->value);
 	if (cmd_d->next == NULL)
 	{
 		printf ("Minishell: syntax error near unexpected token `newline'\n");
@@ -41,30 +39,23 @@ int	redir(t_parser *p, t_dico *cmd_d, t_exe *curr)
 int	redir_error(t_parser *p, t_dico *cmd_d, t_exe *curr)
 {
 	(void) curr;
-	if (cmd_d->next != NULL && cmd_d->next->next != NULL && is_redir(cmd_d->next->key))//
+	if (cmd_d->next != NULL && cmd_d->next->next != NULL
+		&& is_redir(cmd_d->next->key))
 	{
 		if (ft_strcmp(cmd_d->key, "4") == 0)
 		{
 			if (ft_strcmp(cmd_d->next->key, "3") == 0)
-			{
-				//printf("cmd_d a remove = %s\n", cmd_d->value);
 				remove_pos_dico(&cmd_d, 0);
-				//output(p, cmd_d, curr);
-/* 				printf("cmd_d apres remove = %s\n", cmd_d->value);
-				if (cmd_d->next != NULL)
-					output(p, cmd_d, curr); */
-				//return (2);
-			}
 			else
 			{
-				printf ("Minishell: syntax error near unexpected token `%s'\n", cmd_d->next->value);
+				printf (SYNERR, cmd_d->next->value);
 				p->return_val = 258;
 				return (1);
 			}
 		}
 		else
 		{
-			printf ("Minishell: syntax error near unexpected token `%s'\n", cmd_d->next->value);
+			printf (SYNERR, cmd_d->next->value);
 			p->return_val = 258;
 			return (1);
 		}
@@ -104,17 +95,4 @@ void	ft_putendl_fd(char *s, int fd)
 		i++;
 	}
 	write(fd, "\n", 1);
-}
-
-char	*ft_realloc(char *org, int n_size)
-{
-	char	*new;
-
-	new = malloc(n_size);
-	if (!new)
-		return (NULL);
-	ft_strcpy(new, org);
-	if (org)
-		free (org);
-	return (new);
 }

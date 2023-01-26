@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 08:20:22 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/26 11:02:01 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 15:32:17 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,26 @@
 int	init_exe(t_parser *p)
 {
 	int		i;
-	int		size;
 	int		redir;
 	t_exe	*curr;
 
 	i = -1;
-//	p->empty = 0;
-/*	if (size_stack_dico(p->cmd_d) < 1)
-	{
-		printf("\n INITEXE\n");
-		p->empty = 1;
-		return (0);
-	}*/
-	size = checknb_arg(p->cmd_d, p);
+	p->piped = checknb_pipe(p->cmd_d, p);
+	p->size = checknb_arg(p->cmd_d, p);
 	redir = checknb_redir(p->cmd_d);
-	p->piped = checknb_pipe(p->cmd_d);
-	curr = init_exe_list(size - redir);
+	curr = init_exe_list(p->size - redir);
 	p->cmd_exe = curr;
 	while (i++ < p->piped)
 	{
-		size = checknb_arg(p->cmd_d, p);
+		p->size = checknb_arg(p->cmd_d, p);
 		redir = checknb_redir(p->cmd_d);
-		fill_exec(p, curr, size);
+		fill_exec(p, curr, p->size);
 		curr->path = init_path(p, curr->cmd_tab);
 		if (p->cmd_d != NULL)
 			remove_pos_dico(&p->cmd_d, 0);
 		if (i != p->piped && p->piped != 0)
 		{
-			curr->next = init_exe_list(size - redir);
+			curr->next = init_exe_list(p->size - redir);
 			curr = curr->next;
 		}
 	}
@@ -58,7 +50,6 @@ void	fill_exec(t_parser *p, t_exe *curr, int size)
 	j = 0;
 	while (++i < size)
 	{
-		//printf("p->cmd->value = %s, i=%d, size = %d\n", p->cmd_d->value, i, size);
 		if (is_redir(p->cmd_d->key) == 1)
 		{
 			redir(p, p->cmd_d, curr);

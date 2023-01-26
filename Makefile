@@ -6,7 +6,7 @@
 #    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/26 16:34:49 by jsollett         ###   ########.fr        #
+#    Updated: 2023/01/26 16:42:29 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/token_test.c \
 			Parser/minishell_helper.c \
 			Exec/redir_utils.c \
+			Exec/path_utils.c \
 			Exec/init.c \
 			Exec/exe.c \
 			Exec/check_pipe_utils.c \
@@ -81,6 +82,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Builtin/unset.c \
 			Builtin/pwd.c \
 			signal.c \
+			libft_utils.c \
 			minishell.c
 
 
@@ -123,17 +125,14 @@ fclean:	clean
 	@tput setaf 3; cat includes/trash; tput setaf default
 	$(RM) ./minishell
 	@echo $(B)Removed [TEMPORARY FILES]$(X)
-	@echo $(R)Removed [./Parser/*.o]$(X)
 	@echo $(R)Removed [./Exec/*.o]$(X)
 	@echo $(R)Removed [./Builtin/*.o]$(X)
 	$(RM) ./minishellSanit
 	@echo $(R)Removed [./Exec/*.o]$(X)
-	@echo $(R)Removed [REMOVED FINISH]$(X)
-	@echo $(R)Removed [REMOVED FINISH]$(X)
 
 %.o: %.c
 	@$(CC) $(CPPFLAGS) $(FLAGS) -c $^ -o $@
-	@printf "$(G) $(REVR)  " $(X)
+	@printf "$(G) $(REVR) " $(X)
 
 norm:
 	@echo $(G)[--NORMINETTE SUCCES %100 CLEAN CODE...]$(G)
