@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 18:09:44 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/26 11:30:05 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 15:21:48 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,9 @@ int	exit_checker(char **str)
 			if (!('0' <= str[1][i] && str[1][i] <= '9'))
 			{
 				ft_putstr_fd("exit\n", 2);
-				printf("Minishell: exit: %s: numeric argument required\n", str[1]);
+				printf(NUMERR, str[1]);
 				exit (255);
 			}
-			//++i;
 		}
 	}
 	i = 0;
@@ -98,8 +97,7 @@ int	exit_checker(char **str)
 		++i;
 	if (i > 2)
 	{
-		ft_putstr_fd("exit\n", 2);
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 		strerror(1);
 		return (255);
 	}
@@ -118,7 +116,7 @@ void	exit_free(t_parser *p, char **str)
 		if (exit_code == 1)
 		{
 			ft_putstr_fd("exit\n", 2);
-			exit_code = (atoi(str[1]));
+			exit_code = (ft_atoi(str[1]));
 		}
 		else
 		{
@@ -128,15 +126,5 @@ void	exit_free(t_parser *p, char **str)
 	}
 	else
 		ft_putstr_fd("exit\n", 2);
-/* 	if (p->cmd_exe != NULL)
-		delete_exeline(&p->cmd_exe); */
-	exit (exit_code);
-}
-
-void	exit_free_1(t_parser *p, char **str, int exit_code)
-{
-	//free(p->signal);
-	free_tab(str);
-	free(p->env);
 	exit (exit_code);
 }

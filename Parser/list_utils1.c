@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:45:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2022/12/21 10:30:41 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 14:06:01 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	push(t_list **top, char *item)
 	tmp = malloc(sizeof(t_list));
 	if (!tmp)
 		return ;
-	tmp->data = strdup(item);
+	tmp->data = ft_strdup(item);
 	tmp->next = *top;
 	*top = tmp;
 }

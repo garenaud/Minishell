@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 16:00:33 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/26 11:03:36 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 15:37:28 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ int	run_shell(t_parser *p)
 	}
 	init_pipes(curr);
 	if (curr->error > 0)
-	{
-		//free(p->cmd_exe);
 		return (0);
-	}
 	if (p->piped || curr->redir > 0)
 	{
 		if (pipe_loop(p, curr) != 0)
