@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:56:10 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/25 17:35:42 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 10:47:36 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	print_syntax_err(t_parser *p, int err)
 		p->return_val = 258;
 		return (-5);
 	}
-	if (err < 0)
+	if (err < -1)// 0
 	{
 		printf ("Minishell: syntax error near unexpected token `< or >'\n");
 		p->return_val = 258;

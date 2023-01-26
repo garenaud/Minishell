@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 18:09:44 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/24 14:38:41 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:50:12 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	bultin_search(t_exe *curr, t_parser *p)
 {
 	ft_strtolower(curr->cmd_tab[0]);
 	if (ft_strcmp(curr->cmd_tab[0], "echo") == 0)
-		return (bultin_echo_n(curr));
+		return (bultin_echo_n(curr, p));
 	if (ft_strcmp(curr->cmd_tab[0], "cd") == 0)
 		return (bultin_cd(curr, p));
 	if (!ft_strncmp(curr->cmd_tab[0], "./", 1))

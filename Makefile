@@ -6,7 +6,7 @@
 #    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/25 15:21:10 by jsollett         ###   ########.fr        #
+#    Updated: 2023/01/26 10:24:22 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,6 @@ CFILES = 	Parser/list_utils_int.c \
 			Builtin/unset.c \
 			Builtin/pwd.c \
 			signal.c \
-			start_banner.c \
 			minishell.c
 
 
