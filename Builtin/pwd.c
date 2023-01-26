@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 09:25:42 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/24 14:39:22 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:26:02 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	bultin_pwd(t_parser *p)
 	else
 	{
 		perror("getcwd() error");
-		g_status = 2;
+		p->return_val = 2;
 		return (2);
 	}
 	p->return_val = 0;

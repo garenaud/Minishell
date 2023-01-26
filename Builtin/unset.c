@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: grenaud- <grenaud-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 14:46:05 by jsollett          #+#    #+#             */
-/*   Updated: 2023/01/18 11:24:03 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:26:30 by grenaud-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ int	bultin_unset(t_exe *curr, t_parser *p)
 			p->built.i++;
 		}
 	}
-	g_status = 0;
+	p->return_val = 0;
 	return (0);
 }
