@@ -6,7 +6,7 @@
 #    By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/04 17:45:01 by grenaud-          #+#    #+#              #
-#    Updated: 2023/01/26 11:29:34 by jsollett         ###   ########.fr        #
+#    Updated: 2023/01/26 16:34:49 by jsollett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ CFILES = 	Parser/list_utils_int.c \
 			Parser/parsing_init_1.c \
 			Parser/parsing_init_2.c \
 			Parser/check.c \
+			Parser/check_1.c \
 			Parser/dico.c \
 			Parser/dico_1.c \
 			Parser/dico_2.c \

@@ -6,7 +6,7 @@
 /*   By: jsollett <jsollett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 17:33:42 by grenaud-          #+#    #+#             */
-/*   Updated: 2023/01/26 11:29:43 by jsollett         ###   ########.fr       */
+/*   Updated: 2023/01/26 16:36:31 by jsollett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,16 +106,6 @@ typedef struct s_exe
 	int				pfd[2];
 	struct s_exe	*next;
 }	t_exe;
-
-/*typedef struct s_env {
-	char			*str;
-	char			*name;
-	char			*value;
-	int				valid;
-	int				order;
-	struct s_env	*next;
-}				t_env;
-*/
 
 typedef struct s_path
 {
@@ -237,6 +227,8 @@ void		create_delim(t_parser *p);
 void		init_mini(t_parser *p, char **env);
 void		reload(t_parser *p, char **env);
 void		parse_it(t_parser *p);
+void		check_help(t_parser *p);
+void		check_succ_redir(t_parser *p);
 int			check_pathos(t_parser *p);
 // memory cleaning
 void		clean_memory_end(t_parser *p);
